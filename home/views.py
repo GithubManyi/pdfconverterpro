@@ -132,8 +132,27 @@ def handler_500(request):
         'description': 'An internal server error has occurred.',
     }
     return render(request, 'errors/500.html', context, status=500)
+# core/urls.py
+from django.contrib import admin
+from django.urls import path, include
+from django.http import HttpResponse
+from django.views.decorators.http import require_GET
 
+# Health check view
 @require_GET
 def health_check(request):
-    """Health check endpoint for Render/load balancers"""
-    return HttpResponse("OK", status=200)
+    return HttpResponse("OK", status=200, content_type="text/plain")
+
+urlpatterns = [
+    # Health check endpoint - Render uses /healthz (no trailing slash)
+    path('healthz', health_check),
+    
+    # Admin
+    path('admin/', admin.site.urls),
+    
+    # Home app
+    path('', include('home.urls')),
+    
+    # Converter app
+    path('', include('converter.urls')),
+]

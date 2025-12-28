@@ -114,6 +114,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 # ============ DATABASE ============
 # Default SQLite for local development
+# SIMPLE DATABASE SETTINGS THAT WORK
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -121,13 +122,15 @@ DATABASES = {
     }
 }
 
-# On Render free tier, DATABASE_URL is provided automatically
-if os.getenv('DATABASE_URL'):
+# On Render, they provide PostgreSQL
+if os.getenv('RENDER'):
+    # Render provides PostgreSQL
+    import dj_database_url
     DATABASES['default'] = dj_database_url.config(
         conn_max_age=600,
+        conn_health_checks=True,
         ssl_require=True,
     )
-
 # ============ PASSWORD VALIDATION ============
 AUTH_PASSWORD_VALIDATORS = [
     {

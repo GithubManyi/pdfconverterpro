@@ -4,6 +4,8 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import messages
 from .models import ContactMessage
+from django.http import HttpResponse
+from django.views.decorators.http import require_GET
 
 def index(request):
     """Home page view."""
@@ -130,3 +132,8 @@ def handler_500(request):
         'description': 'An internal server error has occurred.',
     }
     return render(request, 'errors/500.html', context, status=500)
+
+@require_GET
+def health_check(request):
+    """Health check endpoint for Render/load balancers"""
+    return HttpResponse("OK", status=200)

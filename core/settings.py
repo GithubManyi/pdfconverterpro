@@ -21,8 +21,11 @@ IS_PRODUCTION = os.getenv('ENVIRONMENT') == 'production' or os.getenv('RENDER')
 # Never hardcode! Load from environment with fallback for local dev
 if IS_LOCAL:
     # Try to load from .env file for local development
-    from dotenv import load_dotenv
-    load_dotenv(BASE_DIR / '.env')
+    try:
+        from dotenv import load_dotenv
+        load_dotenv(BASE_DIR / '.env')
+    except ImportError:
+        pass  # dotenv not installed, use environment variables
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 if not SECRET_KEY:
@@ -64,8 +67,6 @@ if DEBUG or IS_LOCAL:
         '0.0.0.0',
         'testserver',
     ])
-    # Also allow any host in DEBUG mode for development convenience
-    ALLOWED_HOSTS.append('*')
 
 # ============ CSRF TRUSTED ORIGINS ============
 CSRF_TRUSTED_ORIGINS = []
@@ -112,13 +113,6 @@ INSTALLED_APPS = [
     'converter.apps.ConverterConfig',
 ]
 
-# Development-only apps
-if DEBUG:
-    INSTALLED_APPS.extend([
-        'django_extensions',
-        'debug_toolbar',
-    ])
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -131,10 +125,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'axes.middleware.AxesMiddleware',
 ]
-
-# Debug toolbar for development
-if DEBUG:
-    MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
 
 ROOT_URLCONF = 'core.urls'
 
@@ -166,27 +156,24 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 # ============ DATABASE ============
 # Default to SQLite for local development
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Default SQLite
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
-# Use PostgreSQL if DATABASE_URL is set (Render, Railway, Heroku, etc.)
-DATABASE_URL = os.getenv('DATABASE_URL')
-if DATABASE_URL:
-    DATABASES['default'] = dj_database_url.config(
-        default=DATABASE_URL,
-        conn_max_age=600,
-        conn_health_checks=True,
-        ssl_require=True,
-    )
-    
-    # Test database for running tests
-    DATABASES['default']['TEST'] = {
-        'NAME': 'test_' + DATABASES['default']['NAME'],
-    }
+# Override if DATABASE_URL exists (for PostgreSQL on Render)
+if os.getenv("DATABASE_URL"):
+    db_from_env = dj_database_url.parse(os.getenv("DATABASE_URL"))
+    if db_from_env["ENGINE"].startswith("django.db.backends.postgresql"):
+        # Only pass sslmode for PostgreSQL
+        DATABASES["default"] = dj_database_url.config(conn_max_age=600, conn_health_checks=True)
+
 
 # ============ PASSWORD VALIDATION ============
 AUTH_PASSWORD_VALIDATORS = [
@@ -452,6 +439,20 @@ TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
 # ============ DEVELOPMENT SETTINGS ============
 if DEBUG:
+    # Try to add development-only apps if they're installed
+    try:
+        import django_extensions
+        INSTALLED_APPS.append('django_extensions')
+    except ImportError:
+        pass  # django_extensions not installed, skip it
+    
+    try:
+        import debug_toolbar
+        INSTALLED_APPS.append('debug_toolbar')
+        MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
+    except ImportError:
+        pass  # debug_toolbar not installed, skip it
+    
     # Disable some security features for easier development
     PASSWORD_HASHERS = [
         'django.contrib.auth.hashers.MD5PasswordHasher',
@@ -463,10 +464,14 @@ if DEBUG:
     # Disable SSL redirect in development
     SECURE_SSL_REDIRECT = False
     
-    # Show debug toolbar
-    DEBUG_TOOLBAR_CONFIG = {
-        'SHOW_TOOLBAR_CALLBACK': lambda request: True,
-    }
+    # Show debug toolbar if installed
+    try:
+        import debug_toolbar
+        DEBUG_TOOLBAR_CONFIG = {
+            'SHOW_TOOLBAR_CALLBACK': lambda request: True,
+        }
+    except ImportError:
+        pass
 
 # ============ PRODUCTION CHECKS ============
 if IS_PRODUCTION:

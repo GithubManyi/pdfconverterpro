@@ -12,5 +12,5 @@ urlpatterns = [
     path('quick-start/', views.quick_start, name='quick_start'),
     path('faq/', views.faq, name='faq'),
     path('tools/', views.tools, name='tools'),
-    path('healthz/', health_check, name='health_check'),
+  
 ]

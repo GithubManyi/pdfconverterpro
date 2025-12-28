@@ -39,7 +39,8 @@ if not SECRET_KEY:
 
 # ============ DEBUG MODE ============
 # Auto-detect debug mode from environment
-DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
+
+DEBUG = os.getenv('DEBUG', 'False').strip().lower() in ['true', '1', 'yes']
 if not DEBUG and (IS_LOCAL or IS_DEVELOPMENT):
     DEBUG = True  # Force debug in local/development
 

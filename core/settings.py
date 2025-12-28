@@ -1,42 +1,98 @@
 """
 Django settings for pdfconverterpro project.
+Production-ready with automatic local/dev/production detection.
 """
 
 import os
-from pathlib import Path
+import sys
 import dj_database_url
+from pathlib import Path
 from datetime import timedelta
-
-
-
-
 
 # Build paths
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# ============ SECURITY ============
+# ============ ENVIRONMENT DETECTION ============
+IS_LOCAL = os.getenv('ENVIRONMENT') == 'local' or not os.getenv('ENVIRONMENT')
+IS_DEVELOPMENT = os.getenv('ENVIRONMENT') == 'development'
+IS_PRODUCTION = os.getenv('ENVIRONMENT') == 'production' or os.getenv('RENDER')
 
-# Secret Key - NEVER HARDCODE
+# ============ SECRET KEY ============
+# Never hardcode! Load from environment with fallback for local dev
+if IS_LOCAL:
+    # Try to load from .env file for local development
+    from dotenv import load_dotenv
+    load_dotenv(BASE_DIR / '.env')
+
 SECRET_KEY = os.getenv('SECRET_KEY')
 if not SECRET_KEY:
-    raise ValueError("SECRET_KEY must be set in environment variables")
+    if IS_LOCAL:
+        # Generate a temporary key for local dev (will be different each time)
+        print("WARNING: Using temporary SECRET_KEY for local development")
+        print("Create a .env file with SECRET_KEY=your-secret-key-here")
+        SECRET_KEY = 'django-insecure-local-dev-key-' + os.urandom(32).hex()[:50]
+    else:
+        raise ValueError("SECRET_KEY must be set in environment variables")
 
-# Debug - ALWAYS False in production
+# ============ DEBUG MODE ============
+# Auto-detect debug mode from environment
 DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
+if not DEBUG and (IS_LOCAL or IS_DEVELOPMENT):
+    DEBUG = True  # Force debug in local/development
 
-# Allowed Hosts - Restrict in production
+# ============ ALLOWED HOSTS ============
+# Production: Only allow specific hosts
+# Development: Allow common local hosts
 ALLOWED_HOSTS = []
-if os.getenv('ALLOWED_HOSTS'):
-    ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
-if DEBUG:
-    ALLOWED_HOSTS += ['localhost', '127.0.0.1', '[::1]']
 
-# CSRF Trusted Origins
+# Render production host
+RENDER_EXTERNAL_HOSTNAME = os.getenv('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+
+# Your custom domain (set in Render or environment)
+CUSTOM_DOMAIN = os.getenv('CUSTOM_DOMAIN')
+if CUSTOM_DOMAIN:
+    ALLOWED_HOSTS.append(CUSTOM_DOMAIN)
+
+# Local development hosts
+if DEBUG or IS_LOCAL:
+    ALLOWED_HOSTS.extend([
+        'localhost',
+        '127.0.0.1',
+        '[::1]',
+        '0.0.0.0',
+        'testserver',
+    ])
+    # Also allow any host in DEBUG mode for development convenience
+    ALLOWED_HOSTS.append('*')
+
+# ============ CSRF TRUSTED ORIGINS ============
 CSRF_TRUSTED_ORIGINS = []
-if os.getenv('CSRF_TRUSTED_ORIGINS'):
-    CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS').split(',')
 
-# Application definition
+# Render origin
+if RENDER_EXTERNAL_HOSTNAME:
+    CSRF_TRUSTED_ORIGINS.append(f'https://{RENDER_EXTERNAL_HOSTNAME}')
+
+# Custom domain origin
+if CUSTOM_DOMAIN:
+    CSRF_TRUSTED_ORIGINS.append(f'https://{CUSTOM_DOMAIN}')
+
+# Local development
+if DEBUG or IS_LOCAL:
+    CSRF_TRUSTED_ORIGINS.extend([
+        'http://localhost:8000',
+        'http://127.0.0.1:8000',
+        'http://localhost:3000',
+        'http://127.0.0.1:3000',
+    ])
+
+# Additional origins from environment
+CSRF_EXTRA_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', '')
+if CSRF_EXTRA_ORIGINS:
+    CSRF_TRUSTED_ORIGINS.extend(CSRF_EXTRA_ORIGINS.split(','))
+
+# ============ APPLICATION DEFINITION ============
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -48,33 +104,37 @@ INSTALLED_APPS = [
     # Third party
     'django_cleanup.apps.CleanupConfig',
     'widget_tweaks',
-    'corsheaders',  # For CORS protection
-    'axes',  # For login attempt limiting
+    'corsheaders',
+    'axes',
     
     # Local apps
     'home.apps.HomeConfig',
     'converter.apps.ConverterConfig',
 ]
 
+# Development-only apps
+if DEBUG:
+    INSTALLED_APPS.extend([
+        'django_extensions',
+        'debug_toolbar',
+    ])
+
 MIDDLEWARE = [
-    # Security middleware
     'django.middleware.security.SecurityMiddleware',
-    'corsheaders.middleware.CorsMiddleware',  # CORS
-    
-    # WhiteNoise for static files
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    
-    # Django core middleware
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
-    # Security middleware
-    'axes.middleware.AxesMiddleware',  # Login rate limiting
+    'axes.middleware.AxesMiddleware',
 ]
+
+# Debug toolbar for development
+if DEBUG:
+    MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
 
 ROOT_URLCONF = 'core.urls'
 
@@ -105,7 +165,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'core.wsgi.application'
 
 # ============ DATABASE ============
-# Use PostgreSQL in production
+# Default to SQLite for local development
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -113,12 +173,20 @@ DATABASES = {
     }
 }
 
-# Use DATABASE_URL for production (Heroku, Railway, etc.)
-if os.getenv('DATABASE_URL'):
+# Use PostgreSQL if DATABASE_URL is set (Render, Railway, Heroku, etc.)
+DATABASE_URL = os.getenv('DATABASE_URL')
+if DATABASE_URL:
     DATABASES['default'] = dj_database_url.config(
+        default=DATABASE_URL,
         conn_max_age=600,
         conn_health_checks=True,
+        ssl_require=True,
     )
+    
+    # Test database for running tests
+    DATABASES['default']['TEST'] = {
+        'NAME': 'test_' + DATABASES['default']['NAME'],
+    }
 
 # ============ PASSWORD VALIDATION ============
 AUTH_PASSWORD_VALIDATORS = [
@@ -128,7 +196,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
         'OPTIONS': {
-            'min_length': 12,
+            'min_length': 8 if DEBUG else 12,  # Shorter for dev, longer for prod
         }
     },
     {
@@ -139,13 +207,18 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Password hashers
-PASSWORD_HASHERS = [
-    'django.contrib.auth.hashers.Argon2PasswordHasher',
-    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
-    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
-    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
-]
+# Password hashers (Argon2 is best but needs libsodium)
+if IS_PRODUCTION:
+    PASSWORD_HASHERS = [
+        'django.contrib.auth.hashers.Argon2PasswordHasher',
+        'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+        'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+        'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+    ]
+else:
+    PASSWORD_HASHERS = [
+        'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    ]
 
 # ============ INTERNATIONALIZATION ============
 LANGUAGE_CODE = 'en-us'
@@ -156,17 +229,18 @@ USE_TZ = True
 # ============ STATIC FILES ============
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_DIRS = []
-if DEBUG:
-    STATICFILES_DIRS = [BASE_DIR / 'static']
 
+# Additional static directories
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
 
 # WhiteNoise configuration
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 WHITENOISE_MANIFEST_STRICT = False
 
 # ============ MEDIA FILES ============
-MEDIA_URL = 'media/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # File upload settings
@@ -175,43 +249,47 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10MB
 FILE_UPLOAD_PERMISSIONS = 0o644
 FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0o755
 
-# Create media directory if it doesn't exist
+# Create media and temp directories
 os.makedirs(MEDIA_ROOT, exist_ok=True)
 
-# ============ SECURITY HEADERS ============
-# Content Security Policy (CSP) - Add django-csp for production
-CORS_ALLOW_CREDENTIALS = False
-if os.getenv('CORS_ALLOWED_ORIGINS'):
-    CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS').split(',')
-CORS_ALLOW_CREDENTIALS = True
-
-# Security middleware settings
+# ============ SECURITY SETTINGS ============
+# Content Security
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = 'DENY'
 SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
 
-# HTTPS Settings
-SECURE_SSL_REDIRECT = not DEBUG  # Redirect all HTTP to HTTPS
+# HTTPS Settings (only in production)
+SECURE_SSL_REDIRECT = IS_PRODUCTION
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Cookie Security
-SESSION_COOKIE_SECURE = not DEBUG  # Only send over HTTPS
-CSRF_COOKIE_SECURE = not DEBUG  # Only send over HTTPS
-SESSION_COOKIE_HTTPONLY = True  # Prevent JavaScript access
+SESSION_COOKIE_SECURE = IS_PRODUCTION
+CSRF_COOKIE_SECURE = IS_PRODUCTION
+SESSION_COOKIE_HTTPONLY = True
 CSRF_COOKIE_HTTPONLY = False  # Allow JavaScript for AJAX
-SESSION_COOKIE_SAMESITE = 'Lax'  # CSRF protection
+SESSION_COOKIE_SAMESITE = 'Lax'
 CSRF_COOKIE_SAMESITE = 'Lax'
 
-# HSTS - Force HTTPS for 1 year
-SECURE_HSTS_SECONDS = 31536000 if not DEBUG else 0  # 1 year
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
+# HSTS
+SECURE_HSTS_SECONDS = 31536000 if IS_PRODUCTION else 0  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = IS_PRODUCTION
+SECURE_HSTS_PRELOAD = IS_PRODUCTION
+
+# CORS settings
+CORS_ALLOW_CREDENTIALS = False
+CORS_ALLOWED_ORIGINS = CSRF_TRUSTED_ORIGINS.copy()
+if DEBUG:
+    CORS_ALLOW_ALL_ORIGINS = True
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # ============ LOGGING ============
+# Create logs directory
+LOG_DIR = BASE_DIR / 'logs'
+os.makedirs(LOG_DIR, exist_ok=True)
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -224,55 +302,75 @@ LOGGING = {
             'format': '{levelname} {message}',
             'style': '{',
         },
+        'django.server': {
+            '()': 'django.utils.log.ServerFormatter',
+            'format': '[{server_time}] {message}',
+            'style': '{',
+        }
     },
     'handlers': {
         'console': {
             'level': 'INFO',
             'class': 'logging.StreamHandler',
-            'formatter': 'simple'
+            'formatter': 'simple',
+            'stream': sys.stdout,
+        },
+        'file': {
+            'level': 'WARNING',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': LOG_DIR / 'django.log',
+            'maxBytes': 1024 * 1024 * 5,  # 5MB
+            'backupCount': 5,
+            'formatter': 'verbose',
         },
         'security_file': {
             'level': 'WARNING',
-            'class': 'logging.FileHandler',
-            'filename': BASE_DIR / 'logs' / 'security.log',
-            'formatter': 'verbose'
-        },
-        'suspicious_file': {
-            'level': 'ERROR',
-            'class': 'logging.FileHandler',
-            'filename': BASE_DIR / 'logs' / 'suspicious.log',
-            'formatter': 'verbose'
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': LOG_DIR / 'security.log',
+            'maxBytes': 1024 * 1024 * 5,
+            'backupCount': 5,
+            'formatter': 'verbose',
         },
     },
     'loggers': {
         'django': {
-            'handlers': ['console'],
+            'handlers': ['console', 'file'],
             'level': 'INFO',
             'propagate': True,
+        },
+        'django.server': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
         },
         'django.security': {
             'handlers': ['security_file'],
             'level': 'WARNING',
             'propagate': False,
         },
-        'django.security.SuspiciousOperation': {
-            'handlers': ['suspicious_file'],
-            'level': 'ERROR',
+        'converter': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
             'propagate': False,
         },
-        'converter': {
-            'handlers': ['console', 'security_file'],
+        'home': {
+            'handlers': ['console'],
             'level': 'INFO',
             'propagate': False,
         },
     },
 }
 
-# Create logs directory
-os.makedirs(BASE_DIR / 'logs', exist_ok=True)
+# More verbose logging in development
+if DEBUG:
+    LOGGING['loggers']['django']['level'] = 'DEBUG'
+    LOGGING['loggers']['django.db.backends'] = {
+        'level': 'DEBUG',
+        'handlers': ['console'],
+        'propagate': False,
+    }
 
 # ============ CACHE ============
-# Use Redis for cache in production
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
@@ -280,36 +378,43 @@ CACHES = {
     }
 }
 
-if os.getenv('REDIS_URL'):
+# Use Redis in production if available
+REDIS_URL = os.getenv('REDIS_URL')
+if REDIS_URL and IS_PRODUCTION:
     CACHES['default'] = {
         'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-        'LOCATION': os.getenv('REDIS_URL'),
+        'LOCATION': REDIS_URL,
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }
     }
 
 # ============ EMAIL ============
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.gmail.com')
-EMAIL_PORT = int(os.getenv('EMAIL_PORT', 587))
-EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'True') == 'True'
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'noreply@pdfconverterpro.com')
+if IS_PRODUCTION:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.gmail.com')
+    EMAIL_PORT = int(os.getenv('EMAIL_PORT', 587))
+    EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'True') == 'True'
+    EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+    DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'noreply@pdfconverterpro.com')
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # ============ FILE UPLOAD SECURITY ============
-# File upload restrictions
 MAX_FILE_SIZE = 50 * 1024 * 1024  # 50MB
 ALLOWED_FILE_TYPES = [
     'pdf', 'doc', 'docx', 'xls', 'xlsx',
     'jpg', 'jpeg', 'png', 'tiff', 'tif', 'bmp'
 ]
 
+# Secure temp directory
+SECURE_TEMP_DIR = BASE_DIR / 'temp_uploads'
+os.makedirs(SECURE_TEMP_DIR, exist_ok=True)
+
 # ============ RATE LIMITING ============
-# Axes configuration for login protection
-AXES_FAILURE_LIMIT = 5  # Lock after 5 failed attempts
-AXES_COOLOFF_TIME = timedelta(minutes=15)  # Lock for 15 minutes
+AXES_FAILURE_LIMIT = 5 if IS_PRODUCTION else 20  # More lenient in dev
+AXES_COOLOFF_TIME = timedelta(minutes=15) if IS_PRODUCTION else timedelta(minutes=2)
 AXES_RESET_ON_SUCCESS = True
 AXES_LOCK_OUT_BY_COMBINATION_USER_AND_IP = True
 AXES_META_PRECEDENCE_ORDER = [
@@ -317,13 +422,13 @@ AXES_META_PRECEDENCE_ORDER = [
     'REMOTE_ADDR',
 ]
 
-# Custom rate limiting for file uploads
-UPLOAD_RATE_LIMIT = 10  # Max 10 uploads per minute per IP
-CONVERSION_RATE_LIMIT = 5  # Max 5 conversions per minute per IP
+# Custom rate limits
+UPLOAD_RATE_LIMIT = 10 if IS_PRODUCTION else 50
+CONVERSION_RATE_LIMIT = 5 if IS_PRODUCTION else 20
 
 # ============ CUSTOM SETTINGS ============
 SITE_NAME = 'PDF Converter Pro'
-SITE_URL = os.getenv('SITE_URL', 'https://yourdomain.com')
+SITE_URL = os.getenv('SITE_URL', 'http://localhost:8000' if DEBUG else 'https://yourdomain.com')
 SUPPORT_EMAIL = os.getenv('SUPPORT_EMAIL', 'support@pdfconverterpro.com')
 
 # Auto-delete uploaded files after X hours
@@ -332,36 +437,51 @@ FILE_AUTO_DELETE_HOURS = 24
 # File processing timeout (seconds)
 FILE_PROCESSING_TIMEOUT = 300  # 5 minutes
 
-# ============ SECURE FILE HANDLING ============
-# Use secure temporary directory for file processing
-SECURE_TEMP_DIR = BASE_DIR / 'temp_uploads'
-os.makedirs(SECURE_TEMP_DIR, exist_ok=True)
+# ============ INTERNAL IPS (Debug Toolbar) ============
+INTERNAL_IPS = [
+    '127.0.0.1',
+    'localhost',
+]
 
-# Check if running in production
-IS_PRODUCTION = not DEBUG
+# Add Render internal IP for debug toolbar
+if RENDER_EXTERNAL_HOSTNAME:
+    INTERNAL_IPS.append(RENDER_EXTERNAL_HOSTNAME)
 
-# Security checklist
-if IS_PRODUCTION:
-    # Production-specific security
-    SECURE_HSTS_SECONDS = 31536000  # 1 year
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_PRELOAD = True
-    SECURE_SSL_REDIRECT = True
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-    
-    # Remove debug toolbar if present
-    INSTALLED_APPS = [app for app in INSTALLED_APPS if app != 'debug_toolbar']
-    
-    # Log all security events
-    LOGGING['loggers']['django.security']['level'] = 'INFO'
+# ============ TEST SETTINGS ============
+TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
+# ============ DEVELOPMENT SETTINGS ============
 if DEBUG:
-    from dotenv import load_dotenv
-    load_dotenv()
-
-if os.getenv('RENDER_EXTERNAL_HOSTNAME'):
-    CSRF_TRUSTED_ORIGINS += [
-        f"https://{os.getenv('RENDER_EXTERNAL_HOSTNAME')}"
+    # Disable some security features for easier development
+    PASSWORD_HASHERS = [
+        'django.contrib.auth.hashers.MD5PasswordHasher',
     ]
+    
+    # Allow all hosts in debug mode
+    ALLOWED_HOSTS = ['*']
+    
+    # Disable SSL redirect in development
+    SECURE_SSL_REDIRECT = False
+    
+    # Show debug toolbar
+    DEBUG_TOOLBAR_CONFIG = {
+        'SHOW_TOOLBAR_CALLBACK': lambda request: True,
+    }
+
+# ============ PRODUCTION CHECKS ============
+if IS_PRODUCTION:
+    # Security checks
+    if not SECRET_KEY or SECRET_KEY.startswith('django-insecure-'):
+        raise ValueError("Invalid SECRET_KEY in production")
+    
+    if DEBUG:
+        raise ValueError("DEBUG must be False in production")
+    
+    if not ALLOWED_HOSTS or '*' in ALLOWED_HOSTS:
+        raise ValueError("ALLOWED_HOSTS must be properly configured in production")
+    
+    print(f"✓ Production mode: Serving on {ALLOWED_HOSTS}")
+elif IS_LOCAL:
+    print(f"✓ Local development mode: DEBUG={DEBUG}")
+    print(f"  Access at: http://localhost:8000")
+    print(f"  Static files at: {STATIC_ROOT}")

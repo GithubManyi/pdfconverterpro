@@ -1,0 +1,84 @@
+<!-- quick_start.html -->
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block title %}Quick Start Guide - PDF Converter Pro{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-12">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-4xl font-bold text-gray-800 mb-8">Quick Start Guide</h1>
+        
+        <!-- Video Tutorial Section -->
+        <div class="mb-12">
+            <h2 class="text-2xl font-semibold text-gray-700 mb-4">🎬 Video Tutorial (2 minutes)</h2>
+            <div class="bg-gray-800 rounded-lg p-8">
+                <!-- Placeholder for video embed -->
+                <div class="aspect-w-16 aspect-h-9 bg-gray-700 rounded flex items-center justify-center">
+                    <div class="text-center">
+                        <svg class="w-20 h-20 text-gray-400 mx-auto mb-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
+                        </svg>
+                        <p class="text-gray-300">Video tutorial coming soon</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Steps -->
+        <div class="grid md:grid-cols-3 gap-8 mb-12">
+            <div class="text-center">
+                <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-2xl font-bold text-blue-600">1</span>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Choose Tool</h3>
+                <p class="text-gray-600">Select from 7 conversion tools on homepage</p>
+            </div>
+            <div class="text-center">
+                <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-2xl font-bold text-green-600">2</span>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Upload File</h3>
+                <p class="text-gray-600">Drag & drop or click to upload your file</p>
+            </div>
+            <div class="text-center">
+                <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-2xl font-bold text-purple-600">3</span>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Download Result</h3>
+                <p class="text-gray-600">Get your converted file in seconds</p>
+            </div>
+        </div>
+
+        <!-- Tool-Specific Guides -->
+        <div class="space-y-8">
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h3 class="text-xl font-semibold text-blue-600 mb-4">📄 PDF to Word</h3>
+                <ul class="space-y-2 text-gray-700">
+                    <li>• Preserves formatting and images</li>
+                    <li>• Best for editable documents</li>
+                    <li>• Works with scanned PDFs (OCR)</li>
+                </ul>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h3 class="text-xl font-semibold text-green-600 mb-4">🔗 Merge PDFs</h3>
+                <ul class="space-y-2 text-gray-700">
+                    <li>• Combine up to 10 PDFs</li>
+                    <li>• Drag to reorder pages</li>
+                    <li>• Maintains original quality</li>
+                </ul>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h3 class="text-xl font-semibold text-purple-600 mb-4">📊 Excel to PDF</h3>
+                <ul class="space-y-2 text-gray-700">
+                    <li>• Convert entire workbooks</li>
+                    <li>• Preserve formulas as values</li>
+                    <li>• Adjust page orientation</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

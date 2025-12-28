@@ -1,0 +1,906 @@
+<!-- converter/templates/converter/compress_pdf.html -->
+{% extends 'home/base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}Compress PDF Files - PDF Converter Pro{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <!-- Page Header -->
+    <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">Compress PDF Files</h1>
+        <p class="text-gray-600 dark:text-gray-300">Reduce PDF size while maintaining quality</p>
+    </div>
+
+    <!-- Upload Form -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-8">
+        <form method="post" enctype="multipart/form-data" class="space-y-6" id="compressForm">
+            {% csrf_token %}
+            
+            <!-- Hidden fields for form submission -->
+            <input type="hidden" name="compression_level" id="compression_level_input" value="medium">
+            <input type="hidden" name="optimize_options" id="optimize_options_input" value="images,fonts">
+            <input type="hidden" name="quality_preservation" id="quality_preservation_input" value="balanced">
+            
+            <!-- Form Errors -->
+            {% if form.errors %}
+            <div class="bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 p-4 mb-6">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm text-red-700 dark:text-red-300 font-medium">
+                            Please fix the errors below:
+                        </p>
+                        <ul class="mt-2 text-sm text-red-700 dark:text-red-300 list-disc pl-5 space-y-1">
+                            {% for field in form %}
+                                {% for error in field.errors %}
+                                    <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                            {% for error in form.non_field_errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Drag & Drop Zone -->
+            <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center hover:border-blue-500 dark:hover:border-blue-400 transition"
+                 id="dropZone">
+                <svg class="mx-auto h-16 w-16 text-blue-600 dark:text-blue-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                
+                <h3 class="text-xl font-semibold mb-2 text-gray-800 dark:text-white">Drop your PDF file here</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">Select PDF file to compress</p>
+                
+                <div class="mb-4">
+                    <!-- File input field - BLUE BUTTON -->
+                    <input type="file" name="file" id="id_file" accept=".pdf" class="hidden">
+                    <button type="button" onclick="document.getElementById('id_file').click()" 
+                            class="bg-blue-600 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold cursor-pointer transition inline-flex items-center shadow-md">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                        </svg>
+                        <span>Choose PDF File</span>
+                    </button>
+                </div>
+                
+                <p class="text-sm text-gray-600 dark:text-gray-300" id="fileInfo">No file selected</p>
+                <div id="sizeInfo" class="mt-2"></div>
+            </div>
+
+            <!-- Compression Settings -->
+            <div class="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-6">
+                <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Compression Settings</h3>
+                
+                <!-- Compression Level -->
+                <div class="mb-6">
+                    <h4 class="font-medium text-gray-700 dark:text-gray-300 mb-3">Compression Level:</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <label class="flex flex-col items-center p-4 border-2 border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer hover:border-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 compression-label" data-level="low">
+                            <svg class="w-8 h-8 text-green-600 dark:text-green-400 mb-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5 9a7 7 0 0110 0v3.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 111.414-1.414L5 12.586V9z" clip-rule="evenodd"/>
+                            </svg>
+                            <span class="font-medium text-sm text-center text-gray-800 dark:text-white">Low Compression</span>
+                            <span class="text-xs text-gray-700 dark:text-gray-300 mt-1 text-center">Best quality</span>
+                            <span class="text-xs text-blue-600 dark:text-blue-400 mt-1 font-medium">(~20% reduction)</span>
+                        </label>
+                        
+                        <label class="flex flex-col items-center p-4 border-2 border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer hover:border-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 compression-label" data-level="medium">
+                            <svg class="w-8 h-8 text-yellow-600 dark:text-yellow-400 mb-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5 9a7 7 0 0110 0v3.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 111.414-1.414L5 12.586V9z" clip-rule="evenodd"/>
+                            </svg>
+                            <span class="font-medium text-sm text-center text-gray-800 dark:text-white">Medium Compression</span>
+                            <span class="text-xs text-gray-700 dark:text-gray-300 mt-1 text-center">Recommended</span>
+                            <span class="text-xs text-blue-600 dark:text-blue-400 mt-1 font-medium">(~50% reduction)</span>
+                        </label>
+                        
+                        <label class="flex flex-col items-center p-4 border-2 border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer hover:border-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 compression-label" data-level="high">
+                            <svg class="w-8 h-8 text-red-600 dark:text-red-400 mb-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5 9a7 7 0 0110 0v3.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 111.414-1.414L5 12.586V9z" clip-rule="evenodd"/>
+                            </svg>
+                            <span class="font-medium text-sm text-center text-gray-800 dark:text-white">High Compression</span>
+                            <span class="text-xs text-gray-700 dark:text-gray-300 mt-1 text-center">Smallest size</span>
+                            <span class="text-xs text-blue-600 dark:text-blue-400 mt-1 font-medium">(~80% reduction)</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Optimization Options -->
+                <div class="mb-6">
+                    <h4 class="font-medium text-gray-700 dark:text-gray-300 mb-3">Optimization Options:</h4>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <label class="flex items-start p-3 bg-white dark:bg-gray-800 rounded border border-gray-300 dark:border-gray-700 optimize-option-label cursor-pointer" data-value="images">
+                            <div class="flex items-center w-full">
+                                <div class="w-5 h-5 border border-gray-400 dark:border-gray-600 rounded mr-3 flex items-center justify-center check-container">
+                                    <svg class="w-3 h-3 text-white check-icon hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <span class="font-medium text-gray-800 dark:text-white">Compress Images</span>
+                                    <p class="text-xs text-gray-600 dark:text-gray-400">Reduce image quality slightly</p>
+                                </div>
+                            </div>
+                        </label>
+                        
+                        <label class="flex items-start p-3 bg-white dark:bg-gray-800 rounded border border-gray-300 dark:border-gray-700 optimize-option-label cursor-pointer" data-value="fonts">
+                            <div class="flex items-center w-full">
+                                <div class="w-5 h-5 border border-gray-400 dark:border-gray-600 rounded mr-3 flex items-center justify-center check-container">
+                                    <svg class="w-3 h-3 text-white check-icon hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <span class="font-medium text-gray-800 dark:text-white">Optimize Fonts</span>
+                                    <p class="text-xs text-gray-600 dark:text-gray-400">Optimize and subset fonts</p>
+                                </div>
+                            </div>
+                        </label>
+                        
+                        <label class="flex items-start p-3 bg-white dark:bg-gray-800 rounded border border-gray-300 dark:border-gray-700 optimize-option-label cursor-pointer" data-value="metadata">
+                            <div class="flex items-center w-full">
+                                <div class="w-5 h-5 border border-gray-400 dark:border-gray-600 rounded mr-3 flex items-center justify-center check-container">
+                                    <svg class="w-3 h-3 text-white check-icon hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <span class="font-medium text-gray-800 dark:text-white">Remove Metadata</span>
+                                    <p class="text-xs text-gray-600 dark:text-gray-400">Remove author info, comments</p>
+                                </div>
+                            </div>
+                        </label>
+                        
+                        <label class="flex items-start p-3 bg-white dark:bg-gray-800 rounded border border-gray-300 dark:border-gray-700 optimize-option-label cursor-pointer" data-value="unused">
+                            <div class="flex items-center w-full">
+                                <div class="w-5 h-5 border border-gray-400 dark:border-gray-600 rounded mr-3 flex items-center justify-center check-container">
+                                    <svg class="w-3 h-3 text-white check-icon hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <span class="font-medium text-gray-800 dark:text-white">Remove Unused Resources</span>
+                                    <p class="text-xs text-gray-600 dark:text-gray-400">Clean up unused resources</p>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Target Size -->
+                <div class="mb-6">
+                    <h4 class="font-medium text-gray-700 dark:text-gray-300 mb-3">Target Size (Optional):</h4>
+                    <div class="flex items-center space-x-4">
+                        <div class="flex-1">
+                            {{ form.target_size|add_class:"w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-500 dark:focus:border-blue-400 bg-white dark:bg-gray-800 text-gray-800 dark:text-white" }}
+                        </div>
+                        <span class="text-gray-700 dark:text-gray-300 whitespace-nowrap">kilobytes (KB)</span>
+                    </div>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                        <svg class="w-4 h-4 text-blue-600 dark:text-blue-400 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        Leave empty for automatic compression based on selected level
+                    </p>
+                    {% if form.target_size.errors %}
+                    <div class="mt-2 text-sm text-red-600 dark:text-red-400">
+                        {% for error in form.target_size.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Quality Priority -->
+                <div class="mb-6">
+                    <h4 class="font-medium text-gray-700 dark:text-gray-300 mb-3">Quality Priority:</h4>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <label class="flex flex-col items-center p-3 border-2 border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer hover:border-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 quality-label" data-quality="high">
+                            <svg class="w-8 h-8 text-blue-600 dark:text-blue-400 mb-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clip-rule="evenodd"/>
+                            </svg>
+                            <span class="font-medium text-sm text-center text-gray-800 dark:text-white">High Quality</span>
+                            <span class="text-xs text-gray-700 dark:text-gray-300 mt-1 text-center">Best preservation</span>
+                        </label>
+                        
+                        <label class="flex flex-col items-center p-3 border-2 border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer hover:border-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 quality-label" data-quality="balanced">
+                            <svg class="w-8 h-8 text-blue-600 dark:text-blue-400 mb-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z" clip-rule="evenodd"/>
+                            </svg>
+                            <span class="font-medium text-sm text-center text-gray-800 dark:text-white">Balanced</span>
+                            <span class="text-xs text-gray-700 dark:text-gray-300 mt-1 text-center">Recommended</span>
+                        </label>
+                        
+                        <label class="flex flex-col items-center p-3 border-2 border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer hover:border-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 quality-label" data-quality="size">
+                            <svg class="w-8 h-8 text-red-600 dark:text-red-400 mb-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z" clip-rule="evenodd"/>
+                            </svg>
+                            <span class="font-medium text-sm text-center text-gray-800 dark:text-white">Maximum Compression</span>
+                            <span class="text-xs text-gray-700 dark:text-gray-300 mt-1 text-center">Smallest size</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preview Section -->
+            <!-- Preview Section -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-300 dark:border-gray-700">
+                <div class="flex items-center mb-6">
+                    <div class="bg-blue-100 dark:bg-blue-900/30 p-3 rounded-lg mr-4">
+                        <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white">Compression Preview</h3>
+                </div>
+                
+                <div class="space-y-4">
+                    <!-- File Info -->
+                    <div class="flex items-center justify-between">
+                        <div class="text-sm font-medium text-gray-700 dark:text-gray-300">Selected File:</div>
+                        <div class="font-semibold text-gray-900 dark:text-white" id="previewFileName">No file selected</div>
+                    </div>
+                    
+                    <!-- Size Comparison -->
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="text-center flex-1">
+                            <div class="text-3xl font-bold text-gray-900 dark:text-white" id="originalSize">0 MB</div>
+                            <div class="text-sm font-medium text-gray-700 dark:text-gray-300 mt-1">Original Size</div>
+                        </div>
+                        
+                        <div class="px-6">
+                            <svg class="w-8 h-8 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                            </svg>
+                        </div>
+                        
+                        <div class="text-center flex-1">
+                            <div class="text-3xl font-bold text-blue-700 dark:text-blue-400" id="compressedSize">0 MB</div>
+                            <div class="text-sm font-medium text-gray-700 dark:text-gray-300 mt-1">Compressed Size</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Progress Bar -->
+                    <div>
+                        <div class="w-full bg-gray-300 dark:bg-gray-700 rounded-full h-3">
+                            <div id="compressionBar" class="bg-gradient-to-r from-blue-500 to-blue-700 h-3 rounded-full transition-all duration-500" style="width: 50%"></div>
+                        </div>
+                        <div class="flex justify-between text-sm font-medium mt-2">
+                            <span class="text-gray-700 dark:text-gray-400">0%</span>
+                            <span id="reductionPercent" class="font-bold text-blue-800 dark:text-blue-300">50% reduction</span>
+                            <span class="text-gray-700 dark:text-gray-400">100%</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Savings Info -->
+                    <div class="grid grid-cols-2 gap-4 mt-6">
+                        <div class="bg-gray-100 dark:bg-gray-800/50 p-4 rounded-lg text-center border border-gray-200 dark:border-gray-700">
+                            <div class="text-sm font-semibold text-gray-800 dark:text-gray-300">Savings</div>
+                            <div class="text-2xl font-bold text-green-700 dark:text-green-400 mt-2" id="savingsMB">0 MB</div>
+                        </div>
+                        <div class="bg-gray-100 dark:bg-gray-800/50 p-4 rounded-lg text-center border border-gray-200 dark:border-gray-700">
+                            <div class="text-sm font-semibold text-gray-800 dark:text-gray-300">Reduction</div>
+                            <div class="text-2xl font-bold text-blue-700 dark:text-blue-400 mt-2" id="reductionPercent2">0%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- File Requirements -->
+            <div class="bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg p-4">
+                <h4 class="font-semibold text-gray-900 dark:text-white mb-2 flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.98-.833-2.732 0L4.908 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                    </svg>
+                    <span>Important Notes</span>
+                </h4>
+                <ul class="text-sm text-gray-800 dark:text-gray-300 space-y-2">
+                    <li class="flex items-start">
+                        <svg class="w-4 h-4 text-blue-600 dark:text-blue-400 mt-0.5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        <span>Maximum file size: 50MB</span>
+                    </li>
+                    <li class="flex items-start">
+                        <svg class="w-4 h-4 text-blue-600 dark:text-blue-400 mt-0.5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        <span>Compression preserves text quality but may reduce image quality slightly</span>
+                    </li>
+                    <li class="flex items-start">
+                        <svg class="w-4 h-4 text-blue-600 dark:text-blue-400 mt-0.5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        <span>Files are automatically deleted after 24 hours</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- MAIN SUBMIT BUTTON - YELLOW COLOR -->
+            <div class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700 text-center">
+                <button type="submit" id="compressButton" class="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 dark:from-yellow-600 dark:to-yellow-700 text-white py-4 rounded-lg font-semibold text-lg hover:from-yellow-600 hover:to-yellow-700 dark:hover:from-yellow-500 dark:hover:to-yellow-600 transition flex items-center justify-center shadow-md">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                    <span class="font-semibold">COMPRESS PDF NOW</span>
+                </button>
+                <p class="text-center text-gray-500 dark:text-gray-400 text-sm mt-3">
+                    <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                    </svg>
+                    Your file is processed securely and deleted after 24 hours
+                </p>
+            </div>
+        </form>
+    </div>
+
+    <!-- Benefits Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <!-- Why Compress -->
+        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+            <div class="flex items-center mb-4">
+                <div class="bg-blue-100 dark:bg-blue-900/30 p-3 rounded-lg mr-4">
+                    <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-white">Why Compress PDFs?</h3>
+            </div>
+            <ul class="space-y-4">
+                <li class="flex items-start">
+                    <svg class="w-5 h-5 text-green-600 dark:text-green-400 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-1">Email Attachments</h4>
+                        <p class="text-gray-700 dark:text-gray-300">Stay under email size limits</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <svg class="w-5 h-5 text-green-600 dark:text-green-400 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-1">Faster Uploads</h4>
+                        <p class="text-gray-700 dark:text-gray-300">Upload to websites quicker</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <svg class="w-5 h-5 text-green-600 dark:text-green-400 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-1">Save Storage</h4>
+                        <p class="text-gray-700 dark:text-gray-300">Reduce disk space usage</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <svg class="w-5 h-5 text-green-600 dark:text-green-400 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-1">Web Optimization</h4>
+                        <p class="text-gray-700 dark:text-gray-300">Faster loading on websites</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Quality Preservation -->
+        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+            <div class="flex items-center mb-4">
+                <div class="bg-green-100 dark:bg-green-900/30 p-3 rounded-lg mr-4">
+                    <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618 4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-white">Quality Guarantee</h3>
+            </div>
+            <ul class="space-y-4">
+                <li class="flex items-start">
+                    <svg class="w-5 h-5 text-blue-600 dark:text-blue-400 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-1">Text Preservation</h4>
+                        <p class="text-gray-700 dark:text-gray-300">Text remains sharp and searchable</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <svg class="w-5 h-5 text-blue-600 dark:text-blue-400 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-1">Smart Image Compression</h4>
+                        <p class="text-gray-700 dark:text-gray-300">Optimizes without visible degradation</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <svg class="w-5 h-5 text-blue-600 dark:text-blue-400 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-1">Formatting Intact</h4>
+                        <p class="text-gray-700 dark:text-gray-300">All layouts and formatting preserved</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- How It Works -->
+    <div class="bg-gray-100 dark:bg-gray-800 rounded-lg p-6 mb-8">
+        <h3 class="text-xl font-semibold mb-6 text-center text-gray-800 dark:text-white">How PDF Compression Works</h3>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div class="text-center">
+                <div class="bg-white dark:bg-gray-800 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 shadow-md">
+                    <svg class="w-8 h-8 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                </div>
+                <p class="font-medium text-gray-800 dark:text-white">Analyze</p>
+                <p class="text-sm text-gray-700 dark:text-gray-300">Scan PDF for compression opportunities</p>
+            </div>
+            <div class="text-center">
+                <div class="bg-white dark:bg-gray-800 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 shadow-md">
+                    <svg class="w-8 h-8 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                </div>
+                <p class="font-medium text-gray-800 dark:text-white">Optimize</p>
+                <p class="text-sm text-gray-700 dark:text-gray-300">Apply selected compression settings</p>
+            </div>
+            <div class="text-center">
+                <div class="bg-white dark:bg-gray-800 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 shadow-md">
+                    <svg class="w-8 h-8 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <p class="font-medium text-gray-800 dark:text-white">Verify</p>
+                <p class="text-sm text-gray-700 dark:text-gray-300">Ensure quality meets standards</p>
+            </div>
+            <div class="text-center">
+                <div class="bg-white dark:bg-gray-800 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 shadow-md">
+                    <svg class="w-8 h-8 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                    </svg>
+                </div>
+                <p class="font-medium text-gray-800 dark:text-white">Download</p>
+                <p class="text-sm text-gray-700 dark:text-gray-300">Get your compressed PDF instantly</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow p-6">
+        <div class="flex items-center mb-6">
+            <div class="bg-indigo-100 dark:bg-indigo-900/30 p-3 rounded-lg mr-4">
+                <svg class="w-6 h-6 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 dark:text-white">Frequently Asked Questions</h3>
+        </div>
+        <div class="space-y-6">
+            <div class="pb-4 border-b border-gray-100 dark:border-gray-700">
+                <h4 class="font-bold text-gray-800 dark:text-white mb-2 text-lg">Will my PDF quality be affected?</h4>
+                <p class="text-gray-700 dark:text-gray-300">Text quality remains excellent. Images are optimized intelligently - minor reductions that are usually not noticeable.</p>
+            </div>
+            <div class="pb-4 border-b border-gray-100 dark:border-gray-700">
+                <h4 class="font-bold text-gray-800 dark:text-white mb-2 text-lg">What's the maximum file size?</h4>
+                <p class="text-gray-700 dark:text-gray-300">Maximum 50MB per file. For larger files, split them first or use high compression.</p>
+            </div>
+            <div class="pb-4 border-b border-gray-100 dark:border-gray-700">
+                <h4 class="font-bold text-gray-800 dark:text-white mb-2 text-lg">How much can I compress?</h4>
+                <p class="text-gray-700 dark:text-gray-300">Typical reductions: 20-80% depending on content and settings. Image-heavy PDFs compress more.</p>
+            </div>
+            <div>
+                <h4 class="font-bold text-gray-800 dark:text-white mb-2 text-lg">Is it secure?</h4>
+                <p class="text-gray-700 dark:text-gray-300">Yes! Files are processed securely and automatically deleted after 24 hours. No one sees your documents.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('id_file');
+    const fileInfo = document.getElementById('fileInfo');
+    const sizeInfo = document.getElementById('sizeInfo');
+    const originalSize = document.getElementById('originalSize');
+    const compressedSize = document.getElementById('compressedSize');
+    const compressionBar = document.getElementById('compressionBar');
+    const reductionPercent = document.getElementById('reductionPercent');
+    const reductionPercent2 = document.getElementById('reductionPercent2');
+    const savingsMB = document.getElementById('savingsMB');
+    const previewFileName = document.getElementById('previewFileName');
+    const compressForm = document.getElementById('compressForm');
+    const compressButton = document.getElementById('compressButton');
+    const targetSizeInput = document.querySelector('input[name="target_size"]');
+    
+    // Hidden form fields
+    const compressionLevelInput = document.getElementById('compression_level_input');
+    const optimizeOptionsInput = document.getElementById('optimize_options_input');
+    const qualityInput = document.getElementById('quality_preservation_input');
+    
+    let currentFileSizeMB = 0;
+    let selectedOptions = new Set(['images', 'fonts']); // Default options
+    
+    // Initialize selections
+    initializeSelections();
+    
+    function initializeSelections() {
+        // Set default compression level to medium
+        if (compressionLevelInput) {
+            compressionLevelInput.value = 'medium';
+        }
+        selectCompressionLevel('medium');
+        
+        // Set default quality to balanced
+        if (qualityInput) {
+            qualityInput.value = 'balanced';
+        }
+        selectQualityLevel('balanced');
+        
+        // Set default optimization options
+        updateOptimizeOptionsInput();
+        
+        // Initialize visual states
+        selectOptimizationOption('images', true);
+        selectOptimizationOption('fonts', true);
+    }
+    
+    function updateOptimizeOptionsInput() {
+        if (optimizeOptionsInput) {
+            const optionsArray = Array.from(selectedOptions);
+            optimizeOptionsInput.value = optionsArray.join(',');
+        }
+    }
+    
+    // Compression level handlers
+    document.querySelectorAll('.compression-label').forEach(label => {
+        label.addEventListener('click', function() {
+            const level = this.getAttribute('data-level');
+            selectCompressionLevel(level);
+            updateCompressionPreview();
+        });
+    });
+    
+    function selectCompressionLevel(level) {
+        // Update hidden field
+        if (compressionLevelInput) {
+            compressionLevelInput.value = level;
+        }
+        
+        // Update visual selection
+        document.querySelectorAll('.compression-label').forEach(l => {
+            l.classList.remove('border-blue-500', 'dark:border-blue-400', 'bg-gray-100', 'dark:bg-gray-700');
+        });
+        
+        const selectedLabel = document.querySelector(`.compression-label[data-level="${level}"]`);
+        if (selectedLabel) {
+            selectedLabel.classList.add('border-blue-500', 'dark:border-blue-400', 'bg-gray-100', 'dark:bg-gray-700');
+        }
+    }
+    
+    // Quality priority handlers
+    document.querySelectorAll('.quality-label').forEach(label => {
+        label.addEventListener('click', function() {
+            const quality = this.getAttribute('data-quality');
+            selectQualityLevel(quality);
+            updateCompressionPreview();
+        });
+    });
+    
+    function selectQualityLevel(quality) {
+        // Update hidden field
+        if (qualityInput) {
+            qualityInput.value = quality;
+        }
+        
+        // Update visual selection
+        document.querySelectorAll('.quality-label').forEach(l => {
+            l.classList.remove('border-blue-500', 'dark:border-blue-400', 'bg-gray-100', 'dark:bg-gray-700');
+        });
+        
+        const selectedLabel = document.querySelector(`.quality-label[data-quality="${quality}"]`);
+        if (selectedLabel) {
+            selectedLabel.classList.add('border-blue-500', 'dark:border-blue-400', 'bg-gray-100', 'dark:bg-gray-700');
+        }
+    }
+    
+    // Optimization options handlers
+    document.querySelectorAll('.optimize-option-label').forEach(label => {
+        label.addEventListener('click', function() {
+            const option = this.getAttribute('data-value');
+            const isSelected = selectedOptions.has(option);
+            
+            if (isSelected) {
+                selectedOptions.delete(option);
+            } else {
+                selectedOptions.add(option);
+            }
+            
+            selectOptimizationOption(option, !isSelected);
+            updateOptimizeOptionsInput();
+            updateCompressionPreview();
+        });
+    });
+    
+    function selectOptimizationOption(option, isSelected) {
+        const label = document.querySelector(`.optimize-option-label[data-value="${option}"]`);
+        if (!label) return;
+        
+        const checkContainer = label.querySelector('.check-container');
+        const checkIcon = label.querySelector('.check-icon');
+        
+        if (isSelected) {
+            label.classList.add('border-blue-500', 'dark:border-blue-400', 'bg-gray-100', 'dark:bg-gray-700');
+            checkContainer.classList.add('bg-blue-500', 'border-blue-500', 'dark:border-blue-400');
+            checkIcon.classList.remove('hidden');
+        } else {
+            label.classList.remove('border-blue-500', 'dark:border-blue-400', 'bg-gray-100', 'dark:bg-gray-700');
+            checkContainer.classList.remove('bg-blue-500', 'border-blue-500', 'dark:border-blue-400');
+            checkIcon.classList.add('hidden');
+        }
+    }
+    
+    // File upload handling
+    if (dropZone && fileInput) {
+        dropZone.addEventListener('click', () => fileInput.click());
+        
+        fileInput.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                const file = this.files[0];
+                handleFileSelection(file);
+            }
+        });
+        
+        // Drag and drop
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('border-blue-500', 'dark:border-blue-400');
+        });
+        
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('border-blue-500', 'dark:border-blue-400');
+        });
+        
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('border-blue-500', 'dark:border-blue-400');
+            
+            if (e.dataTransfer.files.length > 0) {
+                const file = e.dataTransfer.files[0];
+                
+                // Check if it's a PDF
+                if (!file.name.toLowerCase().endsWith('.pdf')) {
+                    alert('Please select a PDF file (.pdf)');
+                    return;
+                }
+                
+                // Check file size (50MB limit)
+                if (file.size > 50 * 1024 * 1024) {
+                    alert('File size exceeds 50MB limit. Please choose a smaller file.');
+                    return;
+                }
+                
+                // Update file input
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                fileInput.files = dataTransfer.files;
+                
+                handleFileSelection(file);
+                
+                // Trigger change event
+                const event = new Event('change', { bubbles: true });
+                fileInput.dispatchEvent(event);
+            }
+        });
+    }
+    
+    // Target size input handler
+    if (targetSizeInput) {
+        targetSizeInput.addEventListener('input', function() {
+            updateCompressionPreview();
+        });
+    }
+    
+    // Form validation
+    if (compressForm) {
+        compressForm.addEventListener('submit', function(e) {
+            if (!fileInput.files.length) {
+                e.preventDefault();
+                alert('Please select a PDF file to compress.');
+                return false;
+            }
+            
+            const file = fileInput.files[0];
+            
+            // Double-check file type
+            if (!file.name.toLowerCase().endsWith('.pdf')) {
+                e.preventDefault();
+                alert('Please select a PDF file (.pdf)');
+                return false;
+            }
+            
+            // Double-check file size
+            if (file.size > 50 * 1024 * 1024) {
+                e.preventDefault();
+                alert('File size exceeds 50MB limit. Please choose a smaller file.');
+                return false;
+            }
+            
+            // Show loading state
+            if (compressButton) {
+                compressButton.innerHTML = `
+                    <svg class="w-6 h-6 mr-3 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                    </svg>
+                    <span class="font-semibold">COMPRESSING...</span>
+                `;
+                compressButton.disabled = true;
+                compressButton.classList.add('opacity-75', 'cursor-not-allowed');
+            }
+            
+            return true;
+        });
+    }
+    
+    function handleFileSelection(file) {
+        currentFileSizeMB = file.size / 1024 / 1024;
+        
+        // Update file info
+        const fileName = file.name.length > 30 ? file.name.substring(0, 27) + '...' : file.name;
+        fileInfo.textContent = fileName;
+        if (previewFileName) {
+            previewFileName.textContent = fileName;
+        }
+        
+        sizeInfo.innerHTML = `
+            <div class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                Size: ${formatFileSize(file.size)} • 
+                <span class="text-blue-600 dark:text-blue-400 font-semibold">Ready to compress</span>
+            </div>
+        `;
+        
+        dropZone.classList.add('border-green-500', 'dark:border-green-400');
+        
+        // Update preview
+        updateCompressionPreview();
+    }
+    
+    function formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+    
+    function updateCompressionPreview() {
+        if (currentFileSizeMB === 0) return;
+        
+        const compressionLevel = compressionLevelInput ? compressionLevelInput.value : 'medium';
+        const qualityLevel = qualityInput ? qualityInput.value : 'balanced';
+        const optimizeOptions = Array.from(selectedOptions);
+        
+        let targetKB = targetSizeInput ? parseInt(targetSizeInput.value) : null;
+        
+        // If target size is specified and valid, use it
+        if (targetKB && targetKB > 0) {
+            const currentKB = currentFileSizeMB * 1024;
+            if (targetKB < currentKB) {
+                const reduction = ((currentKB - targetKB) / currentKB) * 100;
+                const compressedSizeMB = targetKB / 1024;
+                const savings = currentFileSizeMB - compressedSizeMB;
+                
+                originalSize.textContent = `${currentFileSizeMB.toFixed(2)} MB`;
+                compressedSize.textContent = `${compressedSizeMB.toFixed(2)} MB`;
+                compressionBar.style.width = `${Math.min(95, reduction)}%`;
+                reductionPercent.textContent = `${reduction.toFixed(1)}% reduction`;
+                reductionPercent2.textContent = `${reduction.toFixed(1)}%`;
+                savingsMB.textContent = `${savings.toFixed(2)} MB`;
+                return;
+            }
+        }
+        
+        // Calculate reduction based on settings
+        let baseReduction = 0.5; // Default 50%
+        
+        switch(compressionLevel) {
+            case 'low': baseReduction = 0.2; break;
+            case 'medium': baseReduction = 0.5; break;
+            case 'high': baseReduction = 0.8; break;
+        }
+        
+        // Adjust based on quality preference
+        switch(qualityLevel) {
+            case 'high': baseReduction *= 0.7; break;
+            case 'size': baseReduction *= 1.2; break;
+        }
+        
+        // Adjust based on optimization options
+        let optimizationBonus = 0;
+        optimizeOptions.forEach(opt => {
+            if (opt === 'images') optimizationBonus += 0.15;
+            if (opt === 'fonts') optimizationBonus += 0.05;
+            if (opt === 'metadata') optimizationBonus += 0.02;
+            if (opt === 'unused') optimizationBonus += 0.08;
+        });
+        
+        const totalReduction = Math.min(0.95, baseReduction + optimizationBonus);
+        const compressedSizeMB = currentFileSizeMB * (1 - totalReduction);
+        const percentReduction = totalReduction * 100;
+        const savings = currentFileSizeMB - compressedSizeMB;
+        
+        // Update display
+        originalSize.textContent = `${currentFileSizeMB.toFixed(2)} MB`;
+        compressedSize.textContent = `${compressedSizeMB.toFixed(2)} MB`;
+        compressionBar.style.width = `${percentReduction}%`;
+        reductionPercent.textContent = `${percentReduction.toFixed(1)}% reduction`;
+        reductionPercent2.textContent = `${percentReduction.toFixed(1)}%`;
+        savingsMB.textContent = `${savings.toFixed(2)} MB`;
+    }
+});
+</script>
+
+<style>
+/* Custom styles for compression interface */
+.compression-label, .quality-label, .optimize-option-label {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.compression-label:hover, .quality-label:hover, .optimize-option-label:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.compression-label.border-blue-500,
+.quality-label.border-blue-500,
+.optimize-option-label.border-blue-500 {
+    border-width: 2px;
+}
+
+.check-container {
+    transition: all 0.3s ease;
+}
+
+/* Drop zone styles */
+#dropZone.drag-over {
+    border-color: #3b82f6;
+    background-color: #eff6ff;
+}
+
+.dark #dropZone.drag-over {
+    border-color: #60a5fa;
+    background-color: #1e40af20;
+}
+
+/* Progress bar animation */
+#compressionBar {
+    transition: width 0.3s ease;
+}
+
+/* Yellow button hover effect */
+#compressButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(245, 158, 11, 0.3);
+}
+</style>
+{% endblock %}

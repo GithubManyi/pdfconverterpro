@@ -1,0 +1,506 @@
+<!-- converter/templates/converter/merge_pdf.html -->
+{% extends 'home/base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}Merge PDF Files - {{ site_name|default:"PDF Converter Pro" }}{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <!-- Page Header -->
+    <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">Merge PDF Files</h1>
+        <p class="text-gray-600 dark:text-gray-300">Combine multiple PDF files into one document</p>
+    </div>
+
+    <!-- Upload Form -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-8">
+        <form method="post" enctype="multipart/form-data" class="space-y-6" id="mergeForm">
+            {% csrf_token %}
+            
+            <!-- Drag & Drop Zone -->
+            <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center hover:border-purple-500 dark:hover:border-purple-400 transition"
+                 id="dropZone">
+                <svg class="mx-auto h-16 w-16 text-purple-600 dark:text-purple-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+                </svg>
+                
+                <h3 class="text-xl font-semibold mb-2 text-gray-800 dark:text-white">Drop your PDF files here</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">Select multiple PDF files to merge</p>
+                
+                <div class="mb-4">
+                    <!-- FIXED: Add multiple attribute properly -->
+                    {% render_field form.files class="hidden" id="fileInput" multiple="multiple" %}
+                    <label for="fileInput" class="bg-purple-600 dark:bg-purple-700 text-white px-6 py-3 rounded-lg font-semibold cursor-pointer hover:bg-purple-700 dark:hover:bg-purple-600 transition inline-flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        Select PDF Files
+                    </label>
+                </div>
+                
+                <p class="text-sm text-gray-600 dark:text-gray-300">Maximum 10 files, 50MB each</p>
+                <div id="fileList" class="mt-4 space-y-2 text-sm text-left"></div>
+                
+                <!-- Hidden input to store file order -->
+                <input type="hidden" name="file_order" id="fileOrder" value="">
+            </div>
+
+            <!-- Merge Options -->
+            <div class="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4">
+                <h4 class="font-semibold text-gray-800 dark:text-white mb-3">Merge Options</h4>
+                <div class="space-y-3">
+                    <label class="flex items-center">
+                        <input type="checkbox" name="remove_blank_pages" class="h-4 w-4 text-purple-600 dark:text-purple-400 rounded" checked>
+                        <span class="ml-3 text-gray-700 dark:text-gray-300">Remove blank pages</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="checkbox" name="optimize_size" class="h-4 w-4 text-purple-600 dark:text-purple-400 rounded" checked>
+                        <span class="ml-3 text-gray-700 dark:text-gray-300">Optimize file size</span>
+                    </label>
+                    <div class="flex items-center">
+                        <span class="text-gray-700 dark:text-gray-300 mr-4">Output quality:</span>
+                        <select name="quality" class="border border-gray-300 dark:border-gray-600 rounded px-3 py-1 text-sm bg-white dark:bg-gray-800 text-gray-800 dark:text-white">
+                            <option value="high">High</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="low">Low</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- File Requirements -->
+            <!-- File Requirements -->
+            <div class="bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg p-4">
+                <h4 class="font-semibold text-gray-900 dark:text-white mb-2">📌 Important Notes</h4>
+                <ul class="text-sm text-gray-800 dark:text-gray-300 space-y-2">
+                    <li class="flex items-start">
+                        <svg class="w-4 h-4 text-blue-600 dark:text-blue-400 mt-0.5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        <span>Select multiple files at once using Ctrl+Click or drag & drop</span>
+                    </li>
+                    <li class="flex items-start">
+                        <svg class="w-4 h-4 text-blue-600 dark:text-blue-400 mt-0.5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        <span>Files are merged in the order shown below</span>
+                    </li>
+                    <li class="flex items-start">
+                        <svg class="w-4 h-4 text-blue-600 dark:text-blue-400 mt-0.5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        <span>Use the arrows to rearrange file order</span>
+                    </li>
+                    <li class="flex items-start">
+                        <svg class="w-4 h-4 text-blue-600 dark:text-blue-400 mt-0.5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        <span>Maximum total size: 100MB</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-700 dark:to-pink-700 text-white py-4 rounded-lg font-semibold text-lg hover:from-purple-700 hover:to-pink-700 dark:hover:from-purple-600 dark:hover:to-pink-600 transition flex items-center justify-center shadow-md">
+                <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+                </svg>
+                Merge PDF Files
+            </button>
+        </form>
+    </div>
+
+    <!-- Benefits & Features Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <!-- Why Merge Box -->
+        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-6">
+            <div class="flex items-center mb-4">
+                <div class="bg-yellow-100 dark:bg-purple-900/30 p-3 rounded-lg mr-4">
+                    <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-white">Why Merge PDFs?</h3>
+            </div>
+            <ul class="space-y-4">
+                <li class="flex items-start">
+                    <svg class="w-5 h-5 text-green-600 dark:text-green-400 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-1">Combine Documents</h4>
+                        <p class="text-gray-700 dark:text-gray-300">Merge reports, invoices, or multiple documents</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <svg class="w-5 h-5 text-green-600 dark:text-green-400 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-1">Create Presentations</h4>
+                        <p class="text-gray-700 dark:text-gray-300">Build presentations from multiple files</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <svg class="w-5 h-5 text-green-600 dark:text-green-400 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-1">Organize Scans</h4>
+                        <p class="text-gray-700 dark:text-gray-300">Combine scanned documents into one file</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <svg class="w-5 h-5 text-green-600 dark:text-green-400 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-1">Easy Sharing</h4>
+                        <p class="text-gray-700 dark:text-gray-300">Share multiple documents as a single file</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Features Box -->
+        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-6">
+            <div class="flex items-center mb-4">
+                <div class="bg-green-100 dark:bg-pink-900/30 p-3 rounded-lg mr-4">
+                    <svg class="w-6 h-6 text-pink-600 dark:text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-white">Key Features</h3>
+            </div>
+            <ul class="space-y-4">
+                <li class="flex items-start">
+                    <svg class="w-5 h-5 text-blue-600 dark:text-blue-400 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-1">Merge Multiple Files</h4>
+                        <p class="text-gray-700 dark:text-gray-300">Combine up to 10 PDF files at once</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <svg class="w-5 h-5 text-blue-600 dark:text-blue-400 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-1">Reorder Files</h4>
+                        <p class="text-gray-700 dark:text-gray-300">Drag to reorder files before merging</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <svg class="w-5 h-5 text-blue-600 dark:text-blue-400 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-1">Quality Preservation</h4>
+                        <p class="text-gray-700 dark:text-gray-300">Maintains original quality and formatting</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <svg class="w-5 h-5 text-blue-600 dark:text-blue-400 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-1">Secure Processing</h4>
+                        <p class="text-gray-700 dark:text-gray-300">Files automatically deleted after 24h</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow p-6">
+        <div class="flex items-center mb-6">
+            <div class="bg-blue-100 dark:bg-indigo-900/30 p-3 rounded-lg mr-4">
+                <i class="fas fa-question-circle text-indigo-600 dark:text-indigo-400 text-xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 dark:text-white">Frequently Asked Questions</h3>
+        </div>
+        <div class="space-y-6">
+            <div class="pb-4 border-b border-gray-100 dark:border-gray-700">
+                <h4 class="font-bold text-gray-800 dark:text-white mb-2 text-lg">How many files can I merge?</h4>
+                <p class="text-gray-700 dark:text-gray-300">You can merge up to 10 PDF files at once. Each file must be under 50MB.</p>
+            </div>
+            <div class="pb-4 border-b border-gray-100 dark:border-gray-700">
+                <h4 class="font-bold text-gray-800 dark:text-white mb-2 text-lg">Can I reorder the pages?</h4>
+                <p class="text-gray-700 dark:text-gray-300">Yes! You can drag and drop files to reorder them before merging.</p>
+            </div>
+            <div class="pb-4 border-b border-gray-100 dark:border-gray-700">
+                <h4 class="font-bold text-gray-800 dark:text-white mb-2 text-lg">Will the quality be preserved?</h4>
+                <p class="text-gray-700 dark:text-gray-300"><strong class="text-green-600 dark:text-green-400">Yes</strong>, we preserve the original quality of all PDFs during merging.</p>
+            </div>
+            <div>
+                <h4 class="font-bold text-gray-800 dark:text-white mb-2 text-lg">Is there a page limit?</h4>
+                <p class="text-gray-700 dark:text-gray-300">No page limit, but the total size of all files must be under 100MB.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Security Note -->
+    <div class="mt-8 bg-gray-50 dark:bg-gray-800/50 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
+        <div class="flex items-start">
+            <div class="bg-green-100 dark:bg-green-900/30 p-2 rounded-lg mr-4">
+                <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                </svg>
+            </div>
+            <div>
+                <h4 class="font-bold text-gray-800 dark:text-white mb-1">Secure & Private</h4>
+                <p class="text-gray-700 dark:text-gray-300">All uploaded files are automatically deleted after 24 hours. We use secure SSL encryption for all transfers.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const fileList = document.getElementById('fileList');
+    const fileOrder = document.getElementById('fileOrder');
+    const mergeForm = document.getElementById('mergeForm');
+    let files = [];
+    
+    // Click on drop zone to trigger file input
+    dropZone.addEventListener('click', () => fileInput.click());
+    
+    // Handle file selection - FIXED: Now appends files instead of replacing
+    fileInput.addEventListener('change', function() {
+        const newFiles = Array.from(this.files);
+        
+        // Check if adding these files would exceed limit
+        if (files.length + newFiles.length > 10) {
+            alert('Maximum 10 files allowed. You already have ' + files.length + ' files.');
+            return;
+        }
+        
+        // Check for duplicates
+        const existingFileNames = files.map(f => f.name);
+        const duplicateFiles = newFiles.filter(f => existingFileNames.includes(f.name));
+        
+        if (duplicateFiles.length > 0) {
+            alert('Some files are already selected. Duplicates will be ignored.');
+            newFiles = newFiles.filter(f => !existingFileNames.includes(f.name));
+        }
+        
+        // Check file sizes
+        let hasLargeFile = false;
+        const validFiles = [];
+        
+        newFiles.forEach(file => {
+            if (file.size > 50 * 1024 * 1024) {
+                hasLargeFile = true;
+            } else {
+                validFiles.push(file);
+            }
+        });
+        
+        if (hasLargeFile) {
+            alert('Some files exceed 50MB limit and will be ignored.');
+        }
+        
+        // Add new files to existing files
+        files = [...files, ...validFiles];
+        updateFileList();
+        updateFileInput();
+    });
+    
+    // Drag and drop functionality
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('border-purple-500', 'dark:border-purple-400', 'bg-purple-50', 'dark:bg-gray-800');
+    });
+    
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('border-purple-500', 'dark:border-purple-400', 'bg-purple-50', 'dark:bg-gray-800');
+    });
+    
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('border-purple-500', 'dark:border-purple-400', 'bg-purple-50', 'dark:bg-gray-800');
+        
+        if (e.dataTransfer.files.length > 0) {
+            // Filter only PDF files
+            const droppedFiles = Array.from(e.dataTransfer.files).filter(file => 
+                file.name.toLowerCase().endsWith('.pdf')
+            );
+            
+            if (droppedFiles.length === 0) {
+                alert('Please select PDF files only (.pdf)');
+                return;
+            }
+            
+            // Check if adding these files would exceed limit
+            if (files.length + droppedFiles.length > 10) {
+                alert('Maximum 10 files allowed. You already have ' + files.length + ' files.');
+                return;
+            }
+            
+            // Check file sizes
+            let hasLargeFile = false;
+            const validFiles = [];
+            
+            droppedFiles.forEach(file => {
+                if (file.size > 50 * 1024 * 1024) {
+                    hasLargeFile = true;
+                } else {
+                    validFiles.push(file);
+                }
+            });
+            
+            if (hasLargeFile) {
+                alert('Some files exceed 50MB limit and will be ignored.');
+            }
+            
+            // Add dropped files to existing files
+            files = [...files, ...validFiles];
+            updateFileList();
+            updateFileInput();
+        }
+    });
+    
+    function updateFileList() {
+        // Update the file list display
+        if (files.length === 0) {
+            fileList.innerHTML = '<p class="text-gray-500 dark:text-gray-400 italic">No files selected</p>';
+            return;
+        }
+        
+        let html = '<div class="font-medium mb-2 text-gray-800 dark:text-white">Selected Files (' + files.length + '):</div>';
+        html += '<div class="space-y-2">';
+        
+        files.forEach((file, index) => {
+            html += `
+                <div class="flex items-center justify-between bg-gray-100 dark:bg-gray-800 p-3 rounded-lg" data-index="${index}">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-gray-500 dark:text-gray-400 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        <div>
+                            <div class="font-medium text-gray-800 dark:text-white truncate max-w-xs">${file.name}</div>
+                            <div class="text-xs text-gray-500 dark:text-gray-400">${formatFileSize(file.size)} • Page ${index + 1} in merge order</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button type="button" class="text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 move-up" title="Move up">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
+                            </svg>
+                        </button>
+                        <button type="button" class="text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 move-down" title="Move down">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                        <button type="button" class="text-gray-400 hover:text-red-500 dark:hover:text-red-400 remove-file" title="Remove">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            `;
+        });
+        
+        html += '</div>';
+        fileList.innerHTML = html;
+        
+        // Store file order
+        fileOrder.value = files.map(f => f.name).join(',');
+        
+        // Add event listeners for file management
+        setupFileManagement();
+    }
+    
+    function updateFileInput() {
+        // Create a new DataTransfer object
+        const dataTransfer = new DataTransfer();
+        
+        // Add all files to the DataTransfer
+        files.forEach(file => {
+            dataTransfer.items.add(file);
+        });
+        
+        // Update the file input
+        fileInput.files = dataTransfer.files;
+    }
+    
+    function setupFileManagement() {
+        // Remove file
+        document.querySelectorAll('.remove-file').forEach(button => {
+            button.addEventListener('click', function() {
+                const index = parseInt(this.closest('[data-index]').getAttribute('data-index'));
+                files.splice(index, 1);
+                updateFileList();
+                updateFileInput();
+            });
+        });
+        
+        // Move file up
+        document.querySelectorAll('.move-up').forEach(button => {
+            button.addEventListener('click', function() {
+                const index = parseInt(this.closest('[data-index]').getAttribute('data-index'));
+                if (index > 0) {
+                    [files[index], files[index - 1]] = [files[index - 1], files[index]];
+                    updateFileList();
+                    updateFileInput();
+                }
+            });
+        });
+        
+        // Move file down
+        document.querySelectorAll('.move-down').forEach(button => {
+            button.addEventListener('click', function() {
+                const index = parseInt(this.closest('[data-index]').getAttribute('data-index'));
+                if (index < files.length - 1) {
+                    [files[index], files[index + 1]] = [files[index + 1], files[index]];
+                    updateFileList();
+                    updateFileInput();
+                }
+            });
+        });
+    }
+    
+    // Form submission validation
+    mergeForm.addEventListener('submit', function(e) {
+        if (files.length < 2) {
+            e.preventDefault();
+            alert('Please select at least 2 PDF files to merge.');
+            return false;
+        }
+        
+        // Check total file size
+        const totalSize = files.reduce((total, file) => total + file.size, 0);
+        if (totalSize > 100 * 1024 * 1024) { // 100MB limit
+            e.preventDefault();
+            alert('Total file size exceeds 100MB limit. Please select smaller files.');
+            return false;
+        }
+        
+        return true;
+    });
+    
+    // Helper function to format file size
+    function formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+});
+</script>
+<style>
+#dropZone.drag-over {
+    border-color: #9333ea;
+    background-color: #faf5ff;
+}
+</style>
+{% endblock %}

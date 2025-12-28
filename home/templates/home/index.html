@@ -1,0 +1,141 @@
+{% extends 'home/base.html' %}
+
+{% block title %}Free Online PDF Converter - {{ site_name }}{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-16">
+    <div class="container mx-auto px-4 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6">Convert Files Online for Free</h1>
+        <p class="text-xl mb-8 max-w-3xl mx-auto">Convert PDF, Word, Excel, Images and more with our secure online tools. No installation required.</p>
+        <div class="flex flex-wrap justify-center gap-4">
+            <a href="{% url 'pdf_to_word' %}" class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition shadow-lg">
+                <i class="fas fa-file-word mr-2"></i>Convert PDF to Word
+            </a>
+            <a href="{% url 'word_to_pdf' %}" class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition shadow-lg">
+                <i class="fas fa-file-pdf mr-2"></i>Convert Word to PDF
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- AdSense: Homepage Top -->
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto">
+        <ins class="adsbygoogle"
+             style="display:block; text-align:center;"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="1234567890"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+</div>
+
+<!-- Features -->
+<section class="py-12 bg-white">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12">Why Choose {{ site_name }}?</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="text-center p-6">
+                <div class="bg-blue-100 text-blue-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-shield-alt text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">100% Secure</h3>
+                <p class="text-gray-600">Files are automatically deleted after 1 hour. No registration required.</p>
+            </div>
+            
+            <div class="text-center p-6">
+                <div class="bg-green-100 text-green-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-bolt text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Fast Conversion</h3>
+                <p class="text-gray-600">Convert files in seconds with our optimized processing engine.</p>
+            </div>
+            
+            <div class="text-center p-6">
+                <div class="bg-yellow-100 text-purple-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-mobile-alt text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Mobile Friendly</h3>
+                <p class="text-gray-600">Works perfectly on all devices - desktop, tablet, and mobile.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Tools Grid -->
+<section class="py-12 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12">All Conversion Tools</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for tool in all_tools %}
+            <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
+                <div class="text-blue-600 text-3xl mb-4">
+                    <i class="fas fa-{{ tool.icon }}"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">{{ tool.name }}</h3>
+                <p class="text-gray-600 mb-4">{{ tool.desc }}</p>
+                <a href="{% url tool.url %}" class="text-blue-600 font-semibold hover:text-blue-800 inline-flex items-center">
+                    Convert Now <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- How It Works -->
+<section class="py-12 bg-white">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12">How It Works</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="text-center">
+                <div class="text-4xl text-blue-600 font-bold mb-2">1</div>
+                <h3 class="text-xl font-semibold mb-2">Upload File</h3>
+                <p class="text-gray-600">Select your file from computer or drag and drop</p>
+            </div>
+            <div class="text-center">
+                <div class="text-4xl text-blue-600 font-bold mb-2">2</div>
+                <h3 class="text-xl font-semibold mb-2">Convert</h3>
+                <p class="text-gray-600">Our tool processes your file automatically</p>
+            </div>
+            <div class="text-center">
+                <div class="text-4xl text-blue-600 font-bold mb-2">3</div>
+                <h3 class="text-xl font-semibold mb-2">Download</h3>
+                <p class="text-gray-600">Get your converted file instantly</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section class="py-12 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-8">Frequently Asked Questions</h2>
+        <div class="max-w-3xl mx-auto space-y-6">
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h3 class="font-semibold text-lg mb-2">Is this service really free?</h3>
+                <p class="text-gray-600">Yes! All our conversion tools are completely free with no hidden charges.</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h3 class="font-semibold text-lg mb-2">What file formats are supported?</h3>
+                <p class="text-gray-600">We support PDF, DOC, DOCX, XLS, XLSX, JPG, PNG, and more. Check each tool for specific formats.</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h3 class="font-semibold text-lg mb-2">Are my files secure?</h3>
+                <p class="text-gray-600">Absolutely. All files are automatically deleted within 1 hour. We never store or share your files.</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h3 class="font-semibold text-lg mb-2">Is there a file size limit?</h3>
+                <p class="text-gray-600">Yes, maximum file size is 10MB per file to ensure fast processing for all users.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

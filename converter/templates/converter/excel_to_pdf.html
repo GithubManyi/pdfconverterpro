@@ -1,0 +1,562 @@
+{% extends 'home/base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}Excel to PDF Converter - PDF Converter Pro{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <!-- Page Header -->
+    <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">Excel to PDF Converter</h1>
+        <p class="text-gray-700 dark:text-gray-300">Convert Excel spreadsheets (.xls, .xlsx) to professional PDF documents</p>
+    </div>
+
+    <!-- Upload Form -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-8">
+        <form method="post" enctype="multipart/form-data" class="space-y-6">
+            {% csrf_token %}
+            
+            {% if form.errors %}
+            <div class="bg-red-50 dark:bg-red-900/30 border-l-4 border-red-600 p-4">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-red-600 dark:text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm text-red-800 dark:text-red-200">
+                            Please fix the errors below.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Drag & Drop Zone -->
+            <div class="border-2 border-dashed border-gray-400 dark:border-gray-600 rounded-lg p-8 text-center hover:border-green-600 dark:hover:border-green-500 transition"
+                 id="dropZone">
+                <i class="fas fa-file-excel text-6xl text-green-700 dark:text-green-400 mb-4"></i>
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Drop your Excel file here</h3>
+                <p class="text-gray-700 dark:text-gray-300 mb-4">Supports .xls and .xlsx formats</p>
+                
+                <div class="mb-4">
+                    {% render_field form.file class="hidden" id="fileInput" %}
+                    <label for="fileInput" class="bg-gradient-to-r from-green-700 to-blue-700 text-white px-6 py-3 rounded-lg font-semibold cursor-pointer hover:from-green-800 hover:to-blue-800 transition inline-flex items-center shadow-md">
+                        <i class="fas fa-upload mr-2"></i>Choose Excel File
+                    </label>
+                </div>
+                
+                <p class="text-sm text-gray-600 dark:text-gray-400">Maximum file size: 50MB</p>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2" id="fileName">No file selected</p>
+            </div>
+
+            <!-- Layout Options -->
+            <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6">
+                <h3 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">PDF Layout Options</h3>
+                
+                <div class="space-y-6">
+                    <!-- Page Settings -->
+                    <div>
+                        <h4 class="font-medium text-gray-900 dark:text-white mb-3">Page Settings</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block mb-2 font-medium text-gray-900 dark:text-white">Page Size</label>
+                                <select name="page_size" class="w-full px-4 py-2 border border-gray-400 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+                                    <option value="letter">Letter (8.5" x 11")</option>
+                                    <option value="a4" selected>A4 (210mm x 297mm)</option>
+                                    <option value="legal">Legal (8.5" x 14")</option>
+                                    <option value="a3">A3 (297mm x 420mm)</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block mb-2 font-medium text-gray-900 dark:text-white">Orientation</label>
+                                <select name="orientation" class="w-full px-4 py-2 border border-gray-400 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+                                    <option value="portrait" selected>Portrait</option>
+                                    <option value="landscape">Landscape</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Worksheet Options -->
+                    <div>
+                        <h4 class="font-medium text-gray-900 dark:text-white mb-3">Worksheet Options</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label class="block mb-2 font-medium text-gray-900 dark:text-white">Worksheet Selection</label>
+                                <select name="worksheet" class="w-full px-4 py-2 border border-gray-400 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+                                    <option value="first" selected>First worksheet only</option>
+                                    <option value="active">Active worksheet only</option>
+                                    <option value="all">All worksheets</option>
+                                    <option value="selection">Selected worksheets</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block mb-2 font-medium text-gray-900 dark:text-white">Print Quality</label>
+                                <select name="quality" class="w-full px-4 py-2 border border-gray-400 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+                                    <option value="standard" selected>Standard</option>
+                                    <option value="high">High Quality</option>
+                                    <option value="print">Print Ready</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-3">
+                            <label class="flex items-start p-3 bg-white dark:bg-gray-900 rounded border border-gray-300 dark:border-gray-700 hover:bg-green-50 dark:hover:bg-green-900/30 cursor-pointer">
+                                <input type="checkbox" name="fit_to_page" class="h-4 w-4 text-green-700 dark:text-green-500 mt-1" checked>
+                                <div class="ml-3">
+                                    <span class="font-medium text-gray-900 dark:text-white">Fit worksheet to one page</span>
+                                    <p class="text-sm text-gray-700 dark:text-gray-300">Adjust content to fit on single page</p>
+                                </div>
+                            </label>
+                            
+                            <label class="flex items-start p-3 bg-white dark:bg-gray-900 rounded border border-gray-300 dark:border-gray-700 hover:bg-green-50 dark:hover:bg-green-900/30 cursor-pointer">
+                                <input type="checkbox" name="include_gridlines" class="h-4 w-4 text-green-700 dark:text-green-500 mt-1" checked>
+                                <div class="ml-3">
+                                    <span class="font-medium text-gray-900 dark:text-white">Include gridlines</span>
+                                    <p class="text-sm text-gray-700 dark:text-gray-300">Show Excel gridlines in PDF</p>
+                                </div>
+                            </label>
+                            
+                            <label class="flex items-start p-3 bg-white dark:bg-gray-900 rounded border border-gray-300 dark:border-gray-700 hover:bg-green-50 dark:hover:bg-green-900/30 cursor-pointer">
+                                <input type="checkbox" name="include_headers" class="h-4 w-4 text-green-700 dark:text-green-500 mt-1" checked>
+                                <div class="ml-3">
+                                    <span class="font-medium text-gray-900 dark:text-white">Include headers and footers</span>
+                                    <p class="text-sm text-gray-700 dark:text-gray-300">Add page numbers and file info</p>
+                                </div>
+                            </label>
+                            
+                            <label class="flex items-start p-3 bg-white dark:bg-gray-900 rounded border border-gray-300 dark:border-gray-700 hover:bg-green-50 dark:hover:bg-green-900/30 cursor-pointer">
+                                <input type="checkbox" name="repeat_headers" class="h-4 w-4 text-green-700 dark:text-green-500 mt-1">
+                                <div class="ml-3">
+                                    <span class="font-medium text-gray-900 dark:text-white">Repeat row headers on each page</span>
+                                    <p class="text-sm text-gray-700 dark:text-gray-300">Useful for multi-page tables</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Advanced Options -->
+                    <div>
+                        <h4 class="font-medium text-gray-900 dark:text-white mb-3">Advanced Options</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block mb-2 font-medium text-gray-900 dark:text-white">Cell Borders</label>
+                                <select name="cell_borders" class="w-full px-4 py-2 border border-gray-400 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+                                    <option value="all" selected>All borders</option>
+                                    <option value="outer">Outer borders only</option>
+                                    <option value="none">No borders</option>
+                                    <option value="grid">Grid style</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block mb-2 font-medium text-gray-900 dark:text-white">Color Mode</label>
+                                <select name="color_mode" class="w-full px-4 py-2 border border-gray-400 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+                                    <option value="color" selected>Color</option>
+                                    <option value="grayscale">Grayscale</option>
+                                    <option value="blackwhite">Black & White</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="w-full bg-gradient-to-r from-green-700 to-blue-700 text-white py-4 rounded-lg font-semibold text-lg hover:from-green-800 hover:to-blue-800 transition flex items-center justify-center shadow-lg">
+                <i class="fas fa-file-pdf mr-3"></i> Convert Excel to PDF
+            </button>
+        </form>
+    </div>
+
+    <!-- Benefits & Features Grid - FIXED SECTION -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <!-- Why Convert Box -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg border-2 border-green-200 dark:border-green-700">
+            <h3 class="text-2xl font-bold mb-4 text-green-900 dark:text-green-300 flex items-center">
+                <i class="fas fa-file-pdf mr-3 text-green-700 dark:text-green-400"></i>
+                Why Convert Excel to PDF?
+            </h3>
+            <ul class="space-y-4">
+                <li class="flex items-start">
+                    <i class="fas fa-check-circle text-green-700 dark:text-green-400 mt-1 mr-3 flex-shrink-0 text-xl"></i>
+                    <div>
+                        <strong class="text-gray-900 dark:text-white text-lg">Preserve Formatting:</strong>
+                        <p class="text-gray-700 dark:text-gray-300 mt-1">PDFs maintain exact Excel layout, formulas, and styling</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-check-circle text-green-700 dark:text-green-400 mt-1 mr-3 flex-shrink-0 text-xl"></i>
+                    <div>
+                        <strong class="text-gray-900 dark:text-white text-lg">Secure Sharing:</strong>
+                        <p class="text-gray-700 dark:text-gray-300 mt-1">Prevent unauthorized edits and protect sensitive data</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-check-circle text-green-700 dark:text-green-400 mt-1 mr-3 flex-shrink-0 text-xl"></i>
+                    <div>
+                        <strong class="text-gray-900 dark:text-white text-lg">Professional Printing:</strong>
+                        <p class="text-gray-700 dark:text-gray-300 mt-1">High-quality output perfect for reports and presentations</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-check-circle text-green-700 dark:text-green-400 mt-1 mr-3 flex-shrink-0 text-xl"></i>
+                    <div>
+                        <strong class="text-gray-900 dark:text-white text-lg">Universal Access:</strong>
+                        <p class="text-gray-700 dark:text-gray-300 mt-1">Opens on any device without requiring Excel software</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Features Box -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg border-2 border-blue-200 dark:border-blue-700">
+            <h3 class="text-2xl font-bold mb-4 text-blue-900 dark:text-blue-300 flex items-center">
+                <i class="fas fa-star mr-3 text-blue-700 dark:text-blue-400"></i>
+                Key Features
+            </h3>
+            <ul class="space-y-4">
+                <li class="flex items-start">
+                    <i class="fas fa-check text-blue-700 dark:text-blue-400 mt-1 mr-3 flex-shrink-0 text-xl"></i>
+                    <div>
+                        <strong class="text-gray-900 dark:text-white text-lg">Multiple Worksheets:</strong>
+                        <p class="text-gray-700 dark:text-gray-300 mt-1">Convert single sheets or entire workbooks</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-check text-blue-700 dark:text-blue-400 mt-1 mr-3 flex-shrink-0 text-xl"></i>
+                    <div>
+                        <strong class="text-gray-900 dark:text-white text-lg">Custom Layout:</strong>
+                        <p class="text-gray-700 dark:text-gray-300 mt-1">Full control over page size, orientation, and margins</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-check text-blue-700 dark:text-blue-400 mt-1 mr-3 flex-shrink-0 text-xl"></i>
+                    <div>
+                        <strong class="text-gray-900 dark:text-white text-lg">High Quality:</strong>
+                        <p class="text-gray-700 dark:text-gray-300 mt-1">Print-ready PDF output with crisp text and graphics</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-check text-blue-700 dark:text-blue-400 mt-1 mr-3 flex-shrink-0 text-xl"></i>
+                    <div>
+                        <strong class="text-gray-900 dark:text-white text-lg">Fast Processing:</strong>
+                        <p class="text-gray-700 dark:text-gray-300 mt-1">Convert large Excel files quickly and efficiently</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Preview Section -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-8">
+        <h3 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Conversion Preview</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+                <h4 class="font-bold text-xl mb-3 text-green-800 dark:text-green-300">
+                    <i class="fas fa-file-excel mr-2"></i>Excel Input Preview
+                </h4>
+                <div class="bg-gray-100 dark:bg-gray-900 p-6 rounded-lg border-2 border-gray-300 dark:border-gray-700">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white dark:bg-gray-800 shadow-lg">
+                            <thead class="bg-gradient-to-r from-green-600 to-green-700 text-white">
+                                <tr>
+                                    <th class="py-3 px-4 border-2 border-gray-300 dark:border-gray-600 text-left font-bold">Department</th>
+                                    <th class="py-3 px-4 border-2 border-gray-300 dark:border-gray-600 text-center font-bold">Q1</th>
+                                    <th class="py-3 px-4 border-2 border-gray-300 dark:border-gray-600 text-center font-bold">Q2</th>
+                                    <th class="py-3 px-4 border-2 border-gray-300 dark:border-gray-600 text-center font-bold">Growth</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
+                                    <td class="py-3 px-4 border-2 border-gray-300 dark:border-gray-600 font-bold text-gray-900 dark:text-white">Sales</td>
+                                    <td class="py-3 px-4 border-2 border-gray-300 dark:border-gray-600 text-center text-gray-900 dark:text-white">$12,500</td>
+                                    <td class="py-3 px-4 border-2 border-gray-300 dark:border-gray-600 text-center text-gray-900 dark:text-white">$15,800</td>
+                                    <td class="py-3 px-4 border-2 border-gray-300 dark:border-gray-600 text-center text-green-700 dark:text-green-400 font-bold">+26%</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
+                                    <td class="py-3 px-4 border-2 border-gray-300 dark:border-gray-600 font-bold text-gray-900 dark:text-white">Marketing</td>
+                                    <td class="py-3 px-4 border-2 border-gray-300 dark:border-gray-600 text-center text-gray-900 dark:text-white">$8,200</td>
+                                    <td class="py-3 px-4 border-2 border-gray-300 dark:border-gray-600 text-center text-gray-900 dark:text-white">$9,500</td>
+                                    <td class="py-3 px-4 border-2 border-gray-300 dark:border-gray-600 text-center text-green-700 dark:text-green-400 font-bold">+16%</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
+                                    <td class="py-3 px-4 border-2 border-gray-300 dark:border-gray-600 font-bold text-gray-900 dark:text-white">Operations</td>
+                                    <td class="py-3 px-4 border-2 border-gray-300 dark:border-gray-600 text-center text-gray-900 dark:text-white">$6,500</td>
+                                    <td class="py-3 px-4 border-2 border-gray-300 dark:border-gray-600 text-center text-gray-900 dark:text-white">$7,200</td>
+                                    <td class="py-3 px-4 border-2 border-gray-300 dark:border-gray-600 text-center text-green-700 dark:text-green-400 font-bold">+11%</td>
+                                </tr>
+                                <tr class="bg-gray-200 dark:bg-gray-700 font-bold">
+                                    <td class="py-3 px-4 border-2 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white">Total</td>
+                                    <td class="py-3 px-4 border-2 border-gray-300 dark:border-gray-600 text-center text-gray-900 dark:text-white">$27,200</td>
+                                    <td class="py-3 px-4 border-2 border-gray-300 dark:border-gray-600 text-center text-gray-900 dark:text-white">$32,500</td>
+                                    <td class="py-3 px-4 border-2 border-gray-300 dark:border-gray-600 text-center text-blue-700 dark:text-blue-400 font-bold">+19%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <h4 class="font-bold text-xl mb-3 text-red-800 dark:text-red-300">
+                    <i class="fas fa-arrow-right mr-2"></i>PDF Output Preview
+                </h4>
+                <div class="bg-gray-100 dark:bg-gray-900 p-8 rounded-lg border-2 border-gray-300 dark:border-gray-700">
+                    <div class="text-center mb-6">
+                        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border-2 border-gray-200 dark:border-gray-700 inline-block">
+                            <i class="fas fa-file-pdf text-6xl text-red-600 dark:text-red-400 mb-3"></i>
+                            <p class="font-bold text-xl text-gray-900 dark:text-white">Financial Report Q2 2024</p>
+                            <p class="text-base text-gray-700 dark:text-gray-300 mt-2">Generated: August 15, 2024</p>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg border-l-4 border-green-600">
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-gray-900 dark:text-white">Page Format:</span>
+                                <span class="text-green-700 dark:text-green-400 font-bold">A4 Portrait</span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg border-l-4 border-blue-600">
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-gray-900 dark:text-white">Included:</span>
+                                <span class="text-blue-700 dark:text-blue-400 font-bold">Gridlines & Headers</span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg border-l-4 border-purple-600">
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-gray-900 dark:text-white">Quality:</span>
+                                <span class="text-purple-700 dark:text-purple-400 font-bold">Print Ready</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Perfect for Section -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 mb-8 shadow-lg border-2 border-gray-200 dark:border-gray-700">
+        <h3 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
+            <i class="fas fa-briefcase mr-3"></i>Perfect for These Documents:
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="text-center bg-gray-50 dark:bg-gray-900 p-4 rounded-lg hover:shadow-lg transition border-2 border-gray-200 dark:border-gray-700">
+                <div class="bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-400 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-chart-line text-xl"></i>
+                </div>
+                <p class="font-bold text-lg text-gray-900 dark:text-white">Financial Reports</p>
+                <p class="text-sm text-gray-700 dark:text-gray-300 mt-1">Balance sheets, P&L statements</p>
+            </div>
+            <div class="text-center bg-gray-50 dark:bg-gray-900 p-4 rounded-lg hover:shadow-lg transition border-2 border-gray-200 dark:border-gray-700">
+                <div class="bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-400 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-users text-xl"></i>
+                </div>
+                <p class="font-bold text-lg text-gray-900 dark:text-white">Team Reports</p>
+                <p class="text-sm text-gray-700 dark:text-gray-300 mt-1">Performance metrics</p>
+            </div>
+            <div class="text-center bg-gray-50 dark:bg-gray-900 p-4 rounded-lg hover:shadow-lg transition border-2 border-gray-200 dark:border-gray-700">
+                <div class="bg-purple-100 dark:bg-purple-900/50 text-purple-700 dark:text-purple-400 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-clipboard-list text-xl"></i>
+                </div>
+                <p class="font-bold text-lg text-gray-900 dark:text-white">Data Analysis</p>
+                <p class="text-sm text-gray-700 dark:text-gray-300 mt-1">Charts and tables</p>
+            </div>
+            <div class="text-center bg-gray-50 dark:bg-gray-900 p-4 rounded-lg hover:shadow-lg transition border-2 border-gray-200 dark:border-gray-700">
+                <div class="bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-400 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-file-invoice text-xl"></i>
+                </div>
+                <p class="font-bold text-lg text-gray-900 dark:text-white">Invoices</p>
+                <p class="text-sm text-gray-700 dark:text-gray-300 mt-1">Professional billing</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tips Section -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-8">
+        <h3 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Tips for Best Results</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <h4 class="font-bold text-lg mb-3 text-green-800 dark:text-green-300">
+                    <i class="fas fa-lightbulb mr-2"></i>For Better Layout:
+                </h4>
+                <ul class="space-y-3 text-gray-800 dark:text-gray-300">
+                    <li class="flex items-start">
+                        <i class="fas fa-check text-green-700 dark:text-green-400 mt-1 mr-3 text-base"></i>
+                        <span><strong class="text-gray-900 dark:text-white">Use "Fit to page"</strong> for spreadsheets that are slightly too large</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check text-green-700 dark:text-green-400 mt-1 mr-3 text-base"></i>
+                        <span><strong class="text-gray-900 dark:text-white">Choose Landscape</strong> orientation for wide tables</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check text-green-700 dark:text-green-400 mt-1 mr-3 text-base"></i>
+                        <span><strong class="text-gray-900 dark:text-white">Include headers/footers</strong> for multi-page documents</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check text-green-700 dark:text-green-400 mt-1 mr-3 text-base"></i>
+                        <span><strong class="text-gray-900 dark:text-white">Use A4 size</strong> for international compatibility</span>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold text-lg mb-3 text-blue-800 dark:text-blue-300">
+                    <i class="fas fa-cogs mr-2"></i>Technical Tips:
+                </h4>
+                <ul class="space-y-3 text-gray-800 dark:text-gray-300">
+                    <li class="flex items-start">
+                        <i class="fas fa-check text-blue-700 dark:text-blue-400 mt-1 mr-3 text-base"></i>
+                        <span><strong class="text-gray-900 dark:text-white">Clean your data</strong> before conversion</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check text-blue-700 dark:text-blue-400 mt-1 mr-3 text-base"></i>
+                        <span><strong class="text-gray-900 dark:text-white">Check formatting</strong> in Excel first</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check text-blue-700 dark:text-blue-400 mt-1 mr-3 text-base"></i>
+                        <span><strong class="text-gray-900 dark:text-white">Use Print Preview</strong> in Excel to check layout</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check text-blue-700 dark:text-blue-400 mt-1 mr-3 text-base"></i>
+                        <span><strong class="text-gray-900 dark:text-white">Save as .xlsx</strong> for best compatibility</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-8">
+        <h3 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Frequently Asked Questions</h3>
+        <div class="space-y-6">
+            <div class="border-b-2 border-gray-300 dark:border-gray-700 pb-4">
+                <h4 class="font-bold text-lg text-gray-900 dark:text-white mb-2">Will my Excel formatting be preserved?</h4>
+                <p class="text-gray-800 dark:text-gray-300"><strong class="text-gray-900 dark:text-white">Yes!</strong> Our converter preserves all cell formatting, colors, fonts, and formulas (displayed as values). Tables, charts, and conditional formatting are maintained in the PDF.</p>
+            </div>
+            <div class="border-b-2 border-gray-300 dark:border-gray-700 pb-4">
+                <h4 class="font-bold text-lg text-gray-900 dark:text-white mb-2">Can I convert multiple worksheets?</h4>
+                <p class="text-gray-800 dark:text-gray-300"><strong class="text-gray-900 dark:text-white">Absolutely!</strong> You can choose to convert the first sheet, active sheet, or all worksheets. For multiple sheets, each worksheet becomes a separate page in the PDF.</p>
+            </div>
+            <div class="border-b-2 border-gray-300 dark:border-gray-700 pb-4">
+                <h4 class="font-bold text-lg text-gray-900 dark:text-white mb-2">What's the best page size for printing?</h4>
+                <p class="text-gray-800 dark:text-gray-300"><strong class="text-gray-900 dark:text-white">A4 is recommended</strong> for international documents. Choose "Letter" for US printing. Use "Fit to page" to automatically adjust content to the selected page size.</p>
+            </div>
+            <div>
+                <h4 class="font-bold text-lg text-gray-900 dark:text-white mb-2">How organized will the PDF be?</h4>
+                <p class="text-gray-800 dark:text-gray-300">Very organized! The PDF will include:
+                <ul class="list-disc pl-6 mt-3 text-gray-800 dark:text-gray-300 space-y-2">
+                    <li class="font-medium">Exact Excel layout and formatting</li>
+                    <li class="font-medium">Professional headers and footers (optional)</li>
+                    <li class="font-medium">Page numbers for multi-page documents</li>
+                    <li class="font-medium">Print-ready margins and spacing</li>
+                    <li class="font-medium">Searchable text (not just images)</li>
+                </ul>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Security Note - FIXED SECTION -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg border-2 border-gray-200 dark:border-gray-700">
+        <div class="flex items-start">
+            <i class="fas fa-shield-alt text-green-700 dark:text-green-400 mt-1 mr-4 text-2xl"></i>
+            <div>
+                <h4 class="font-bold text-lg text-gray-900 dark:text-white mb-2">Secure & Private Conversion</h4>
+                <p class="text-gray-700 dark:text-gray-300">Your Excel files are processed securely and automatically deleted after 24 hours. We never store or share your sensitive financial data. All conversions are encrypted end-to-end.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const fileName = document.getElementById('fileName');
+    
+    dropZone.addEventListener('click', () => fileInput.click());
+    
+    fileInput.addEventListener('change', function() {
+        if (this.files.length > 0) {
+            const file = this.files[0];
+            const fileExt = file.name.split('.').pop().toLowerCase();
+            
+            if (!['xls', 'xlsx'].includes(fileExt)) {
+                alert('Please select an Excel file (.xls or .xlsx)');
+                this.value = '';
+                fileName.textContent = 'No file selected';
+                dropZone.classList.remove('border-green-600', 'dark:border-green-500', 'bg-green-50', 'dark:bg-green-900/20');
+                return;
+            }
+            
+            fileName.textContent = `Selected: ${file.name} (${formatFileSize(file.size)})`;
+            dropZone.classList.add('border-green-600', 'dark:border-green-500', 'bg-green-50', 'dark:bg-green-900/20');
+            
+            if (file.size > 50 * 1024 * 1024) {
+                alert('File size exceeds 50MB limit. Please choose a smaller file.');
+                this.value = '';
+                fileName.textContent = 'No file selected';
+                dropZone.classList.remove('border-green-600', 'dark:border-green-500', 'bg-green-50', 'dark:bg-green-900/20');
+            }
+        }
+    });
+    
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('border-green-600', 'dark:border-green-500', 'bg-green-50', 'dark:bg-green-900/20');
+    });
+    
+    dropZone.addEventListener('dragleave', () => {
+        if (!fileInput.files.length) {
+            dropZone.classList.remove('border-green-600', 'dark:border-green-500', 'bg-green-50', 'dark:bg-green-900/20');
+        }
+    });
+    
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        
+        if (e.dataTransfer.files.length > 0) {
+            const file = e.dataTransfer.files[0];
+            const fileExt = file.name.split('.').pop().toLowerCase();
+            
+            if (!['xls', 'xlsx'].includes(fileExt)) {
+                alert('Please select an Excel file (.xls or .xlsx)');
+                return;
+            }
+            
+            if (file.size > 50 * 1024 * 1024) {
+                alert('File size exceeds 50MB limit. Please choose a smaller file.');
+                return;
+            }
+            
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            fileInput.files = dataTransfer.files;
+            
+            fileName.textContent = `Selected: ${file.name} (${formatFileSize(file.size)})`;
+            dropZone.classList.add('border-green-600', 'dark:border-green-500', 'bg-green-50', 'dark:bg-green-900/20');
+            
+            const event = new Event('change', { bubbles: true });
+            fileInput.dispatchEvent(event);
+        }
+    });
+    
+    function formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+});
+</script>
+{% endblock %}

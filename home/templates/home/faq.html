@@ -1,0 +1,113 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block title %}FAQ - PDF Converter Pro{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-12">
+    <div class="max-w-3xl mx-auto">
+        <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-2">Frequently Asked Questions</h1>
+        <p class="text-gray-700 dark:text-gray-300 mb-12">Find quick answers to common questions</p>
+
+        <div class="space-y-6">
+            <!-- General Questions -->
+            <div>
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">🤔 General Questions</h2>
+                <div class="space-y-4">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
+                        <h3 class="text-lg font-semibold text-blue-600 dark:text-blue-400 mb-2">Is PDF Converter Pro really free?</h3>
+                        <p class="text-gray-700 dark:text-gray-300">Yes! All features are completely free with no hidden charges, watermarks, or usage limits. We believe in providing accessible tools for everyone.</p>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
+                        <h3 class="text-lg font-semibold text-blue-600 dark:text-blue-400 mb-2">Do I need to create an account?</h3>
+                        <p class="text-gray-700 dark:text-gray-300">No account required. Start converting immediately without any registration. Your privacy is important to us.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical Questions -->
+            <div>
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">🔧 Technical Questions</h2>
+                <div class="space-y-4">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
+                        <h3 class="text-lg font-semibold text-green-600 dark:text-green-400 mb-2">What file formats are supported?</h3>
+                        <p class="text-gray-700 dark:text-gray-300 mb-2"><strong class="text-gray-900 dark:text-white">Input formats:</strong></p>
+                        <ul class="list-disc pl-5 text-gray-700 dark:text-gray-300 mb-3 space-y-1">
+                            <li>PDF (.pdf) - all tools</li>
+                            <li>Word (.doc, .docx) - for PDF conversion</li>
+                            <li>Excel (.xls, .xlsx) - for PDF conversion</li>
+                            <li>Images (.jpg, .png, .bmp, .tiff) - for PDF creation</li>
+                        </ul>
+                        <p class="text-gray-700 dark:text-gray-300"><strong class="text-gray-900 dark:text-white">Output formats:</strong> PDF, DOCX, ZIP (for split PDFs)</p>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
+                        <h3 class="text-lg font-semibold text-green-600 dark:text-green-400 mb-2">What's the maximum file size?</h3>
+                        <p class="text-gray-700 dark:text-gray-300">50MB per file. For larger files, try our compress tool first to reduce size, then convert.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Privacy & Security -->
+            <div>
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">🔒 Privacy & Security</h2>
+                <div class="space-y-4">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
+                        <h3 class="text-lg font-semibold text-red-600 dark:text-red-400 mb-2">Are my files safe?</h3>
+                        <p class="text-gray-700 dark:text-gray-300">Absolutely. We implement multiple security measures:</p>
+                        <ul class="list-disc pl-5 text-gray-700 dark:text-gray-300 mt-2 space-y-1">
+                            <li>SSL encryption for all transfers</li>
+                            <li>Automatic file deletion after 24 hours</li>
+                            <li>No human access to your files</li>
+                            <li>Isolated processing servers</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
+                        <h3 class="text-lg font-semibold text-red-600 dark:text-red-400 mb-2">Do you store my documents?</h3>
+                        <p class="text-gray-700 dark:text-gray-300">Files are temporarily stored during processing (max 24 hours) then automatically and permanently deleted. We don't archive or keep backups of user files.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Troubleshooting -->
+            <div>
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">🛠️ Troubleshooting</h2>
+                <div class="space-y-4">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
+                        <h3 class="text-lg font-semibold text-yellow-600 dark:text-yellow-400 mb-2">Conversion failed. What should I do?</h3>
+                        <p class="text-gray-700 dark:text-gray-300 mb-2">Try these steps:</p>
+                        <ol class="list-decimal pl-5 text-gray-700 dark:text-gray-300 space-y-1">
+                            <li>Check if file is corrupted - try opening it locally</li>
+                            <li>Ensure file isn't password protected</li>
+                            <li>Try a different browser (Chrome/Firefox recommended)</li>
+                            <li>Reduce file size using compression</li>
+                            <li>Contact support with error details</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
+                        <h3 class="text-lg font-semibold text-yellow-600 dark:text-yellow-400 mb-2">Why is formatting lost in PDF to Word conversion?</h3>
+                        <p class="text-gray-700 dark:text-gray-300">Complex layouts with multiple columns, text boxes, or unusual fonts may not convert perfectly. For best results:</p>
+                        <ul class="list-disc pl-5 text-gray-700 dark:text-gray-300 mt-2 space-y-1">
+                            <li>Use simple, single-column layouts</li>
+                            <li>Avoid embedded fonts when possible</li>
+                            <li>For scanned documents, try the OCR option</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Still have questions - FIXED -->
+        <div class="mt-12 text-center bg-white dark:bg-gray-800 rounded-lg p-8 shadow-lg border-2 border-gray-200 dark:border-gray-700">
+            <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Still have questions?</h3>
+            <p class="text-gray-700 dark:text-gray-300 mb-6">We're here to help! Contact our support team.</p>
+            <a href="{% url 'contact' %}" class="bg-blue-600 dark:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 dark:hover:bg-blue-600 transition shadow-md">
+                Contact Support
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

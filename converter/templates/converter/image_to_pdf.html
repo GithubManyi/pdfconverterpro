@@ -1,0 +1,474 @@
+<!-- converter/templates/converter/image_to_pdf.html -->
+{% extends 'home/base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}Convert Images to PDF - {{ site_name }}{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <!-- Page Header -->
+    <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">Image to PDF Converter</h1>
+        <p class="text-gray-700 dark:text-gray-300">Convert multiple images to a single PDF document</p>
+    </div>
+
+    <!-- Upload Form -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-8">
+        <form method="post" enctype="multipart/form-data" class="space-y-6">
+            {% csrf_token %}
+            
+            <!-- Hidden fields for placement and page numbers -->
+            <input type="hidden" name="placement" id="placementInput" value="fit">
+            <input type="hidden" name="add_page_numbers" id="pageNumbersInput" value="false">
+            
+            <!-- Display form errors -->
+            {% if form.errors %}
+            <div class="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-700 text-red-700 dark:text-red-300 px-4 py-3 rounded mb-4">
+                <p class="font-semibold">Please fix the following errors:</p>
+                <ul class="list-disc pl-5 mt-2">
+                    {% for field, errors in form.errors.items %}
+                        {% for error in errors %}
+                            <li>{{ field|title }}: {{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            
+            <!-- Drag & Drop Zone -->
+            <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center hover:border-pink-500 dark:hover:border-pink-500 transition"
+                 id="dropZone">
+                <i class="fas fa-images text-5xl text-pink-500 dark:text-pink-400 mb-4"></i>
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Drop your images here</h3>
+                <p class="text-gray-700 dark:text-gray-300 mb-4">Supports JPG, PNG, and other image formats</p>
+                
+                <!-- File input -->
+                <div class="mb-4">
+                    {% render_field form.files class="hidden" id="id_files" %}
+                    <label for="id_files" class="bg-gradient-to-r from-pink-600 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold cursor-pointer hover:from-pink-700 hover:to-purple-700 transition inline-flex items-center shadow-md">
+                        <i class="fas fa-plus-circle mr-2"></i>Select Images
+                    </label>
+                </div>
+                
+                <p class="text-sm text-gray-600 dark:text-gray-400">Maximum 20 images, 50MB each</p>
+                <div id="imagePreview" class="mt-4 grid grid-cols-3 gap-2"></div>
+                <div id="fileList" class="mt-4 space-y-2"></div>
+            </div>
+
+            <!-- Page Size Field -->
+            <div>
+                <h4 class="font-medium text-gray-900 dark:text-white mb-3">Page Size:</h4>
+                {% render_field form.page_size class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-pink-500 focus:border-pink-500" %}
+            </div>
+
+            <!-- Orientation Field -->
+            <div>
+                <h4 class="font-medium text-gray-900 dark:text-white mb-3">Page Orientation:</h4>
+                {% render_field form.orientation class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-pink-500 focus:border-pink-500" %}
+            </div>
+
+            <!-- Layout Options -->
+            <div class="space-y-6">
+                <div>
+                    <h4 class="font-medium text-gray-900 dark:text-white mb-3">Image Placement:</h4>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <label class="flex flex-col items-center p-3 border-2 border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer hover:border-blue-400 dark:hover:border-blue-500 bg-white dark:bg-gray-900">
+                            <input type="radio" name="placement" value="fit" checked class="hidden placement-radio">
+                            <i class="fas fa-expand-alt text-2xl text-blue-500 dark:text-blue-400 mb-2"></i>
+                            <span class="text-sm text-gray-900 dark:text-white">Fit to page</span>
+                        </label>
+                        
+                        <label class="flex flex-col items-center p-3 border-2 border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer hover:border-green-400 dark:hover:border-green-500 bg-white dark:bg-gray-900">
+                            <input type="radio" name="placement" value="full" class="hidden placement-radio">
+                            <i class="fas fa-expand text-2xl text-green-500 dark:text-green-400 mb-2"></i>
+                            <span class="text-sm text-gray-900 dark:text-white">Full page</span>
+                        </label>
+                        
+                        <label class="flex flex-col items-center p-3 border-2 border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer hover:border-purple-400 dark:hover:border-purple-500 bg-white dark:bg-gray-900">
+                            <input type="radio" name="placement" value="center" class="hidden placement-radio">
+                            <i class="fas fa-dot-circle text-2xl text-purple-500 dark:text-purple-400 mb-2"></i>
+                            <span class="text-sm text-gray-900 dark:text-white">Centered</span>
+                        </label>
+                        
+                        <label class="flex flex-col items-center p-3 border-2 border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer hover:border-orange-400 dark:hover:border-orange-500 bg-white dark:bg-gray-900">
+                            <input type="radio" name="placement" value="multiple" class="hidden placement-radio">
+                            <i class="fas fa-th-large text-2xl text-orange-500 dark:text-orange-400 mb-2"></i>
+                            <span class="text-sm text-gray-900 dark:text-white">Multiple per page</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="flex items-center cursor-pointer">
+                        <input type="checkbox" name="add_page_numbers" class="mr-3 page-numbers-checkbox">
+                        <span class="text-gray-900 dark:text-white">Add page numbers to PDF</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Image Ordering -->
+            <div id="orderingSection" class="bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg p-6 hidden">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Arrange Images</h3>
+                <p class="text-gray-700 dark:text-gray-300 mb-4">Drag and drop to rearrange image order:</p>
+                <div id="sortableImages" class="space-y-3"></div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="w-full bg-gradient-to-r from-pink-600 to-purple-600 text-white py-4 rounded-lg font-semibold text-lg hover:from-pink-700 hover:to-purple-700 transition flex items-center justify-center shadow-lg">
+                <i class="fas fa-file-pdf mr-3"></i> Convert Images to PDF
+            </button>
+        </form>
+    </div>
+
+
+    <!-- Preview -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-8">
+        <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">How Your PDF Will Look</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="text-center">
+                <div class="bg-gray-100 dark:bg-gray-900 p-6 rounded-lg mb-4 h-48 flex items-center justify-center">
+                    <div class="relative">
+                        <i class="fas fa-image text-4xl text-gray-400"></i>
+                        <div class="absolute -top-2 -right-2 bg-blue-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center">
+                            1
+                        </div>
+                    </div>
+                </div>
+                <p class="font-medium text-gray-900 dark:text-white">Image 1</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="bg-gray-100 dark:bg-gray-900 p-6 rounded-lg mb-4 h-48 flex items-center justify-center">
+                    <div class="relative">
+                        <i class="fas fa-image text-4xl text-gray-400"></i>
+                        <div class="absolute -top-2 -right-2 bg-blue-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center">
+                            2
+                        </div>
+                    </div>
+                </div>
+                <p class="font-medium text-gray-900 dark:text-white">Image 2</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="bg-gray-100 dark:bg-gray-900 p-6 rounded-lg mb-4 h-48 flex items-center justify-center">
+                    <i class="fas fa-file-pdf text-4xl text-red-500 dark:text-red-400"></i>
+                </div>
+                <p class="font-medium text-gray-900 dark:text-white">PDF Document</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Benefits & Features Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <!-- Ideal For Box -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg border-2 border-blue-200 dark:border-blue-700">
+            <h3 class="text-xl font-semibold mb-4 text-blue-900 dark:text-blue-300 flex items-center">
+                <i class="fas fa-camera mr-2"></i>Ideal For
+            </h3>
+            <ul class="space-y-3">
+                <li class="flex items-start">
+                    <i class="fas fa-check text-green-500 dark:text-green-400 mt-1 mr-3"></i>
+                    <div>
+                        <strong class="text-gray-900 dark:text-white">Photo collections and albums</strong>
+                        <p class="text-gray-700 dark:text-gray-300 text-sm mt-1">Create beautiful photo books from your memories</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-check text-green-500 dark:text-green-400 mt-1 mr-3"></i>
+                    <div>
+                        <strong class="text-gray-900 dark:text-white">Scanning multiple documents</strong>
+                        <p class="text-gray-700 dark:text-gray-300 text-sm mt-1">Combine scanned documents into single PDF files</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-check text-green-500 dark:text-green-400 mt-1 mr-3"></i>
+                    <div>
+                        <strong class="text-gray-900 dark:text-white">Creating presentations</strong>
+                        <p class="text-gray-700 dark:text-gray-300 text-sm mt-1">Convert presentation slides to shareable PDFs</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-check text-green-500 dark:text-green-400 mt-1 mr-3"></i>
+                    <div>
+                        <strong class="text-gray-900 dark:text-white">Archiving screenshots</strong>
+                        <p class="text-gray-700 dark:text-gray-300 text-sm mt-1">Organize and archive multiple screenshots efficiently</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Features Box -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg border-2 border-green-200 dark:border-green-700">
+            <h3 class="text-xl font-semibold mb-4 text-green-900 dark:text-green-300 flex items-center">
+                <i class="fas fa-star mr-2"></i>Features
+            </h3>
+            <ul class="space-y-3">
+                <li class="flex items-start">
+                    <i class="fas fa-check-circle text-blue-500 dark:text-blue-400 mt-1 mr-3"></i>
+                    <div>
+                        <strong class="text-gray-900 dark:text-white">High-quality image preservation</strong>
+                        <p class="text-gray-700 dark:text-gray-300 text-sm mt-1">Maintains original image quality and resolution</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-check-circle text-blue-500 dark:text-blue-400 mt-1 mr-3"></i>
+                    <div>
+                        <strong class="text-gray-900 dark:text-white">Custom page layouts</strong>
+                        <p class="text-gray-700 dark:text-gray-300 text-sm mt-1">Choose from various layout options for your images</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-check-circle text-blue-500 dark:text-blue-400 mt-1 mr-3"></i>
+                    <div>
+                        <strong class="text-gray-900 dark:text-white">Batch processing</strong>
+                        <p class="text-gray-700 dark:text-gray-300 text-sm mt-1">Convert multiple images at once, saving time</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-check-circle text-blue-500 dark:text-blue-400 mt-1 mr-3"></i>
+                    <div>
+                        <strong class="text-gray-900 dark:text-white">Automatic image optimization</strong>
+                        <p class="text-gray-700 dark:text-gray-300 text-sm mt-1">Images are optimized for perfect PDF display</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Tips -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg border-2 border-yellow-200 dark:border-yellow-700 mb-8">
+        <h3 class="text-xl font-semibold mb-4 text-yellow-900 dark:text-yellow-300 flex items-center">
+            <i class="fas fa-lightbulb mr-2"></i>Pro Tips
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <h4 class="font-semibold text-gray-900 dark:text-white mb-2">Best Image Formats</h4>
+                <p class="text-gray-700 dark:text-gray-300">Use JPG for photos and PNG for graphics with transparency for best results. For highest quality, use images with at least 150 DPI resolution.</p>
+            </div>
+            <div>
+                <h4 class="font-semibold text-gray-900 dark:text-white mb-2">File Naming</h4>
+                <p class="text-gray-700 dark:text-gray-300">Name your images in the order you want them to appear in the PDF (01.jpg, 02.jpg, etc.). You can also drag and drop to reorder after uploading.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional Tips -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+        <h3 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">For Best Results</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="text-center bg-gray-50 dark:bg-gray-900 p-4 rounded-lg">
+                <div class="bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-400 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-expand"></i>
+                </div>
+                <p class="font-bold text-gray-900 dark:text-white">Choose Layout Wisely</p>
+                <p class="text-sm text-gray-700 dark:text-gray-300 mt-1">Use "Fit to page" for photos, "Full page" for documents</p>
+            </div>
+            <div class="text-center bg-gray-50 dark:bg-gray-900 p-4 rounded-lg">
+                <div class="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-sort-numeric-up"></i>
+                </div>
+                <p class="font-bold text-gray-900 dark:text-white">Page Numbers</p>
+                <p class="text-sm text-gray-700 dark:text-gray-300 mt-1">Add page numbers for multi-page documents</p>
+            </div>
+            <div class="text-center bg-gray-50 dark:bg-gray-900 p-4 rounded-lg">
+                <div class="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-file-export"></i>
+                </div>
+                <p class="font-bold text-gray-900 dark:text-white">Export Quality</p>
+                <p class="text-sm text-gray-700 dark:text-gray-300 mt-1">Use high-resolution images for print-ready PDFs</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('id_files');
+    const imagePreview = document.getElementById('imagePreview');
+    const fileList = document.getElementById('fileList');
+    const orderingSection = document.getElementById('orderingSection');
+    const sortableImages = document.getElementById('sortableImages');
+    
+    // Get references to hidden inputs
+    const placementInput = document.getElementById('placementInput');
+    const pageNumbersInput = document.getElementById('pageNumbersInput');
+    
+    let selectedImages = [];
+    
+    // Initialize placement and page number values
+    placementInput.value = 'fit';
+    pageNumbersInput.value = 'false';
+    
+    // Update the radio button handlers
+    document.querySelectorAll('.placement-radio').forEach(radio => {
+        // Set initial checked state
+        if (radio.value === 'fit') {
+            radio.checked = true;
+        }
+        
+        radio.addEventListener('change', function() {
+            placementInput.value = this.value;
+        });
+    });
+    
+    // Update checkbox handler
+    const pageNumbersCheckbox = document.querySelector('.page-numbers-checkbox');
+    if (pageNumbersCheckbox) {
+        pageNumbersCheckbox.addEventListener('change', function() {
+            pageNumbersInput.value = this.checked ? 'true' : 'false';
+        });
+    }
+    
+    function updateFileDisplay() {
+        imagePreview.innerHTML = '';
+        fileList.innerHTML = '';
+        sortableImages.innerHTML = '';
+        
+        if (selectedImages.length > 0) {
+            orderingSection.classList.remove('hidden');
+            
+            selectedImages.forEach((file, index) => {
+                // Thumbnail preview
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.className = 'w-full h-24 object-cover rounded border border-gray-300 dark:border-gray-700';
+                    img.alt = file.name;
+                    imagePreview.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+                
+                // File list
+                const fileItem = document.createElement('div');
+                fileItem.className = 'flex items-center justify-between bg-gray-50 dark:bg-gray-900 p-3 rounded border border-gray-200 dark:border-gray-700';
+                fileItem.innerHTML = `
+                    <div class="flex items-center">
+                        <i class="fas fa-image text-blue-500 dark:text-blue-400 mr-3"></i>
+                        <div>
+                            <div class="font-medium truncate max-w-xs text-gray-900 dark:text-white">${file.name}</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400">${(file.size / 1024 / 1024).toFixed(2)} MB</div>
+                        </div>
+                    </div>
+                    <button type="button" class="text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300" data-index="${index}">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                fileList.appendChild(fileItem);
+                
+                // Sortable list for ordering
+                const sortableItem = document.createElement('div');
+                sortableItem.className = 'flex items-center bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded p-3 cursor-move';
+                sortableItem.setAttribute('draggable', 'true');
+                sortableItem.setAttribute('data-index', index);
+                sortableItem.innerHTML = `
+                    <i class="fas fa-grip-vertical text-gray-400 mr-3"></i>
+                    <i class="fas fa-image text-blue-500 dark:text-blue-400 mr-3"></i>
+                    <span class="font-medium flex-grow text-gray-900 dark:text-white">${file.name}</span>
+                    <span class="text-gray-500 dark:text-gray-400 text-sm">Image ${index + 1}</span>
+                `;
+                sortableImages.appendChild(sortableItem);
+            });
+            
+            dropZone.classList.add('border-green-500', 'dark:border-green-500', 'bg-green-50', 'dark:bg-green-900/20');
+            
+            // Add drag and drop for ordering
+            makeSortable();
+            
+            // Add remove functionality
+            document.querySelectorAll('[data-index]').forEach(button => {
+                if (button.tagName === 'BUTTON') {
+                    button.addEventListener('click', function() {
+                        const index = parseInt(this.getAttribute('data-index'));
+                        selectedImages.splice(index, 1);
+                        updateFileDisplay();
+                        
+                        // Update the actual file input
+                        const dt = new DataTransfer();
+                        selectedImages.forEach(file => dt.items.add(file));
+                        fileInput.files = dt.files;
+                    });
+                }
+            });
+        } else {
+            orderingSection.classList.add('hidden');
+            dropZone.classList.remove('border-green-500', 'dark:border-green-500', 'bg-green-50', 'dark:bg-green-900/20');
+        }
+    }
+    
+    function makeSortable() {
+        const items = sortableImages.children;
+        
+        Array.from(items).forEach(item => {
+            item.addEventListener('dragstart', function(e) {
+                e.dataTransfer.setData('text/plain', this.getAttribute('data-index'));
+                this.classList.add('opacity-50');
+            });
+            
+            item.addEventListener('dragend', function() {
+                this.classList.remove('opacity-50');
+            });
+            
+            item.addEventListener('dragover', function(e) {
+                e.preventDefault();
+            });
+            
+            item.addEventListener('drop', function(e) {
+                e.preventDefault();
+                const fromIndex = parseInt(e.dataTransfer.getData('text/plain'));
+                const toIndex = parseInt(this.getAttribute('data-index'));
+                
+                if (fromIndex !== toIndex) {
+                    // Swap items in array
+                    const [removed] = selectedImages.splice(fromIndex, 1);
+                    selectedImages.splice(toIndex, 0, removed);
+                    updateFileDisplay();
+                    
+                    // Update the actual file input
+                    const dt = new DataTransfer();
+                    selectedImages.forEach(file => dt.items.add(file));
+                    fileInput.files = dt.files;
+                }
+            });
+        });
+    }
+    
+    dropZone.addEventListener('click', () => fileInput.click());
+    
+    fileInput.addEventListener('change', function() {
+        selectedImages = Array.from(this.files);
+        updateFileDisplay();
+    });
+    
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('border-pink-500', 'dark:border-pink-500', 'bg-pink-50', 'dark:bg-pink-900/20');
+    });
+    
+    dropZone.addEventListener('dragleave', () => {
+        if (selectedImages.length === 0) {
+            dropZone.classList.remove('border-pink-500', 'dark:border-pink-500', 'bg-pink-50', 'dark:bg-pink-900/20');
+        }
+    });
+    
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('border-pink-500', 'dark:border-pink-500', 'bg-pink-50', 'dark:bg-pink-900/20');
+        
+        if (e.dataTransfer.files.length > 0) {
+            selectedImages = Array.from(e.dataTransfer.files);
+            updateFileDisplay();
+            
+            // Update the actual file input
+            const dt = new DataTransfer();
+            selectedImages.forEach(file => dt.items.add(file));
+            fileInput.files = dt.files;
+        }
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,207 @@
+<!-- home/templates/home/tools.html -->
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block title %}PDF Tools - {{ site_name|default:"PDF Converter Pro" }}{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <!-- Hero Section -->
+    <div class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">All PDF Tools</h1>
+        <p class="text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto">
+            Free online PDF tools for all your document needs. No registration required.
+        </p>
+    </div>
+
+    <!-- Tools Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        <!-- PDF to Word -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-200 dark:border-gray-700">
+            <div class="p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-blue-100 dark:bg-blue-900/50 p-3 rounded-lg mr-4">
+                        <svg class="w-8 h-8 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">PDF to Word</h3>
+                </div>
+                <p class="text-gray-700 dark:text-gray-300 mb-6">Convert PDF files to editable Word documents (.docx) with formatting preserved.</p>
+                <a href="{% url 'pdf_to_word' %}" class="block w-full bg-blue-600 dark:bg-blue-700 text-white text-center py-3 rounded-lg font-semibold hover:bg-blue-700 dark:hover:bg-blue-600 transition">
+                    Convert Now
+                </a>
+            </div>
+        </div>
+
+        <!-- Word to PDF -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-200 dark:border-gray-700">
+            <div class="p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-red-100 dark:bg-red-900/50 p-3 rounded-lg mr-4">
+                        <svg class="w-8 h-8 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Word to PDF</h3>
+                </div>
+                <p class="text-gray-700 dark:text-gray-300 mb-6">Convert Word documents (.doc, .docx) to PDF format for better compatibility.</p>
+                <a href="{% url 'word_to_pdf' %}" class="block w-full bg-red-600 dark:bg-red-700 text-white text-center py-3 rounded-lg font-semibold hover:bg-red-700 dark:hover:bg-red-600 transition">
+                    Convert Now
+                </a>
+            </div>
+        </div>
+
+        <!-- Merge PDF -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-200 dark:border-gray-700">
+            <div class="p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-gray-100 dark:bg-purple-900/50 p-3 rounded-lg mr-4">
+                        <svg class="w-8 h-8 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Merge PDF</h3>
+                </div>
+                <p class="text-gray-700 dark:text-gray-300 mb-6">Combine multiple PDF files into a single document. Reorder pages as needed.</p>
+                <a href="{% url 'merge_pdf' %}" class="block w-full bg-purple-600 dark:bg-purple-700 text-white text-center py-3 rounded-lg font-semibold hover:bg-purple-700 dark:hover:bg-purple-600 transition">
+                    Merge Now
+                </a>
+            </div>
+        </div>
+
+        <!-- Split PDF -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-200 dark:border-gray-700">
+            <div class="p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-green-100 dark:bg-green-900/50 p-3 rounded-lg mr-4">
+                        <svg class="w-8 h-8 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Split PDF</h3>
+                </div>
+                <p class="text-gray-700 dark:text-gray-300 mb-6">Split PDF files by pages or extract specific pages into new documents.</p>
+                <a href="{% url 'split_pdf' %}" class="block w-full bg-green-600 dark:bg-green-700 text-white text-center py-3 rounded-lg font-semibold hover:bg-green-700 dark:hover:bg-green-600 transition">
+                    Split Now
+                </a>
+            </div>
+        </div>
+
+        <!-- Compress PDF -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-200 dark:border-gray-700">
+            <div class="p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-yellow-100 dark:bg-yellow-900/50 p-3 rounded-lg mr-4">
+                        <svg class="w-8 h-8 text-yellow-600 dark:text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Compress PDF</h3>
+                </div>
+                <p class="text-gray-700 dark:text-gray-300 mb-6">Reduce PDF file size without significant quality loss. Perfect for sharing.</p>
+                <a href="{% url 'compress_pdf' %}" class="block w-full bg-yellow-600 dark:bg-yellow-700 text-white text-center py-3 rounded-lg font-semibold hover:bg-yellow-700 dark:hover:bg-yellow-600 transition">
+                    Compress Now
+                </a>
+            </div>
+        </div>
+
+        <!-- Excel to PDF -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-200 dark:border-gray-700">
+            <div class="p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-blue-100 dark:bg-teal-900/50 p-3 rounded-lg mr-4">
+                        <svg class="w-8 h-8 text-teal-600 dark:text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Excel to PDF</h3>
+                </div>
+                <p class="text-gray-700 dark:text-gray-300 mb-6">Convert Excel spreadsheets (.xls, .xlsx) to PDF for better presentation.</p>
+                <a href="{% url 'excel_to_pdf' %}" class="block w-full bg-teal-600 dark:bg-teal-700 text-white text-center py-3 rounded-lg font-semibold hover:bg-teal-700 dark:hover:bg-teal-600 transition">
+                    Convert Now
+                </a>
+            </div>
+        </div>
+
+        <!-- Image to PDF -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-200 dark:border-gray-700">
+            <div class="p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-yellow-100 dark:bg-pink-900/50 p-3 rounded-lg mr-4">
+                        <svg class="w-8 h-8 text-pink-600 dark:text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Image to PDF</h3>
+                </div>
+                <p class="text-gray-700 dark:text-gray-300 mb-6">Convert multiple images to PDF. Arrange images and set page options.</p>
+                <a href="{% url 'image_to_pdf' %}" class="block w-full bg-pink-600 dark:bg-pink-700 text-white text-center py-3 rounded-lg font-semibold hover:bg-pink-700 dark:hover:bg-pink-600 transition">
+                    Convert Now
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section - FIXED -->
+    <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 mb-12 shadow-lg border-2 border-gray-200 dark:border-gray-700">
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">Why Choose Our PDF Tools?</h2>
+            <p class="text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">We provide the best free PDF conversion experience online.</p>
+        </div>
+        
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="text-center">
+                <div class="bg-gray-100 dark:bg-gray-900 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
+                    <svg class="w-8 h-8 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">100% Secure</h3>
+                <p class="text-gray-700 dark:text-gray-300">Files automatically deleted after 24 hours. No registration required.</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="bg-gray-100 dark:bg-gray-900 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
+                    <svg class="w-8 h-8 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Fast Processing</h3>
+                <p class="text-gray-700 dark:text-gray-300">Most conversions complete in under 30 seconds. No wait times.</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="bg-gray-100 dark:bg-gray-900 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
+                    <svg class="w-8 h-8 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">High Quality</h3>
+                <p class="text-gray-700 dark:text-gray-300">Preserves formatting, images, and text quality in all conversions.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="max-w-3xl mx-auto">
+        <h2 class="text-3xl font-bold text-center text-gray-900 dark:text-white mb-8">Common Questions</h2>
+        <div class="space-y-6">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-3">Are these tools really free?</h3>
+                <p class="text-gray-700 dark:text-gray-300">Yes! All our PDF tools are completely free with no hidden charges, watermarks, or usage limits.</p>
+            </div>
+            
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-3">Do I need to create an account?</h3>
+                <p class="text-gray-700 dark:text-gray-300">No account required. You can use all tools immediately without any registration.</p>
+            </div>
+            
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-3">How long are my files stored?</h3>
+                <p class="text-gray-700 dark:text-gray-300">Files are automatically and permanently deleted after 24 hours. We don't store your documents.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

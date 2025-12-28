@@ -1,0 +1,467 @@
+<!-- converter/templates/converter/pdf_to_word.html -->
+{% extends 'home/base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}PDF to Word Converter - PDF Converter Pro{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <!-- Page Header -->
+    <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">PDF to Word Converter</h1>
+        <p class="text-gray-600 dark:text-gray-300">Convert PDF files to editable Word documents with advanced formatting options</p>
+    </div>
+
+    <!-- Upload Form -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-8">
+        <form method="post" enctype="multipart/form-data" class="space-y-6">
+            {% csrf_token %}
+            
+            <!-- Form Errors -->
+            {% if form.errors %}
+            <div class="bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 p-4">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm text-red-700 dark:text-red-300">
+                            Please fix the errors below.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Drag & Drop Zone -->
+            <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center hover:border-blue-500 dark:hover:border-blue-400 transition"
+                 id="dropZone">
+                <svg class="mx-auto h-16 w-16 text-blue-600 dark:text-blue-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                
+                <h3 class="text-xl font-semibold mb-2 text-gray-800 dark:text-white">Drop your PDF file here</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">Supports .pdf format</p>
+                
+                <div class="mb-4">
+                    {% render_field form.file class="hidden" id="fileInput" %}
+                    <label for="fileInput" class="bg-blue-600 dark:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold cursor-pointer hover:bg-blue-700 dark:hover:bg-blue-600 transition inline-flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                        </svg>
+                        Choose PDF File
+                    </label>
+                </div>
+                
+                <p class="text-sm text-gray-600 dark:text-gray-300">Maximum file size: 50MB</p>
+                <p class="text-sm text-gray-600 dark:text-gray-300 mt-2" id="fileName">No file selected</p>
+            </div>
+
+            <!-- Formatting Options Section -->
+            <div class="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-6">
+                <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Formatting Options</h3>
+                
+                <div class="space-y-6">
+                    <!-- Output Format -->
+                    <div>
+                        <h4 class="font-medium text-gray-700 dark:text-gray-300 mb-3">Output Format</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <label class="flex items-center p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer">
+                                <input type="radio" name="output_format" value="docx" class="h-4 w-4 text-blue-600 dark:text-blue-400" checked>
+                                <span class="ml-3 text-gray-700 dark:text-gray-300">Microsoft Word (.docx) - Recommended</span>
+                            </label>
+                            <label class="flex items-center p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer">
+                                <input type="radio" name="output_format" value="doc" class="h-4 w-4 text-blue-600 dark:text-blue-400">
+                                <span class="ml-3 text-gray-700 dark:text-gray-300">Microsoft Word 97-2003 (.doc)</span>
+                            </label>
+                            <label class="flex items-center p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer">
+                                <input type="radio" name="output_format" value="rtf" class="h-4 w-4 text-blue-600 dark:text-blue-400">
+                                <span class="ml-3 text-gray-700 dark:text-gray-300">Rich Text Format (.rtf)</span>
+                            </label>
+                            <label class="flex items-center p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer">
+                                <input type="radio" name="output_format" value="txt" class="h-4 w-4 text-blue-600 dark:text-blue-400">
+                                <span class="ml-3 text-gray-700 dark:text-gray-300">Plain Text (.txt)</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Advanced Options -->
+                    <div>
+                        <h4 class="font-medium text-gray-700 dark:text-gray-300 mb-3">Advanced Options</h4>
+                        <div class="space-y-3">
+                            <label class="flex items-start p-3 bg-white dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700">
+                                <input type="checkbox" name="preserve_layout" class="h-4 w-4 text-blue-600 dark:text-blue-400 mt-1" checked>
+                                <div class="ml-3">
+                                    <span class="font-medium text-gray-800 dark:text-white">Preserve original layout</span>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">Keep the exact page layout (recommended for forms, reports)</p>
+                                </div>
+                            </label>
+                            
+                            <label class="flex items-start p-3 bg-white dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700">
+                                <input type="checkbox" name="enhanced_ocr" class="h-4 w-4 text-blue-600 dark:text-blue-400 mt-1">
+                                <div class="ml-3">
+                                    <span class="font-medium text-gray-800 dark:text-white">Enhanced OCR for scanned PDFs</span>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">Improves text recognition in scanned documents</p>
+                                </div>
+                            </label>
+                            
+                            <label class="flex items-start p-3 bg-white dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700">
+                                <input type="checkbox" name="extract_text_only" class="h-4 w-4 text-blue-600 dark:text-blue-400 mt-1">
+                                <div class="ml-3">
+                                    <span class="font-medium text-gray-800 dark:text-white">Extract text only</span>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">Remove images and tables for clean text extraction</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-700 dark:to-purple-700 text-white py-4 rounded-lg font-semibold text-lg hover:from-blue-700 hover:to-purple-700 dark:hover:from-blue-600 dark:hover:to-purple-600 transition flex items-center justify-center shadow-md">
+                <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
+                Convert to Word
+            </button>
+        </form>
+    </div>
+
+    <!-- Benefits & Features Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <!-- Why Convert Box -->
+        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-6">
+            <div class="flex items-center mb-4">
+                <div class="bg-blue-100 dark:bg-blue-900/30 p-3 rounded-lg mr-4">
+                    <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-white">Why Convert PDF to Word?</h3>
+            </div>
+            <ul class="space-y-4">
+                <li class="flex items-start">
+                    <svg class="w-5 h-5 text-green-600 dark:text-green-400 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-1">Edit Text Easily</h4>
+                        <p class="text-gray-700 dark:text-gray-300">Modify content in Microsoft Word</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <svg class="w-5 h-5 text-green-600 dark:text-green-400 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-1">Professional Formatting</h4>
+                        <p class="text-gray-700 dark:text-gray-300">Maintains headings, lists, tables</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <svg class="w-5 h-5 text-green-600 dark:text-green-400 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-1">Reuse Content</h4>
+                        <p class="text-gray-700 dark:text-gray-300">Copy text to other documents</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <svg class="w-5 h-5 text-green-600 dark:text-green-400 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-1">Font Preservation</h4>
+                        <p class="text-gray-700 dark:text-gray-300">Keeps original fonts when possible</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Features Box -->
+        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-6">
+            <div class="flex items-center mb-4">
+                <div class="bg-green-100 dark:bg-green-900/30 p-3 rounded-lg mr-4">
+                    <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-white">Key Features</h3>
+            </div>
+            <ul class="space-y-4">
+                <li class="flex items-start">
+                    <svg class="w-5 h-5 text-blue-600 dark:text-blue-400 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-1">Multiple Formats</h4>
+                        <p class="text-gray-700 dark:text-gray-300">DOCX, DOC, RTF, TXT output</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <svg class="w-5 h-5 text-blue-600 dark:text-blue-400 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-1">Image Preservation</h4>
+                        <p class="text-gray-700 dark:text-gray-300">Keeps images at original quality</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <svg class="w-5 h-5 text-blue-600 dark:text-blue-400 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-1">Table Extraction</h4>
+                        <p class="text-gray-700 dark:text-gray-300">Converts PDF tables to Word tables</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <svg class="w-5 h-5 text-blue-600 dark:text-blue-400 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-1">Fast Processing</h4>
+                        <p class="text-gray-700 dark:text-gray-300">Usually under 30 seconds</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Tips for Better Conversion -->
+    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow p-6 mb-8">
+        <h3 class="text-xl font-semibold mb-6 text-gray-800 dark:text-white">Tips for Best Results</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <h4 class="font-semibold text-lg mb-3 text-blue-600 dark:text-blue-400">
+                    <i class="fas fa-lightbulb mr-2"></i>For Better Organization:
+                </h4>
+                <ul class="space-y-2 text-gray-700 dark:text-gray-300">
+                    <li class="flex items-start">
+                        <span class="font-bold mr-2">•</span>
+                        <span><strong>Use "Preserve layout"</strong> for forms and official documents</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="font-bold mr-2">•</span>
+                        <span><strong>Choose .docx format</strong> for best Word compatibility</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="font-bold mr-2">•</span>
+                        <span><strong>Enable OCR</strong> for scanned documents</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="font-bold mr-2">•</span>
+                        <span><strong>Text-only option</strong> for clean copy-paste content</span>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold text-lg mb-3 text-green-600 dark:text-green-400">
+                    <i class="fas fa-cogs mr-2"></i>Technical Tips:
+                </h4>
+                <ul class="space-y-2 text-gray-700 dark:text-gray-300">
+                    <li class="flex items-start">
+                        <span class="font-bold mr-2">•</span>
+                        <span><strong>Text-based PDFs</strong> give best results (not scanned)</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="font-bold mr-2">•</span>
+                        <span><strong>Remove passwords</strong> before conversion</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="font-bold mr-2">•</span>
+                        <span><strong>Check file size</strong> (under 50MB recommended)</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="font-bold mr-2">•</span>
+                        <span><strong>Use standard fonts</strong> for better recognition</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Perfect for Section -->
+    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 mb-8">
+        <div class="flex items-center mb-6">
+            <div class="bg-green-100 dark:bg-purple-900/30 p-3 rounded-lg mr-4">
+                <i class="fas fa-file-word text-purple-600 dark:text-purple-400 text-xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 dark:text-white">Perfect for These Documents:</h3>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="text-center">
+                <div class="bg-blue-100 dark:bg-blue-900/30 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-briefcase text-blue-600 dark:text-blue-400 text-xl"></i>
+                </div>
+                <h4 class="font-bold text-gray-800 dark:text-white mb-1">Business Reports</h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400">Proposals, annual reports</p>
+            </div>
+            <div class="text-center">
+                <div class="bg-green-100 dark:bg-green-900/30 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-graduation-cap text-green-600 dark:text-green-400 text-xl"></i>
+                </div>
+                <h4 class="font-bold text-gray-800 dark:text-white mb-1">Academic Papers</h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400">Research, theses, essays</p>
+            </div>
+            <div class="text-center">
+                <div class="bg-red-100 dark:bg-red-900/30 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-file-contract text-red-600 dark:text-red-400 text-xl"></i>
+                </div>
+                <h4 class="font-bold text-gray-800 dark:text-white mb-1">Legal Documents</h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400">Contracts, agreements</p>
+            </div>
+            <div class="text-center">
+                <div class="bg-yellow-100 dark:bg-yellow-900/30 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-book text-yellow-600 dark:text-yellow-400 text-xl"></i>
+                </div>
+                <h4 class="font-bold text-gray-800 dark:text-white mb-1">Books & Manuals</h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400">Ebooks, guides, tutorials</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow p-6 mb-8">
+        <div class="flex items-center mb-6">
+            <div class="bg-blue-100 dark:bg-indigo-900/30 p-3 rounded-lg mr-4">
+                <i class="fas fa-question-circle text-indigo-600 dark:text-indigo-400 text-xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 dark:text-white">Frequently Asked Questions</h3>
+        </div>
+        <div class="space-y-6">
+            <div class="pb-4 border-b border-gray-100 dark:border-gray-700">
+                <h4 class="font-bold text-gray-800 dark:text-white mb-2 text-lg">Will my document be well-organized in Word?</h4>
+                <p class="text-gray-700 dark:text-gray-300"><strong class="text-blue-600 dark:text-blue-400">Yes!</strong> Our converter preserves headings, paragraphs, lists, and tables. Choose "Preserve layout" for exact formatting or "Text only" for clean extraction.</p>
+            </div>
+            <div class="pb-4 border-b border-gray-100 dark:border-gray-700">
+                <h4 class="font-bold text-gray-800 dark:text-white mb-2 text-lg">What's the best format for editing?</h4>
+                <p class="text-gray-700 dark:text-gray-300"><strong class="text-blue-600 dark:text-blue-400">.docx is recommended</strong> for full Microsoft Word compatibility with all formatting features. Use .txt for plain text or .rtf for basic formatting.</p>
+            </div>
+            <div class="pb-4 border-b border-gray-100 dark:border-gray-700">
+                <h4 class="font-bold text-gray-800 dark:text-white mb-2 text-lg">Does it work with scanned PDFs?</h4>
+                <p class="text-gray-700 dark:text-gray-300"><strong class="text-blue-600 dark:text-blue-400">Yes!</strong> Enable "Enhanced OCR" option for scanned documents. This uses optical character recognition to extract text from images.</p>
+            </div>
+            <div>
+                <h4 class="font-bold text-gray-800 dark:text-white mb-2 text-lg">How organized will the Word document be?</h4>
+                <p class="text-gray-700 dark:text-gray-300"><strong class="text-blue-600 dark:text-blue-400">Very organized!</strong> The converted document will have:</p>
+                <ul class="list-disc pl-5 mt-2 space-y-1 text-gray-700 dark:text-gray-300">
+                    <li>Proper headings and subheadings</li>
+                    <li>Organized paragraphs and lists</li>
+                    <li>Preserved tables and images</li>
+                    <li>Consistent fonts and spacing</li>
+                    <li>Page breaks in correct places</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Security Note -->
+    <div class="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
+        <div class="flex items-start">
+            <div class="bg-green-100 dark:bg-green-900/30 p-2 rounded-lg mr-4">
+                <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                </svg>
+            </div>
+            <div>
+                <h4 class="font-bold text-gray-800 dark:text-white mb-1">Secure & Private Conversion</h4>
+                <p class="text-gray-700 dark:text-gray-300">Your files are automatically deleted after 24 hours. We never store or share your documents. All conversions are encrypted for security.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const fileName = document.getElementById('fileName');
+    
+    // Click on drop zone to trigger file input
+    dropZone.addEventListener('click', () => fileInput.click());
+    
+    // Handle file selection
+    fileInput.addEventListener('change', function() {
+        if (this.files.length > 0) {
+            const file = this.files[0];
+            fileName.textContent = `Selected: ${file.name} (${formatFileSize(file.size)})`;
+            fileName.classList.add('text-green-600', 'dark:text-green-400');
+            dropZone.classList.add('border-green-500', 'dark:border-green-400');
+            
+            // Check file size
+            if (file.size > 50 * 1024 * 1024) { // 50MB in bytes
+                alert('File size exceeds 50MB limit. Please choose a smaller file.');
+                this.value = '';
+                fileName.textContent = 'No file selected';
+                fileName.classList.remove('text-green-600', 'dark:text-green-400');
+                dropZone.classList.remove('border-green-500', 'dark:border-green-400');
+            }
+        } else {
+            fileName.textContent = 'No file selected';
+            fileName.classList.remove('text-green-600', 'dark:text-green-400');
+            dropZone.classList.remove('border-green-500', 'dark:border-green-400');
+        }
+    });
+    
+    // Drag and drop functionality
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('border-blue-500', 'dark:border-blue-400');
+    });
+    
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('border-blue-500', 'dark:border-blue-400');
+    });
+    
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('border-blue-500', 'dark:border-blue-400');
+        
+        if (e.dataTransfer.files.length > 0) {
+            const file = e.dataTransfer.files[0];
+            
+            // Check file type
+            if (!file.name.toLowerCase().endsWith('.pdf')) {
+                alert('Please select a PDF file (.pdf)');
+                return;
+            }
+            
+            // Check file size
+            if (file.size > 50 * 1024 * 1024) {
+                alert('File size exceeds 50MB limit. Please choose a smaller file.');
+                return;
+            }
+            
+            // Create a new DataTransfer object to set the file
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            fileInput.files = dataTransfer.files;
+            
+            fileName.textContent = `Selected: ${file.name} (${formatFileSize(file.size)})`;
+            fileName.classList.add('text-green-600', 'dark:text-green-400');
+            dropZone.classList.add('border-green-500', 'dark:border-green-400');
+            
+            // Trigger change event
+            const event = new Event('change', { bubbles: true });
+            fileInput.dispatchEvent(event);
+        }
+    });
+    
+    // Helper function to format file size
+    function formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+});
+</script>
+{% endblock %}

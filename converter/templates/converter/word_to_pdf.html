@@ -1,0 +1,181 @@
+{% extends 'home/base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}Convert Word to PDF - {{ site_name }}{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <!-- Page Header -->
+    <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">Word to PDF Converter</h1>
+        <p class="text-gray-600 dark:text-gray-200">Convert Word documents (.doc, .docx) to PDF format for free</p>
+    </div>
+
+    <!-- Upload Form -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-8">
+        <form method="post" enctype="multipart/form-data" class="space-y-6">
+            {% csrf_token %}
+            
+            <!-- Drag & Drop Zone -->
+            <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center hover:border-blue-500 transition dark:hover:border-blue-400"
+                 id="dropZone">
+                <i class="fas fa-file-word text-5xl text-blue-600 dark:text-blue-400 mb-4"></i>
+                <h3 class="text-xl font-semibold mb-2 text-gray-800 dark:text-white">Drop your Word file here</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">Supports .doc and .docx formats</p>
+                
+                <div class="mb-4">
+                    {% render_field form.file class="hidden" id="fileInput" %}
+                    <label for="fileInput" class="bg-blue-600 dark:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold cursor-pointer hover:bg-blue-700 dark:hover:bg-blue-600 transition">
+                        <i class="fas fa-upload mr-2"></i>Choose Word File
+                    </label>
+                </div>
+                <p class="text-sm text-gray-600 dark:text-gray-300">Maximum file size: 50MB</p>
+                <p class="text-sm text-gray-600 dark:text-gray-300 font-medium" id="fileName">No file selected</p>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="w-full bg-red-600 dark:bg-red-700 text-white py-4 rounded-lg font-semibold text-lg hover:bg-red-700 dark:hover:bg-red-600 transition flex items-center justify-center">
+                <i class="fas fa-file-pdf mr-3"></i> Convert to PDF
+            </button>
+        </form>
+    </div>
+
+    <!-- Benefits -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <!-- Why Convert Card -->
+        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-6">
+            <div class="flex items-center mb-4">
+                <div class="bg-blue-100 dark:bg-blue-900/30 p-3 rounded-lg mr-4">
+                    <i class="fas fa-check-circle text-blue-600 dark:text-blue-400 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-white">Why Convert Word to PDF?</h3>
+            </div>
+            <ul class="space-y-4">
+                <li class="flex items-start">
+                    <i class="fas fa-lock text-green-600 dark:text-green-400 mt-1 mr-3 text-lg"></i>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-1">Enhanced Security</h4>
+                        <p class="text-gray-700 dark:text-gray-300">PDFs are more secure and cannot be easily edited</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-eye text-green-600 dark:text-green-400 mt-1 mr-3 text-lg"></i>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-1">Formatting Preservation</h4>
+                        <p class="text-gray-700 dark:text-gray-300">Preserves formatting across all devices</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-share-alt text-green-600 dark:text-green-400 mt-1 mr-3 text-lg"></i>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-1">Easy Sharing</h4>
+                        <p class="text-gray-700 dark:text-gray-300">Ideal for sharing and printing documents</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Features Card -->
+        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-6">
+            <div class="flex items-center mb-4">
+                <div class="bg-green-100 dark:bg-green-900/30 p-3 rounded-lg mr-4">
+                    <i class="fas fa-bolt text-green-600 dark:text-green-400 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-white">Features</h3>
+            </div>
+            <ul class="space-y-4">
+                <li class="flex items-start">
+                    <i class="fas fa-star text-green-600 dark:text-green-400 mt-1 mr-3 text-lg"></i>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-1">High-Quality Conversion</h4>
+                        <p class="text-gray-700 dark:text-gray-300">Professional quality output every time</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-images text-green-600 dark:text-green-400 mt-1 mr-3 text-lg"></i>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-1">Preserves All Elements</h4>
+                        <p class="text-gray-700 dark:text-gray-300">Maintains images, tables, and formatting</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-clock text-green-600 dark:text-green-400 mt-1 mr-3 text-lg"></i>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-1">Fast Processing</h4>
+                        <p class="text-gray-700 dark:text-gray-300">Usually under 30 seconds</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow p-6">
+        <div class="flex items-center mb-6">
+            <div class="bg-yellow-100 dark:bg-purple-900/30 p-3 rounded-lg mr-4">
+                <i class="fas fa-question-circle text-purple-600 dark:text-purple-400 text-xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 dark:text-white">Frequently Asked Questions</h3>
+        </div>
+        <div class="space-y-6">
+            <div class="pb-4 border-b border-gray-100 dark:border-gray-700">
+                <h4 class="font-bold text-gray-800 dark:text-white mb-2 text-lg">Will my formatting be preserved?</h4>
+                <p class="text-gray-700 dark:text-gray-300">Yes! Fonts, images, tables, and formatting are preserved during conversion.</p>
+            </div>
+            <div class="pb-4 border-b border-gray-100 dark:border-gray-700">
+                <h4 class="font-bold text-gray-800 dark:text-white mb-2 text-lg">What Word versions are supported?</h4>
+                <p class="text-gray-700 dark:text-gray-300">We support all Word formats including .doc (Word 97-2003) and .docx (Word 2007+).</p>
+            </div>
+            <div>
+                <h4 class="font-bold text-gray-800 dark:text-white mb-2 text-lg">Is there a page limit?</h4>
+                <p class="text-gray-700 dark:text-gray-300">No page limit, but files must be under 50MB total size.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const fileName = document.getElementById('fileName');
+    
+    dropZone.addEventListener('click', () => fileInput.click());
+    
+    fileInput.addEventListener('change', function() {
+        if (this.files.length > 0) {
+            fileName.textContent = this.files[0].name;
+            fileName.classList.add('text-green-600', 'dark:text-green-400');
+            dropZone.classList.add('border-green-500', 'dark:border-green-400', 'bg-green-50', 'dark:bg-gray-800');
+        } else {
+            fileName.textContent = 'No file selected';
+            fileName.classList.remove('text-green-600', 'dark:text-green-400');
+            dropZone.classList.remove('border-green-500', 'dark:border-green-400', 'bg-green-50', 'dark:bg-gray-800');
+        }
+    });
+    
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('border-blue-500', 'dark:border-blue-400', 'bg-blue-50', 'dark:bg-gray-800');
+    });
+    
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('border-blue-500', 'dark:border-blue-400', 'bg-blue-50', 'dark:bg-gray-800');
+    });
+    
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('border-blue-500', 'dark:border-blue-400', 'bg-blue-50', 'dark:bg-gray-800');
+        
+        if (e.dataTransfer.files.length > 0) {
+            fileInput.files = e.dataTransfer.files;
+            fileName.textContent = e.dataTransfer.files[0].name;
+            fileName.classList.add('text-green-600', 'dark:text-green-400');
+            dropZone.classList.add('border-green-500', 'dark:border-green-400', 'bg-green-50', 'dark:bg-gray-800');
+        }
+    });
+});
+</script>
+{% endblock %}
+{% endblock %}

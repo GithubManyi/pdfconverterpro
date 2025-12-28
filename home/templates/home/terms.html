@@ -1,0 +1,115 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block title %}{{ title|default:"Terms of Service - PDF Converter Pro" }}{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-12">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-4xl font-bold text-gray-800 mb-6">Terms of Service</h1>
+        <p class="text-gray-600 mb-8">Last updated: December 24, 2024</p>
+
+        <div class="prose prose-lg max-w-none">
+            <section class="mb-8">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">1. Acceptance of Terms</h2>
+                <p class="text-gray-700 mb-4">
+                    By accessing and using PDF Converter Pro ("the Service"), you accept and agree to be bound by the terms and provision of this agreement.
+                </p>
+            </section>
+
+            <section class="mb-8">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">2. Description of Service</h2>
+                <p class="text-gray-700 mb-4">
+                    PDF Converter Pro provides free online PDF conversion tools including but not limited to:
+                </p>
+                <ul class="list-disc pl-6 text-gray-700 mb-4">
+                    <li>PDF to Word conversion</li>
+                    <li>Word to PDF conversion</li>
+                    <li>PDF merging and splitting</li>
+                    <li>PDF compression</li>
+                    <li>Excel to PDF conversion</li>
+                    <li>Image to PDF conversion</li>
+                </ul>
+            </section>
+
+            <section class="mb-8">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">3. User Responsibilities</h2>
+                <p class="text-gray-700 mb-4">
+                    Users are responsible for:
+                </p>
+                <ul class="list-disc pl-6 text-gray-700 mb-4">
+                    <li>Ensuring they have the right to upload and convert any files</li>
+                    <li>Not uploading illegal, copyrighted, or malicious content</li>
+                    <li>Not abusing the service through automated scripts or excessive requests</li>
+                    <li>Downloading converted files promptly</li>
+                </ul>
+            </section>
+
+            <section class="mb-8">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">4. File Handling and Privacy</h2>
+                <p class="text-gray-700 mb-4">
+                    We implement the following file handling practices:
+                </p>
+                <ul class="list-disc pl-6 text-gray-700 mb-4">
+                    <li>Files are automatically deleted after 24 hours</li>
+                    <li>No human reviews your files</li>
+                    <li>Files are processed on secure servers</li>
+                    <li>We do not share your files with third parties</li>
+                </ul>
+            </section>
+
+            <section class="mb-8">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">5. Service Limitations</h2>
+                <p class="text-gray-700 mb-4">
+                    The Service has the following limitations:
+                </p>
+                <ul class="list-disc pl-6 text-gray-700 mb-4">
+                    <li>Maximum file size: 50MB per file</li>
+                    <li>Maximum 10 files for merge operations</li>
+                    <li>Service availability is not guaranteed 100%</li>
+                    <li>Conversion quality may vary based on file complexity</li>
+                </ul>
+            </section>
+
+            <section class="mb-8">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">6. Disclaimer of Warranties</h2>
+                <p class="text-gray-700 mb-4">
+                    The Service is provided "as is" without any warranties, expressed or implied. We do not guarantee that:
+                </p>
+                <ul class="list-disc pl-6 text-gray-700 mb-4">
+                    <li>The Service will be uninterrupted or error-free</li>
+                    <li>All file conversions will be perfect</li>
+                    <li>The Service will meet all user requirements</li>
+                </ul>
+            </section>
+
+            <section class="mb-8">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">7. Limitation of Liability</h2>
+                <p class="text-gray-700 mb-4">
+                    PDF Converter Pro shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from:
+                </p>
+                <ul class="list-disc pl-6 text-gray-700 mb-4">
+                    <li>Use or inability to use the Service</li>
+                    <li>Loss of data or files</li>
+                    <li>Unauthorized access to files</li>
+                    <li>Service interruptions or errors</li>
+                </ul>
+            </section>
+
+            <section class="mb-8">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">8. Changes to Terms</h2>
+                <p class="text-gray-700 mb-4">
+                    We reserve the right to modify these terms at any time. Continued use of the Service after changes constitutes acceptance of the new terms.
+                </p>
+            </section>
+
+            <section class="mb-8">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">9. Contact Information</h2>
+                <p class="text-gray-700 mb-4">
+                    For questions about these Terms of Service, please contact us through our <a href="{% url 'contact' %}" class="text-blue-600 hover:underline">Contact Page</a>.
+                </p>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}

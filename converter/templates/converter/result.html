@@ -1,0 +1,481 @@
+{% extends 'home/base.html' %}
+
+{% block title %}Conversion Complete - PDF Converter Pro{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <!-- Success Message -->
+    <div class="text-center mb-8">
+        <div class="bg-green-100 dark:bg-green-900/30 border border-green-400 dark:border-green-700 text-green-700 dark:text-green-300 px-6 py-4 rounded-lg mb-6">
+            <i class="fas fa-check-circle text-3xl mb-4"></i>
+            <h1 class="text-2xl font-bold mb-2 text-green-900 dark:text-green-200">Conversion Successful!</h1>
+            <p class="text-lg text-green-800 dark:text-green-300">Your file has been converted successfully.</p>
+        </div>
+    </div>
+
+    <!-- File Info -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-8 border border-gray-200 dark:border-gray-700">
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-6">Your Converted File</h2>
+        
+        <div class="space-y-6">
+            <!-- File Details -->
+            <div class="flex flex-col md:flex-row items-center justify-between bg-gray-50 dark:bg-gray-900 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div class="bg-blue-100 dark:bg-blue-900/50 p-4 rounded-full mr-4">
+                        {% if task.conversion_type == 'pdf_to_word' %}
+                        <i class="fas fa-file-word text-3xl text-blue-500 dark:text-blue-400"></i>
+                        {% elif task.conversion_type == 'word_to_pdf' %}
+                        <i class="fas fa-file-pdf text-3xl text-red-500 dark:text-red-400"></i>
+                        {% elif task.conversion_type == 'merge_pdf' %}
+                        <i class="fas fa-copy text-3xl text-purple-500 dark:text-purple-400"></i>
+                        {% elif task.conversion_type == 'split_pdf' %}
+                        <i class="fas fa-cut text-3xl text-green-500 dark:text-green-400"></i>
+                        {% elif task.conversion_type == 'compress_pdf' %}
+                        <i class="fas fa-compress text-3xl text-yellow-500 dark:text-yellow-400"></i>
+                        {% elif task.conversion_type == 'excel_to_pdf' %}
+                        <i class="fas fa-file-excel text-3xl text-green-500 dark:text-green-400"></i>
+                        {% elif task.conversion_type == 'image_to_pdf' %}
+                        <i class="fas fa-image text-3xl text-pink-500 dark:text-pink-400"></i>
+                        {% else %}
+                        <i class="fas fa-file text-3xl text-gray-500 dark:text-gray-400"></i>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-lg text-gray-900 dark:text-white">{{ filename }}</h3>
+                        <p class="text-gray-600 dark:text-gray-400">Ready to download</p>
+                    </div>
+                </div>
+                
+                <div class="text-center md:text-right">
+                    <div class="text-sm text-gray-500 dark:text-gray-400 mb-1">Conversion Type</div>
+                    <div class="font-semibold text-gray-900 dark:text-white">
+                        {% if task.conversion_type == 'pdf_to_word' %}
+                        PDF to Word
+                        {% elif task.conversion_type == 'word_to_pdf' %}
+                        Word to PDF
+                        {% elif task.conversion_type == 'merge_pdf' %}
+                        Merge PDF
+                        {% elif task.conversion_type == 'split_pdf' %}
+                        Split PDF
+                        {% elif task.conversion_type == 'compress_pdf' %}
+                        Compress PDF
+                        {% elif task.conversion_type == 'excel_to_pdf' %}
+                        Excel to PDF
+                        {% elif task.conversion_type == 'image_to_pdf' %}
+                        Image to PDF
+                        {% else %}
+                        {{ task.conversion_type|title }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conversion Options (New Section) -->
+            {% if format_options %}
+            <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6 mb-6 border border-blue-200 dark:border-blue-800">
+                <h4 class="font-semibold mb-4 text-blue-800 dark:text-blue-300">Conversion Options Used:</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {% if format_options.output_format %}
+                    <div class="bg-white dark:bg-gray-800 p-3 rounded border border-gray-200 dark:border-gray-700">
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Output Format</div>
+                        <div class="font-medium text-gray-900 dark:text-white">{{ format_options.output_format|upper }}</div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if format_options.preserve_layout %}
+                    <div class="bg-white dark:bg-gray-800 p-3 rounded border border-gray-200 dark:border-gray-700">
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Layout</div>
+                        <div class="font-medium text-green-600 dark:text-green-400">✓ Preserved Original Layout</div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if format_options.enhanced_ocr %}
+                    <div class="bg-white dark:bg-gray-800 p-3 rounded border border-gray-200 dark:border-gray-700">
+                        <div class="text-sm text-gray-500 dark:text-gray-400">OCR</div>
+                        <div class="font-medium text-green-600 dark:text-green-400">✓ Enhanced OCR Applied</div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if format_options.extract_text_only %}
+                    <div class="bg-white dark:bg-gray-800 p-3 rounded border border-gray-200 dark:border-gray-700">
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Content</div>
+                        <div class="font-medium text-green-600 dark:text-green-400">✓ Text Only Extracted</div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if format_options.compression_level %}
+                    <div class="bg-white dark:bg-gray-800 p-3 rounded border border-gray-200 dark:border-gray-700">
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Compression Level</div>
+                        <div class="font-medium text-gray-900 dark:text-white">{{ format_options.compression_level|title }}</div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if format_options.include_gridlines %}
+                    <div class="bg-white dark:bg-gray-800 p-3 rounded border border-gray-200 dark:border-gray-700">
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Gridlines</div>
+                        <div class="font-medium text-green-600 dark:text-green-400">✓ Included</div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if format_options.page_size %}
+                    <div class="bg-white dark:bg-gray-800 p-3 rounded border border-gray-200 dark:border-gray-700">
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Page Size</div>
+                        <div class="font-medium text-gray-900 dark:text-white">{{ format_options.page_size|title }}</div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if format_options.orientation %}
+                    <div class="bg-white dark:bg-gray-800 p-3 rounded border border-gray-200 dark:border-gray-700">
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Orientation</div>
+                        <div class="font-medium text-gray-900 dark:text-white">{{ format_options.orientation|title }}</div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if format_options.file_count %}
+                    <div class="bg-white dark:bg-gray-800 p-3 rounded border border-gray-200 dark:border-gray-700">
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Files Merged</div>
+                        <div class="font-medium text-gray-900 dark:text-white">{{ format_options.file_count }} PDF files</div>
+                    </div>
+                    {% endif %}
+
+                    {% if format_options.remove_blank_pages %}
+                    <div class="bg-white dark:bg-gray-800 p-3 rounded border border-gray-200 dark:border-gray-700">
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Blank Pages</div>
+                        <div class="font-medium text-green-600 dark:text-green-400">✓ Removed</div>
+                    </div>
+                    {% endif %}
+
+                    {% if format_options.optimize_size %}
+                    <div class="bg-white dark:bg-gray-800 p-3 rounded border border-gray-200 dark:border-gray-700">
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Size Optimization</div>
+                        <div class="font-medium text-green-600 dark:text-green-400">✓ Applied</div>
+                    </div>
+                    {% endif %}
+
+                    {% if format_options.quality %}
+                    <div class="bg-white dark:bg-gray-800 p-3 rounded border border-gray-200 dark:border-gray-700">
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Output Quality</div>
+                        <div class="font-medium text-gray-900 dark:text-white">{{ format_options.quality|title }}</div>
+                    </div>
+                    {% endif %}
+
+                    {% if format_options.split_type %}
+                    <div class="bg-white dark:bg-gray-800 p-3 rounded border border-gray-200 dark:border-gray-700">
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Split Method</div>
+                        <div class="font-medium text-gray-900 dark:text-white">
+                            {% if format_options.split_type == 'range' %}
+                            Page Range
+                            {% elif format_options.split_type == 'every' %}
+                            Every Page
+                            {% elif format_options.split_type == 'count' %}
+                            By Page Count
+                            {% elif format_options.split_type == 'custom' %}
+                            Custom Split
+                            {% else %}
+                            {{ format_options.split_type|title }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if format_options.pages %}
+                    <div class="bg-white dark:bg-gray-800 p-3 rounded border border-gray-200 dark:border-gray-700">
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Page Ranges</div>
+                        <div class="font-medium text-gray-900 dark:text-white">{{ format_options.pages }}</div>
+                    </div>
+                    {% endif %}
+
+                    {% if format_options.split_every %}
+                    <div class="bg-white dark:bg-gray-800 p-3 rounded border border-gray-200 dark:border-gray-700">
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Pages per Split</div>
+                        <div class="font-medium text-gray-900 dark:text-white">{{ format_options.split_every }} pages</div>
+                    </div>
+                    {% endif %}
+
+                    {% if format_options.page_count %}
+                    <div class="bg-white dark:bg-gray-800 p-3 rounded border border-gray-200 dark:border-gray-700">
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Pages per File</div>
+                        <div class="font-medium text-gray-900 dark:text-white">{{ format_options.page_count }} pages</div>
+                    </div>
+                    {% endif %}
+
+                    {% if format_options.custom_split %}
+                    <div class="bg-white dark:bg-gray-800 p-3 rounded border border-gray-200 dark:border-gray-700">
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Split Points</div>
+                        <div class="font-medium text-gray-900 dark:text-white">{{ format_options.custom_split }}</div>
+                    </div>
+                    {% endif %}
+
+                    {% if format_options.optimize_images %}
+                    <div class="bg-white dark:bg-gray-800 p-3 rounded border border-gray-200 dark:border-gray-700">
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Image Optimization</div>
+                        <div class="font-medium text-green-600 dark:text-green-400">✓ Applied</div>
+                    </div>
+                    {% endif %}
+
+                    {% if format_options.remove_metadata %}
+                    <div class="bg-white dark:bg-gray-800 p-3 rounded border border-gray-200 dark:border-gray-700">
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Metadata</div>
+                        <div class="font-medium text-green-600 dark:text-green-400">✓ Removed</div>
+                    </div>
+                    {% endif %}
+
+                    {% if format_options.downsample_images %}
+                    <div class="bg-white dark:bg-gray-800 p-3 rounded border border-gray-200 dark:border-gray-700">
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Image Downsampling</div>
+                        <div class="font-medium text-green-600 dark:text-green-400">✓ Applied</div>
+                    </div>
+                    {% endif %}
+
+                    {% if format_options.reduction_percent %}
+                    <div class="bg-white dark:bg-gray-800 p-3 rounded border border-gray-200 dark:border-gray-700">
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Size Reduction</div>
+                        <div class="font-medium text-green-600 dark:text-green-400">{{ format_options.reduction_percent }}%</div>
+                    </div>
+                    {% endif %}
+
+                    {% if format_options.original_size and format_options.compressed_size %}
+                    <div class="bg-white dark:bg-gray-800 p-3 rounded border border-gray-200 dark:border-gray-700">
+                        <div class="text-sm text-gray-500 dark:text-gray-400">File Size</div>
+                        <div class="font-medium text-gray-900 dark:text-white">
+                            {{ format_options.original_size|filesizeformat }} → 
+                            {{ format_options.compressed_size|filesizeformat }}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if format_options.worksheet_option %}
+                    <div class="bg-white dark:bg-gray-800 p-3 rounded border border-gray-200 dark:border-gray-700">
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Worksheet Selection</div>
+                        <div class="font-medium text-gray-900 dark:text-white">
+                            {% if format_options.worksheet_option == 'all' %}
+                            All Worksheets
+                            {% elif format_options.worksheet_option == 'first' %}
+                            First Worksheet Only
+                            {% elif format_options.worksheet_option == 'active' %}
+                            Active Worksheet Only
+                            {% else %}
+                            {{ format_options.worksheet_option|title }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if format_options.fit_to_page %}
+                    <div class="bg-white dark:bg-gray-800 p-3 rounded border border-gray-200 dark:border-gray-700">
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Page Fit</div>
+                        <div class="font-medium text-green-600 dark:text-green-400">✓ Fit to One Page</div>
+                    </div>
+                    {% endif %}
+
+                    {% if format_options.include_headers %}
+                    <div class="bg-white dark:bg-gray-800 p-3 rounded border border-gray-200 dark:border-gray-700">
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Headers & Footers</div>
+                        <div class="font-medium text-green-600 dark:text-green-400">✓ Included</div>
+                    </div>
+                    {% endif %}
+
+                    {% if format_options.image_count %}
+                    <div class="bg-white dark:bg-gray-800 p-3 rounded border border-gray-200 dark:border-gray-700">
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Images Converted</div>
+                        <div class="font-medium text-gray-900 dark:text-white">{{ format_options.image_count }} images</div>
+                    </div>
+                    {% endif %}
+
+                    {% if format_options.placement %}
+                    <div class="bg-white dark:bg-gray-800 p-3 rounded border border-gray-200 dark:border-gray-700">
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Image Placement</div>
+                        <div class="font-medium text-gray-900 dark:text-white">
+                            {% if format_options.placement == 'fit' %}
+                            Fit to Page
+                            {% elif format_options.placement == 'full' %}
+                            Full Page
+                            {% elif format_options.placement == 'center' %}
+                            Centered
+                            {% elif format_options.placement == 'multiple' %}
+                            Multiple per Page
+                            {% else %}
+                            {{ format_options.placement|title }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if format_options.add_page_numbers %}
+                    <div class="bg-white dark:bg-gray-800 p-3 rounded border border-gray-200 dark:border-gray-700">
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Page Numbers</div>
+                        <div class="font-medium text-green-600 dark:text-green-400">✓ Added to PDF</div>
+                    </div>
+                    {% endif %}
+
+                    {% if format_options.file_names %}
+                    <div class="bg-white dark:bg-gray-800 p-3 rounded border border-gray-200 dark:border-gray-700">
+                        <div class="text-sm text-gray-500 dark:text-gray-400 mb-2">Original Files</div>
+                        <div class="text-sm font-medium text-gray-900 dark:text-white">
+                            {% for filename in format_options.file_names|slice:":3" %}
+                            <div class="truncate">{{ filename }}</div>
+                            {% endfor %}
+                            {% if format_options.file_names|length > 3 %}
+                            <div class="text-gray-500 dark:text-gray-400">+ {{ format_options.file_names|length|add:"-3" }} more images</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Download Button -->
+            <div class="text-center">
+                <a href="{% url 'download_file' task.id %}" 
+                   class="inline-block bg-green-600 dark:bg-green-700 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-green-700 dark:hover:bg-green-600 transition shadow-lg">
+                    <i class="fas fa-download mr-3"></i> Download Converted File
+                </a>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mt-3">File will be automatically deleted in 24 hours</p>
+            </div>
+
+            <!-- Conversion Details -->
+            <div class="border-t border-gray-300 dark:border-gray-700 pt-6">
+                <h4 class="font-semibold text-gray-900 dark:text-white mb-4">Conversion Details</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-gray-50 dark:bg-gray-900 p-4 rounded border border-gray-200 dark:border-gray-700">
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Conversion Type</div>
+                        <div class="font-medium text-gray-900 dark:text-white">
+                            {% if task.conversion_type == 'pdf_to_word' %}
+                            PDF to Word
+                            {% elif task.conversion_type == 'word_to_pdf' %}
+                            Word to PDF
+                            {% elif task.conversion_type == 'merge_pdf' %}
+                            Merge PDF
+                            {% elif task.conversion_type == 'split_pdf' %}
+                            Split PDF
+                            {% elif task.conversion_type == 'compress_pdf' %}
+                            Compress PDF
+                            {% elif task.conversion_type == 'excel_to_pdf' %}
+                            Excel to PDF
+                            {% elif task.conversion_type == 'image_to_pdf' %}
+                            Image to PDF
+                            {% else %}
+                            {{ task.conversion_type|title }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 dark:bg-gray-900 p-4 rounded border border-gray-200 dark:border-gray-700">
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Status</div>
+                        <div class="font-medium text-green-600 dark:text-green-400">{{ task.status|title }}</div>
+                    </div>
+                    <div class="bg-gray-50 dark:bg-gray-900 p-4 rounded border border-gray-200 dark:border-gray-700">
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Completed</div>
+                        <div class="font-medium text-gray-900 dark:text-white">
+                            {% if task.completed_at %}
+                            {{ task.completed_at|timesince }} ago
+                            {% else %}
+                            Not completed
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 dark:bg-gray-900 p-4 rounded border border-gray-200 dark:border-gray-700">
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Task ID</div>
+                        <div class="font-medium text-sm text-gray-900 dark:text-white">{{ task.id }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Next Steps -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        {% if task.conversion_type == 'pdf_to_word' %}
+        <a href="{% url 'pdf_to_word' %}" 
+           class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 text-center hover:shadow-lg transition border border-gray-200 dark:border-gray-700">
+            <div class="bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-redo"></i>
+            </div>
+            <h3 class="font-semibold mb-2 text-gray-900 dark:text-white">Convert Another PDF</h3>
+            <p class="text-gray-600 dark:text-gray-400 text-sm">Upload another PDF for conversion</p>
+        </a>
+        {% elif task.conversion_type == 'word_to_pdf' %}
+        <a href="{% url 'word_to_pdf' %}" 
+           class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 text-center hover:shadow-lg transition border border-gray-200 dark:border-gray-700">
+            <div class="bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-redo"></i>
+            </div>
+            <h3 class="font-semibold mb-2 text-gray-900 dark:text-white">Convert Another Word File</h3>
+            <p class="text-gray-600 dark:text-gray-400 text-sm">Upload another Word document</p>
+        </a>
+        {% else %}
+        <a href="{% url 'tools' %}" 
+           class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 text-center hover:shadow-lg transition border border-gray-200 dark:border-gray-700">
+            <div class="bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-redo"></i>
+            </div>
+            <h3 class="font-semibold mb-2 text-gray-900 dark:text-white">Convert Another File</h3>
+            <p class="text-gray-600 dark:text-gray-400 text-sm">Upload another file for conversion</p>
+        </a>
+        {% endif %}
+        
+        <a href="{% url 'index' %}" 
+           class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 text-center hover:shadow-lg transition border border-gray-200 dark:border-gray-700">
+            <div class="bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-home"></i>
+            </div>
+            <h3 class="font-semibold mb-2 text-gray-900 dark:text-white">Back to Home</h3>
+            <p class="text-gray-600 dark:text-gray-400 text-sm">Return to homepage for more tools</p>
+        </a>
+        
+        <a href="{% url 'tools' %}" 
+           class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 text-center hover:shadow-lg transition border border-gray-200 dark:border-gray-700">
+            <div class="bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-tools"></i>
+            </div>
+            <h3 class="font-semibold mb-2 text-gray-900 dark:text-white">All Tools</h3>
+            <p class="text-gray-600 dark:text-gray-400 text-sm">Try our other conversion tools</p>
+        </a>
+    </div>
+
+    <!-- Security Info - FIXED SECTION -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg border-2 border-gray-200 dark:border-gray-700 mb-8">
+        <h3 class="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-300">
+            <i class="fas fa-shield-alt mr-2"></i>Your Security & Privacy
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <h4 class="font-semibold mb-2 text-gray-900 dark:text-white">Automatic File Deletion</h4>
+                <p class="text-gray-700 dark:text-gray-300">All uploaded and converted files are automatically deleted within 24 hours. We never store your files permanently.</p>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-2 text-gray-900 dark:text-white">Secure Processing</h4>
+                <p class="text-gray-700 dark:text-gray-300">All file transfers are encrypted. Your files are processed securely and never shared with third parties.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Conversion Tips -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
+        <h3 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Need Help with Conversion?</h3>
+        <div class="space-y-4">
+            <div class="flex items-start">
+                <i class="fas fa-question-circle text-blue-500 dark:text-blue-400 mt-1 mr-3"></i>
+                <div>
+                    <h4 class="font-semibold text-gray-900 dark:text-white">Quality Issues?</h4>
+                    <p class="text-gray-600 dark:text-gray-300">Ensure your original file is high quality. For PDFs, use text-based files instead of scanned images.</p>
+                </div>
+            </div>
+            <div class="flex items-start">
+                <i class="fas fa-exclamation-triangle text-yellow-500 dark:text-yellow-400 mt-1 mr-3"></i>
+                <div>
+                    <h4 class="font-semibold text-gray-900 dark:text-white">Large Files?</h4>
+                    <p class="text-gray-600 dark:text-gray-300">For files larger than 50MB, try compressing them first or split them into smaller parts.</p>
+                </div>
+            </div>
+            <div class="flex items-start">
+                <i class="fas fa-envelope text-green-500 dark:text-green-400 mt-1 mr-3"></i>
+                <div>
+                    <h4 class="font-semibold text-gray-900 dark:text-white">Need Email Delivery?</h4>
+                    <p class="text-gray-600 dark:text-gray-300">We're working on email delivery features. Currently, please download files directly.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

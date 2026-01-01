@@ -29,3 +29,4 @@ class ContactMessageAdmin(admin.ModelAdmin):
     mark_as_unread.short_description = "Mark selected messages as unread"
     
     actions = [mark_as_read, mark_as_unread]
+

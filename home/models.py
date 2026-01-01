@@ -17,3 +17,4 @@ class ContactMessage(models.Model):
         ordering = ['-created_at']
         verbose_name = 'Contact Message'
         verbose_name_plural = 'Contact Messages'
+

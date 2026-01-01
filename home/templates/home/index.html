@@ -138,4 +138,34 @@
         </div>
     </div>
 </section>
+
+<!-- Blog Preview Section -->
+<section class="py-12 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-3xl font-bold">Latest Guides & Tutorials</h2>
+            <a href="{% url 'blog_list' %}" class="text-blue-600 font-semibold hover:text-blue-800">
+                View All <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {% for post in blog_posts|slice:":3" %}
+            <div class="bg-gray-50 rounded-xl p-6 hover:shadow-lg transition">
+                <span class="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-xs font-semibold mb-3 inline-block">
+                    New
+                </span>
+                <h3 class="text-xl font-semibold mb-3">{{ post.title }}</h3>
+                <p class="text-gray-600 mb-4">{{ post.excerpt|truncatechars:120 }}</p>
+                <div class="flex items-center justify-between">
+                    <span class="text-gray-500 text-sm">{{ post.read_time }}</span>
+                    <a href="{% url 'blog_detail' post.slug %}" class="text-blue-600 text-sm font-semibold">
+                        Read Guide →
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
 {% endblock %}

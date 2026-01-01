@@ -1,0 +1,638 @@
+{% extends 'home/base.html' %}
+
+{% block title %}{{ post.title }} - {{ site_name }} Blog{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 py-12">
+    <!-- Breadcrumb -->
+    <nav class="mb-8">
+        <a href="/" class="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Home</a>
+        <span class="mx-2 text-gray-400 dark:text-gray-600">/</span>
+        <a href="{% url 'blog_list' %}" class="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Blog</a>
+        <span class="mx-2 text-gray-400 dark:text-gray-600">/</span>
+        <span class="text-gray-700 dark:text-gray-300">{{ post.title|truncatechars:50 }}</span>
+    </nav>
+
+    <!-- Article Header -->
+    <header class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm p-8 mb-8">
+        <div class="inline-block mb-6">
+            <span class="inline-flex items-center px-4 py-2 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded-full text-sm font-semibold">
+                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                </svg>
+                Complete Guide
+            </span>
+        </div>
+        
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white mb-6">{{ post.title }}</h1>
+        
+        <div class="flex items-center flex-wrap gap-6 text-gray-600 dark:text-gray-400 mb-8">
+            <span class="flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+                {{ post.date }}
+            </span>
+            <span class="flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                {{ post.read_time }}
+            </span>
+            <span class="flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                </svg>
+                Expert Guide
+            </span>
+        </div>
+        
+        <div class="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 dark:border-blue-600 p-6 rounded-lg mb-4">
+            <p class="text-lg text-gray-700 dark:text-gray-300 font-medium">
+                {{ post.excerpt }}
+            </p>
+        </div>
+    </header>
+
+    <!-- Article Content -->
+    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm p-8 mb-8">
+        <article class="prose prose-lg dark:prose-invert max-w-none">
+            <!-- Dark mode container for all dynamic content -->
+            <div class="dark-mode-content">
+                {{ post.content|safe }}
+            </div>
+        </article>
+    </div>
+
+    <!-- Related Tools -->
+    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm p-8 mb-8">
+        <div class="flex items-center mb-6">
+            <div class="bg-blue-100 dark:bg-blue-900/30 p-3 rounded-lg mr-4">
+                <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-800 dark:text-white">Related Tools</h3>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <a href="{% url 'pdf_to_word' %}" 
+               class="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 p-6 rounded-lg hover:shadow-lg dark:hover:shadow-gray-900/50 transition flex items-center group">
+                <div class="bg-blue-100 dark:bg-blue-900/30 p-3 rounded-lg mr-4 group-hover:bg-blue-200 dark:group-hover:bg-blue-900/50 transition">
+                    <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-gray-800 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition">PDF to Word Converter</h4>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm mt-1">Convert with perfect formatting</p>
+                </div>
+            </a>
+            
+            <a href="{% url 'compress_pdf' %}" 
+               class="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 p-6 rounded-lg hover:shadow-lg dark:hover:shadow-gray-900/50 transition flex items-center group">
+                <div class="bg-green-100 dark:bg-green-900/30 p-3 rounded-lg mr-4 group-hover:bg-green-200 dark:group-hover:bg-green-900/50 transition">
+                    <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/>
+                    </svg>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-gray-800 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition">Compress PDF</h4>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm mt-1">Reduce file size before conversion</p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Author & Share Section -->
+    <div class="bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-xl p-8 mb-8">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-6 md:mb-0">
+                <h4 class="font-bold text-gray-800 dark:text-white mb-2">Written by</h4>
+                <div class="flex items-center">
+                    <div class="bg-blue-100 dark:bg-blue-900/30 w-10 h-10 rounded-full flex items-center justify-center mr-3">
+                        <span class="text-blue-600 dark:text-blue-400 font-bold">PC</span>
+                    </div>
+                    <div>
+                        <p class="font-medium text-gray-800 dark:text-white">PDF Converter Pro Team</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">PDF conversion experts since 2024</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="flex justify-between items-center border-t border-gray-200 dark:border-gray-700 pt-8">
+        <a href="{% url 'blog_list' %}" 
+           class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium transition-colors">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+            </svg>
+            Back to All Guides
+        </a>
+        
+        <a href="/" 
+           class="inline-flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300 font-medium transition-colors">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+            </svg>
+            Home
+        </a>
+    </div>
+</div>
+
+<style>
+/* Base dark mode styles for all content */
+.dark .dark-mode-content,
+.dark .dark-mode-content * {
+    color: #d1d5db !important;
+}
+
+.dark .dark-mode-content h1,
+.dark .dark-mode-content h2,
+.dark .dark-mode-content h3,
+.dark .dark-mode-content h4,
+.dark .dark-mode-content h5,
+.dark .dark-mode-content h6 {
+    color: #ffffff !important;
+}
+
+.dark .dark-mode-content p {
+    color: #d1d5db !important;
+}
+
+.dark .dark-mode-content ul,
+.dark .dark-mode-content ol {
+    color: #d1d5db !important;
+}
+
+.dark .dark-mode-content li {
+    color: #d1d5db !important;
+}
+
+.dark .dark-mode-content strong {
+    color: #ffffff !important;
+}
+
+/* Table styling for dark mode */
+.dark .dark-mode-content table {
+    background-color: #1f2937 !important;
+    border-color: #4b5563 !important;
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1.5rem 0;
+}
+
+.dark .dark-mode-content thead {
+    background-color: #374151 !important;
+}
+
+.dark .dark-mode-content th {
+    background-color: #374151 !important;
+    color: #ffffff !important;
+    border-color: #4b5563 !important;
+    padding: 0.75rem;
+    font-weight: 600;
+    text-align: left;
+}
+
+.dark .dark-mode-content td {
+    background-color: #1f2937 !important;
+    color: #d1d5db !important;
+    border-color: #4b5563 !important;
+    padding: 0.75rem;
+}
+
+.dark .dark-mode-content tr:nth-child(even) td {
+    background-color: #374151 !important;
+}
+
+/* Compression comparison specific styles */
+.dark .dark-mode-content .compression-table,
+.dark .dark-mode-content table.compression {
+    background-color: #1f2937 !important;
+}
+
+.dark .dark-mode-content .compression-table th,
+.dark .dark-mode-content table.compression th {
+    background-color: #1e40af !important;
+    color: #ffffff !important;
+}
+
+.dark .dark-mode-content .compression-table td,
+.dark .dark-mode-content table.compression td {
+    background-color: #1f2937 !important;
+    color: #d1d5db !important;
+}
+
+.dark .dark-mode-content .compression-table tr:nth-child(even) td,
+.dark .dark-mode-content table.compression tr:nth-child(even) td {
+    background-color: #374151 !important;
+}
+
+/* Compression level boxes */
+.dark .dark-mode-content .compression-box,
+.dark .dark-mode-content .compression-level {
+    background-color: #374151 !important;
+    border: 1px solid #4b5563 !important;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin: 1rem 0;
+}
+
+.dark .dark-mode-content .compression-box h3,
+.dark .dark-mode-content .compression-level h3,
+.dark .dark-mode-content .compression-box h4,
+.dark .dark-mode-content .compression-level h4 {
+    color: #ffffff !important;
+    margin-top: 0;
+}
+
+.dark .dark-mode-content .compression-box p,
+.dark .dark-mode-content .compression-level p {
+    color: #9ca3af !important;
+    margin: 0.5rem 0;
+}
+
+/* Percentage badges */
+.dark .dark-mode-content .percentage-badge,
+.dark .dark-mode-content .reduction-badge {
+    background-color: #1e40af !important;
+    color: #93c5fd !important;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    display: inline-block;
+    margin: 0.25rem 0;
+}
+
+.dark .dark-mode-content .percentage-high {
+    background-color: #065f46 !important;
+    color: #6ee7b7 !important;
+}
+
+.dark .dark-mode-content .percentage-low {
+    background-color: #92400e !important;
+    color: #fbbf24 !important;
+}
+
+/* Best for sections */
+.dark .dark-mode-content .best-for-box,
+.dark .dark-mode-content .use-case-box {
+    background-color: rgba(55, 65, 81, 0.5) !important;
+    border: 1px solid #4b5563 !important;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin: 1rem 0;
+}
+
+.dark .dark-mode-content .best-for-box h3,
+.dark .dark-mode-content .use-case-box h3,
+.dark .dark-mode-content .best-for-box h4,
+.dark .dark-mode-content .use-case-box h4 {
+    color: #ffffff !important;
+    margin-top: 0;
+}
+
+.dark .dark-mode-content .best-for-box p,
+.dark .dark-mode-content .use-case-box p {
+    color: #9ca3af !important;
+    margin: 0.5rem 0;
+}
+
+/* Tip boxes styling - specifically for the 💡 tip sections */
+.dark .dark-mode-content .tip-box,
+.dark .dark-mode-content .tip-section,
+.dark .dark-mode-content .tip-item {
+    background-color: rgba(30, 64, 175, 0.2) !important;
+    border: 1px solid #1e40af !important;
+    border-left: 4px solid #3b82f6 !important;
+    border-radius: 0.5rem;
+    padding: 1rem 1.5rem !important;
+    margin: 1rem 0 !important;
+}
+
+.dark .dark-mode-content .tip-box p,
+.dark .dark-mode-content .tip-section p,
+.dark .dark-mode-content .tip-item p {
+    color: #d1d5db !important;
+    margin: 0.5rem 0 !important;
+    line-height: 1.6;
+}
+
+.dark .dark-mode-content .tip-box strong,
+.dark .dark-mode-content .tip-section strong,
+.dark .dark-mode-content .tip-item strong {
+    color: #ffffff !important;
+    font-weight: 600;
+}
+
+/* Fix for emoji tips */
+.dark .dark-mode-content p:has(span.emoji),
+.dark .dark-mode-content p:contains("💡"),
+.dark .dark-mode-content p:has(> span:first-child:contains("💡")) {
+    background-color: rgba(30, 64, 175, 0.2) !important;
+    border: 1px solid #1e40af !important;
+    border-left: 4px solid #3b82f6 !important;
+    border-radius: 0.5rem;
+    padding: 1rem 1.5rem !important;
+    margin: 1rem 0 !important;
+}
+
+/* Ensure all text colors are correct in dark mode */
+.dark .dark-mode-content .text-gray-800,
+.dark .dark-mode-content .text-gray-900 {
+    color: #ffffff !important;
+}
+
+.dark .dark-mode-content .text-gray-700 {
+    color: #d1d5db !important;
+}
+
+.dark .dark-mode-content .text-gray-600 {
+    color: #9ca3af !important;
+}
+
+.dark .dark-mode-content .text-gray-500 {
+    color: #6b7280 !important;
+}
+
+/* Code blocks */
+.dark .dark-mode-content code {
+    background-color: #374151 !important;
+    color: #d1d5db !important;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.25rem;
+    font-family: monospace;
+}
+
+.dark .dark-mode-content pre {
+    background-color: #1f2937 !important;
+    color: #d1d5db !important;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    border: 1px solid #374151;
+}
+
+/* Links */
+.dark .dark-mode-content a {
+    color: #60a5fa !important;
+    text-decoration: none;
+}
+
+.dark .dark-mode-content a:hover {
+    color: #93c5fd !important;
+    text-decoration: underline;
+}
+
+/* Blockquotes */
+.dark .dark-mode-content blockquote {
+    border-left: 4px solid #4b5563 !important;
+    padding-left: 1rem;
+    color: #9ca3af !important;
+    margin: 1.5rem 0;
+}
+
+/* Force dark backgrounds for any light backgrounds */
+.dark .dark-mode-content [style*="background-color: white"],
+.dark .dark-mode-content [style*="background-color: #fff"],
+.dark .dark-mode-content [style*="background-color: #ffffff"],
+.dark .dark-mode-content [style*="background-color: #f9fafb"],
+.dark .dark-mode-content [style*="background-color: #f3f4f6"],
+.dark .dark-mode-content [style*="background-color: #e5e7eb"] {
+    background-color: #1f2937 !important;
+}
+
+/* Force dark text for any black/dark text */
+.dark .dark-mode-content [style*="color: black"],
+.dark .dark-mode-content [style*="color: #000"],
+.dark .dark-mode-content [style*="color: #000000"],
+.dark .dark-mode-content [style*="color: #111827"],
+.dark .dark-mode-content [style*="color: #1f2937"],
+.dark .dark-mode-content [style*="color: #374151"] {
+    color: #ffffff !important;
+}
+</style>
+
+<!-- JavaScript for dynamic dark mode fixes -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to apply dark mode styles to all content
+    function applyDarkModeStyles() {
+        if (document.documentElement.classList.contains('dark')) {
+            const contentContainer = document.querySelector('.dark-mode-content');
+            if (!contentContainer) return;
+            
+            // Fix all paragraphs with tips
+            const paragraphs = contentContainer.querySelectorAll('p');
+            paragraphs.forEach(p => {
+                const text = p.textContent.trim();
+                
+                // Check if this is a tip paragraph (contains 💡 or "Tip")
+                if (text.includes('💡') || text.toLowerCase().includes('tip')) {
+                    // Add tip styling classes
+                    p.classList.add('tip-item', 'dark:bg-blue-900/20', 'dark:border-blue-800', 'dark:text-gray-300');
+                    
+                    // Apply inline styles for dark mode
+                    p.style.backgroundColor = 'rgba(30, 64, 175, 0.2)';
+                    p.style.border = '1px solid #1e40af';
+                    p.style.borderLeft = '4px solid #3b82f6';
+                    p.style.borderRadius = '0.5rem';
+                    p.style.padding = '1rem 1.5rem';
+                    p.style.margin = '1rem 0';
+                    p.style.color = '#d1d5db';
+                    
+                    // Fix any strong text inside the tip
+                    const strongElements = p.querySelectorAll('strong');
+                    strongElements.forEach(strong => {
+                        strong.style.color = '#ffffff';
+                    });
+                }
+                
+                // Fix compression percentage text
+                if (text.includes('% reduction') || text.includes('% Reduction')) {
+                    const matches = text.match(/(\d+)-(\d+)%/);
+                    if (matches) {
+                        const percentage = parseInt(matches[1]);
+                        if (percentage >= 70) {
+                            p.classList.add('percentage-high', 'dark:bg-green-900/30', 'dark:text-green-300');
+                            p.style.backgroundColor = '#065f46';
+                            p.style.color = '#6ee7b7';
+                        } else if (percentage <= 40) {
+                            p.classList.add('percentage-low', 'dark:bg-yellow-900/30', 'dark:text-yellow-300');
+                            p.style.backgroundColor = '#92400e';
+                            p.style.color = '#fbbf24';
+                        }
+                    }
+                }
+                
+                // Fix "Best for" sections
+                if (text.includes('Best for:') || text.includes('Best for')) {
+                    const parent = p.parentElement;
+                    if (parent && (parent.tagName === 'DIV' || parent.tagName === 'P')) {
+                        parent.classList.add('best-for-box', 'dark:bg-gray-800/50', 'dark:border-gray-700', 'dark:text-gray-300');
+                        parent.style.backgroundColor = 'rgba(55, 65, 81, 0.5)';
+                        parent.style.border = '1px solid #4b5563';
+                        parent.style.borderRadius = '0.5rem';
+                        parent.style.padding = '1rem';
+                        parent.style.margin = '1rem 0';
+                        parent.style.color = '#d1d5db';
+                    }
+                }
+            });
+            
+            // Fix tables for compression comparison
+            const tables = contentContainer.querySelectorAll('table');
+            tables.forEach(table => {
+                const tableText = table.textContent;
+                if (tableText.includes('Compression') || tableText.includes('compression')) {
+                    table.classList.add('compression-table', 'dark:bg-gray-800', 'dark:border-gray-700');
+                    table.style.backgroundColor = '#1f2937';
+                    table.style.borderColor = '#4b5563';
+                    
+                    // Fix table headers
+                    const thElements = table.querySelectorAll('th');
+                    thElements.forEach(th => {
+                        th.classList.add('dark:bg-blue-900', 'dark:text-white');
+                        th.style.backgroundColor = '#1e40af';
+                        th.style.color = '#ffffff';
+                        th.style.borderColor = '#4b5563';
+                    });
+                    
+                    // Fix table cells
+                    const tdElements = table.querySelectorAll('td');
+                    tdElements.forEach((td, index) => {
+                        td.classList.add('dark:bg-gray-800', 'dark:text-gray-300');
+                        td.style.backgroundColor = '#1f2937';
+                        td.style.color = '#d1d5db';
+                        td.style.borderColor = '#4b5563';
+                    });
+                    
+                    // Add alternating row colors
+                    const rows = table.querySelectorAll('tr');
+                    rows.forEach((row, rowIndex) => {
+                        if (rowIndex > 0 && rowIndex % 2 === 0) {
+                            const tds = row.querySelectorAll('td');
+                            tds.forEach(td => {
+                                td.style.backgroundColor = '#374151';
+                            });
+                        }
+                    });
+                }
+            });
+            
+            // Fix all text colors
+            const allElements = contentContainer.querySelectorAll('*');
+            allElements.forEach(el => {
+                const computedColor = window.getComputedStyle(el).color;
+                
+                // Fix black/dark text
+                if (computedColor === 'rgb(0, 0, 0)' || computedColor === '#000000' || 
+                    computedColor === 'rgb(17, 24, 39)' || computedColor === '#111827' ||
+                    computedColor === 'rgb(31, 41, 55)' || computedColor === '#1f2937') {
+                    el.style.color = '#ffffff';
+                }
+                
+                // Fix gray text
+                if (computedColor === 'rgb(55, 65, 81)' || computedColor === '#374151' ||
+                    computedColor === 'rgb(75, 85, 99)' || computedColor === '#4b5563' ||
+                    computedColor === 'rgb(107, 114, 128)' || computedColor === '#6b7280') {
+                    el.style.color = '#d1d5db';
+                }
+                
+                // Fix backgrounds
+                const computedBg = window.getComputedStyle(el).backgroundColor;
+                if (computedBg === 'rgb(255, 255, 255)' || computedBg === '#ffffff') {
+                    el.style.backgroundColor = '#1f2937';
+                } else if (computedBg === 'rgb(249, 250, 251)' || computedBg === '#f9fafb' ||
+                           computedBg === 'rgb(243, 244, 246)' || computedBg === '#f3f4f6') {
+                    el.style.backgroundColor = '#374151';
+                } else if (computedBg === 'rgb(229, 231, 235)' || computedBg === '#e5e7eb' ||
+                           computedBg === 'rgb(209, 213, 219)' || computedBg === '#d1d5db') {
+                    el.style.backgroundColor = '#4b5563';
+                }
+            });
+        }
+    }
+    
+    // Apply styles on load
+    applyDarkModeStyles();
+    
+    // Watch for dark mode changes
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.attributeName === 'class') {
+                setTimeout(applyDarkModeStyles, 100);
+            }
+        });
+    });
+    
+    observer.observe(document.documentElement, { attributes: true });
+    
+    // Apply after content loads
+    setTimeout(applyDarkModeStyles, 500);
+    setTimeout(applyDarkModeStyles, 1000);
+    
+    // Reading progress indicator
+    const article = document.querySelector('article');
+    if (article) {
+        const updateReadingProgress = () => {
+            const articleHeight = article.clientHeight;
+            const articleTop = article.getBoundingClientRect().top + window.pageYOffset;
+            const scrolled = window.pageYOffset - articleTop;
+            const progress = Math.min(Math.max(scrolled / articleHeight, 0), 1) * 100;
+            
+            let progressBar = document.getElementById('reading-progress');
+            if (!progressBar) {
+                progressBar = document.createElement('div');
+                progressBar.id = 'reading-progress';
+                progressBar.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    height: 3px;
+                    background: linear-gradient(to right, #3b82f6, #8b5cf6);
+                    z-index: 9999;
+                    transition: width 0.3s ease;
+                `;
+                document.body.appendChild(progressBar);
+            }
+            
+            progressBar.style.width = progress + '%';
+        };
+        
+        window.addEventListener('scroll', updateReadingProgress);
+        window.addEventListener('resize', updateReadingProgress);
+        updateReadingProgress();
+    }
+    
+    // Copy code functionality
+    document.querySelectorAll('code').forEach(codeBlock => {
+        codeBlock.addEventListener('click', function() {
+            const text = this.textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const notification = document.createElement('div');
+                notification.textContent = 'Copied to clipboard!';
+                notification.style.cssText = `
+                    position: fixed;
+                    bottom: 20px;
+                    right: 20px;
+                    background: #10b981;
+                    color: white;
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    z-index: 10000;
+                    font-size: 14px;
+                `;
+                document.body.appendChild(notification);
+                setTimeout(() => notification.remove(), 2000);
+            });
+        });
+    });
+});
+</script>
+{% endblock %}

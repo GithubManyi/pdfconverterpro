@@ -16,4 +16,6 @@ urlpatterns = [
     path('tools/', views.tools, name='tools'),
     path('blog/', views.blog_list, name='blog_list'),
     path('blog/<slug:slug>/', views.blog_detail, name='blog_detail'),
+    path('sitemap.xml', views.sitemap_view, name='sitemap'),
+    
 ]

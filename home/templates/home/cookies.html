@@ -1,124 +1,572 @@
 {% extends 'home/base.html' %}
 {% load static %}
 
-{% block title %}{{ title|default:"Cookie Policy - PDF Converter Pro" }}{% endblock %}
+{% block title %}Cookie Policy - PDF Converter Pro | Manage Your Privacy Settings{% endblock %}
+{% block meta_description %}Learn how PDF Converter Pro uses cookies for functionality, analytics & preferences. Manage cookie settings & understand your privacy options for file conversion tools.{% endblock %}
+{% block robots %}index, follow{% endblock %}
 
 {% block content %}
 <div class="container mx-auto px-4 py-12">
     <div class="max-w-4xl mx-auto">
-        <h1 class="text-4xl font-bold text-gray-800 mb-6">Cookie Policy</h1>
-        <p class="text-gray-600 mb-8">Last updated: December 24, 2024</p>
+        <!-- Breadcrumb Navigation -->
+        <nav class="mb-6" aria-label="Breadcrumb">
+            <ol class="flex items-center text-sm text-gray-600">
+                <li class="inline-flex items-center">
+                    <a href="/" class="hover:text-blue-600 transition-colors">Home</a>
+                </li>
+                <li class="mx-2">/</li>
+                <li class="inline-flex items-center">
+                    <a href="{% url 'privacy' %}" class="hover:text-blue-600 transition-colors">Privacy Policy</a>
+                </li>
+                <li class="mx-2">/</li>
+                <li class="text-gray-800 font-medium" aria-current="page">Cookie Policy</li>
+            </ol>
+        </nav>
 
-        <div class="prose prose-lg max-w-none">
-            <section class="mb-8">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">What Are Cookies</h2>
-                <p class="text-gray-700 mb-4">
-                    Cookies are small text files that are placed on your computer or mobile device when you visit our website. They help the website remember information about your visit, which can make it easier to visit the site again and make the site more useful to you.
-                </p>
-            </section>
+        <!-- Header Section -->
+        <header class="mb-8">
+            <!-- OPTIMIZED H1 -->
+            <h1 class="text-4xl font-bold text-gray-800 dark:text-white mb-4">Cookie Policy for PDF Converter Pro</h1>
+            <p class="text-gray-600 dark:text-gray-400 mb-2">Last updated: December 24, 2024</p>
+            <p class="text-lg text-gray-700 dark:text-gray-300">
+                Understand how we use cookies to enhance your PDF conversion experience while protecting your privacy.
+            </p>
+        </header>
 
-            <section class="mb-8">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">How We Use Cookies</h2>
-                <p class="text-gray-700 mb-4">
-                    PDF Converter Pro uses cookies for the following purposes:
-                </p>
-                
-                <div class="bg-gray-50 rounded-lg p-6 mb-6">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Essential Cookies</h3>
-                    <p class="text-gray-700 mb-2">These cookies are necessary for the website to function properly:</p>
-                    <ul class="list-disc pl-6 text-gray-700">
-                        <li>Session management during file conversion</li>
-                        <li>Security features to prevent abuse</li>
-                        <li>Basic site functionality</li>
-                    </ul>
-                </div>
-                
-                <div class="bg-gray-50 rounded-lg p-6 mb-6">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Analytics Cookies</h3>
-                    <p class="text-gray-700 mb-2">These cookies help us understand how visitors interact with our website:</p>
-                    <ul class="list-disc pl-6 text-gray-700">
-                        <li>Page visit counts</li>
-                        <li>Tool usage statistics</li>
-                        <li>Error tracking</li>
-                        <li>Performance monitoring</li>
-                    </ul>
-                    <p class="text-gray-700 mt-3 text-sm">All analytics data is anonymized and cannot be used to identify individual users.</p>
-                </div>
-                
-                <div class="bg-gray-50 rounded-lg p-6 mb-6">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Preference Cookies</h3>
-                    <p class="text-gray-700 mb-2">These cookies remember your settings and preferences:</p>
-                    <ul class="list-disc pl-6 text-gray-700">
-                        <li>Language preferences (if implemented)</li>
-                        <li>Dark/light mode preferences</li>
-                        <li>Recent tool usage</li>
-                    </ul>
-                </div>
-            </section>
-
-            <section class="mb-8">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Third-Party Cookies</h2>
-                <p class="text-gray-700 mb-4">
-                    We may use services from third parties that may set cookies, including:
-                </p>
-                <ul class="list-disc pl-6 text-gray-700 mb-4">
-                    <li><strong>Google Analytics:</strong> For understanding how users interact with our site</li>
-                    <li><strong>Ad Networks:</strong> If we display advertisements (currently we do not)</li>
-                    <li><strong>CDN Services:</strong> For faster content delivery</li>
+        <div class="prose prose-lg max-w-none dark:prose-invert">
+            <!-- Quick Navigation -->
+            <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6 mb-8">
+                <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-3">Quick Navigation</h2>
+                <ul class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <li><a href="#what-are-cookies" class="text-blue-600 dark:text-blue-400 hover:underline">What Are Cookies?</a></li>
+                    <li><a href="#types-of-cookies" class="text-blue-600 dark:text-blue-400 hover:underline">Types of Cookies We Use</a></li>
+                    <li><a href="#manage-cookies" class="text-blue-600 dark:text-blue-400 hover:underline">Managing Cookies</a></li>
+                    <li><a href="#your-consent" class="text-blue-600 dark:text-blue-400 hover:underline">Your Consent</a></li>
                 </ul>
-            </section>
+            </div>
 
-            <section class="mb-8">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Managing Cookies</h2>
-                <p class="text-gray-700 mb-4">
-                    You can control and/or delete cookies as you wish. You can delete all cookies that are already on your computer and you can set most browsers to prevent them from being placed. However, if you do this, you may have to manually adjust some preferences every time you visit our site and some services and functionalities may not work.
+            <!-- What Are Cookies -->
+            <section id="what-are-cookies" class="mb-8 scroll-mt-8">
+                <h2 class="text-2xl font-semibold text-gray-800 dark:text-white mb-4">Understanding Cookies</h2>
+                <p class="text-gray-700 dark:text-gray-300 mb-4">
+                    Cookies are small text files that websites place on your device (computer, tablet, or mobile phone) when you visit. They are widely used to make websites work more efficiently and provide information to website owners.
                 </p>
-                
-                <div class="bg-blue-50 rounded-lg p-6">
-                    <h3 class="text-xl font-semibold text-blue-800 mb-3">Browser Settings</h3>
-                    <p class="text-gray-700 mb-3">To manage cookies in your browser:</p>
-                    <ul class="list-disc pl-6 text-gray-700">
-                        <li><strong>Chrome:</strong> Settings → Privacy and security → Cookies and other site data</li>
-                        <li><strong>Firefox:</strong> Options → Privacy & Security → Cookies and Site Data</li>
-                        <li><strong>Safari:</strong> Preferences → Privacy → Cookies and website data</li>
-                        <li><strong>Edge:</strong> Settings → Cookies and site permissions → Cookies and site data</li>
+                <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 mt-4">
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-3">Key Functions of Cookies</h3>
+                    <ul class="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2">
+                        <li>Enable basic website functionality and security features</li>
+                        <li>Remember your preferences and settings for future visits</li>
+                        <li>Analyze how visitors use our PDF conversion tools</li>
+                        <li>Improve website performance and user experience</li>
+                        <li>Maintain your session during file conversion processes</li>
                     </ul>
                 </div>
             </section>
 
-            <section class="mb-8">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Cookie Duration</h2>
-                <p class="text-gray-700 mb-4">
-                    Cookies used on our site have different lifespans:
+            <!-- How We Use Cookies -->
+            <section id="types-of-cookies" class="mb-8 scroll-mt-8">
+                <h2 class="text-2xl font-semibold text-gray-800 dark:text-white mb-4">Types of Cookies Used on PDF Converter Pro</h2>
+                <p class="text-gray-700 dark:text-gray-300 mb-6">
+                    We use different types of cookies to provide and improve our PDF conversion services:
                 </p>
-                <ul class="list-disc pl-6 text-gray-700 mb-4">
-                    <li><strong>Session Cookies:</strong> Expire when you close your browser</li>
-                    <li><strong>Persistent Cookies:</strong> Remain for a set period (up to 1 year)</li>
-                    <li><strong>Essential Cookies:</strong> Typically session-based for security</li>
-                </ul>
+                
+                <!-- Essential Cookies -->
+                <div class="bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 dark:border-red-600 rounded-lg p-6 mb-6">
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-3">Essential Cookies (Necessary)</h3>
+                    <p class="text-gray-700 dark:text-gray-300 mb-3">These cookies are strictly necessary for our website to function:</p>
+                    <ul class="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2">
+                        <li><strong>Session Cookies:</strong> Maintain your session during file uploads and conversions</li>
+                        <li><strong>Security Cookies:</strong> Protect against malicious attacks and abuse</li>
+                        <li><strong>Load Balancing:</strong> Distribute traffic across servers for optimal performance</li>
+                        <li><strong>CSRF Protection:</strong> Prevent cross-site request forgery attacks</li>
+                    </ul>
+                    <p class="text-gray-700 dark:text-gray-300 mt-3 text-sm">
+                        <strong>Note:</strong> These cookies cannot be disabled as they are essential for basic functionality.
+                    </p>
+                </div>
+                
+                <!-- Analytics Cookies -->
+                <div class="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 dark:border-blue-600 rounded-lg p-6 mb-6">
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-3">Analytics & Performance Cookies</h3>
+                    <p class="text-gray-700 dark:text-gray-300 mb-3">These cookies help us understand how visitors use our PDF tools:</p>
+                    <ul class="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2">
+                        <li><strong>Usage Analytics:</strong> Track which conversion tools are most popular</li>
+                        <li><strong>Performance Monitoring:</strong> Identify and fix technical issues</li>
+                        <li><strong>Conversion Success Rates:</strong> Monitor file conversion success/failure rates</li>
+                        <li><strong>Feature Improvement:</strong> Gather data to improve tool functionality</li>
+                    </ul>
+                    <p class="text-gray-700 dark:text-gray-300 mt-3 text-sm">
+                        <i class="fas fa-shield-alt mr-1"></i> All analytics data is fully anonymized and cannot identify individual users.
+                    </p>
+                </div>
+                
+                <!-- Preference Cookies -->
+                <div class="bg-green-50 dark:bg-green-900/20 border-l-4 border-green-500 dark:border-green-600 rounded-lg p-6 mb-6">
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-3">Preference & Functionality Cookies</h3>
+                    <p class="text-gray-700 dark:text-gray-300 mb-3">These cookies remember your settings and preferences:</p>
+                    <ul class="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2">
+                        <li><strong>Theme Preference:</strong> Remember dark/light mode selection</li>
+                        <li><strong>Language Settings:</strong> Store preferred language (if applicable)</li>
+                        <li><strong>Recent Tools:</strong> Remember frequently used conversion tools</li>
+                        <li><strong>UI Preferences:</strong> Store interface customization choices</li>
+                    </ul>
+                </div>
             </section>
 
+            <!-- Third-Party Cookies -->
             <section class="mb-8">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Your Consent</h2>
-                <p class="text-gray-700 mb-4">
-                    By using our website, you consent to our use of cookies as described in this policy. You can withdraw your consent at any time by disabling cookies in your browser settings.
+                <h2 class="text-2xl font-semibold text-gray-800 dark:text-white mb-4">Third-Party Cookies</h2>
+                <p class="text-gray-700 dark:text-gray-300 mb-4">
+                    Some third-party services may set cookies when you use PDF Converter Pro:
                 </p>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white dark:bg-gray-800 rounded-lg overflow-hidden">
+                        <thead class="bg-gray-100 dark:bg-gray-700">
+                            <tr>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-800 dark:text-white">Service</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-800 dark:text-white">Purpose</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-800 dark:text-white">Privacy Policy</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                            <tr>
+                                <td class="py-3 px-4 text-gray-700 dark:text-gray-300">Google Analytics</td>
+                                <td class="py-3 px-4 text-gray-700 dark:text-gray-300">Website analytics and performance tracking</td>
+                                <td class="py-3 px-4"><a href="https://policies.google.com/privacy" class="text-blue-600 dark:text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">View Policy</a></td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 text-gray-700 dark:text-gray-300">Cloudflare</td>
+                                <td class="py-3 px-4 text-gray-700 dark:text-gray-300">Security and content delivery</td>
+                                <td class="py-3 px-4"><a href="https://www.cloudflare.com/privacypolicy/" class="text-blue-600 dark:text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">View Policy</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
-            <section class="mb-8">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Changes to This Policy</h2>
-                <p class="text-gray-700 mb-4">
-                    We may update our Cookie Policy from time to time. We will notify you of any changes by posting the new Cookie Policy on this page and updating the "Last updated" date.
+            <!-- Managing Cookies -->
+            <section id="manage-cookies" class="mb-8 scroll-mt-8">
+                <h2 class="text-2xl font-semibold text-gray-800 dark:text-white mb-4">Managing Your Cookie Preferences</h2>
+                <p class="text-gray-700 dark:text-gray-300 mb-6">
+                    You have full control over cookies. Here's how to manage them:
                 </p>
+                
+                <!-- Cookie Consent Banner -->
+                <div class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-6 mb-6">
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-3">Cookie Consent Management</h3>
+                    <p class="text-gray-700 dark:text-gray-300 mb-4">
+                        You can manage your cookie preferences through our cookie consent tool:
+                    </p>
+                    <button id="manage-cookies-btn" class="bg-blue-600 dark:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                        <i class="fas fa-cookie-bite mr-2"></i>Manage Cookie Preferences
+                    </button>
+                </div>
+                
+                <!-- Browser Instructions -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                        <h4 class="text-lg font-semibold text-gray-800 dark:text-white mb-3">Browser Settings</h4>
+                        <p class="text-gray-700 dark:text-gray-300 mb-3">Control cookies through your browser settings:</p>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <i class="fab fa-chrome text-blue-500 mt-1 mr-2"></i>
+                                <span class="text-gray-700 dark:text-gray-300"><strong>Chrome:</strong> Settings → Privacy & security → Cookies</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fab fa-firefox text-orange-500 mt-1 mr-2"></i>
+                                <span class="text-gray-700 dark:text-gray-300"><strong>Firefox:</strong> Options → Privacy & Security → Cookies</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fab fa-safari text-blue-400 mt-1 mr-2"></i>
+                                <span class="text-gray-700 dark:text-gray-300"><strong>Safari:</strong> Preferences → Privacy → Cookies</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fab fa-edge text-blue-600 mt-1 mr-2"></i>
+                                <span class="text-gray-700 dark:text-gray-300"><strong>Edge:</strong> Settings → Cookies and site permissions</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                        <h4 class="text-lg font-semibold text-gray-800 dark:text-white mb-3">What to Consider</h4>
+                        <ul class="space-y-3 text-gray-700 dark:text-gray-300">
+                            <li class="flex items-start">
+                                <i class="fas fa-exclamation-triangle text-yellow-500 mt-1 mr-2"></i>
+                                <span>Disabling cookies may break some website features</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-sync-alt text-blue-500 mt-1 mr-2"></i>
+                                <span>You'll need to set preferences on each visit</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-shield-alt text-green-500 mt-1 mr-2"></i>
+                                <span>Essential cookies cannot be disabled for security</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-trash-alt text-red-500 mt-1 mr-2"></i>
+                                <span>You can delete existing cookies at any time</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </section>
 
+            <!-- Cookie Duration -->
             <section class="mb-8">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Contact Us</h2>
-                <p class="text-gray-700 mb-4">
-                    If you have any questions about our Cookie Policy, please contact us through our <a href="{% url 'contact' %}" class="text-blue-600 hover:underline">Contact Page</a>.
+                <h2 class="text-2xl font-semibold text-gray-800 dark:text-white mb-4">Cookie Duration & Storage</h2>
+                <p class="text-gray-700 dark:text-gray-300 mb-4">
+                    Cookies on PDF Converter Pro have different lifespans based on their purpose:
                 </p>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white dark:bg-gray-800 rounded-lg overflow-hidden">
+                        <thead class="bg-gray-100 dark:bg-gray-700">
+                            <tr>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-800 dark:text-white">Cookie Type</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-800 dark:text-white">Duration</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-800 dark:text-white">Purpose</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                            <tr>
+                                <td class="py-3 px-4 text-gray-700 dark:text-gray-300">Session Cookies</td>
+                                <td class="py-3 px-4 text-gray-700 dark:text-gray-300">Until browser closes</td>
+                                <td class="py-3 px-4 text-gray-700 dark:text-gray-300">Temporary session management</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 text-gray-700 dark:text-gray-300">Preference Cookies</td>
+                                <td class="py-3 px-4 text-gray-700 dark:text-gray-300">Up to 1 year</td>
+                                <td class="py-3 px-4 text-gray-700 dark:text-gray-300">Remember user settings</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 text-gray-700 dark:text-gray-300">Analytics Cookies</td>
+                                <td class="py-3 px-4 text-gray-700 dark:text-gray-300">Up to 2 years</td>
+                                <td class="py-3 px-4 text-gray-700 dark:text-gray-300">Usage tracking</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Your Consent -->
+            <section id="your-consent" class="mb-8 scroll-mt-8">
+                <h2 class="text-2xl font-semibold text-gray-800 dark:text-white mb-4">Your Consent & Rights</h2>
+                <div class="bg-green-50 dark:bg-green-900/20 rounded-lg p-6">
+                    <p class="text-gray-700 dark:text-gray-300 mb-4">
+                        By using PDF Converter Pro, you consent to our use of cookies as described in this policy. You have the right to:
+                    </p>
+                    <ul class="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
+                        <li><strong>Withdraw Consent:</strong> Disable non-essential cookies at any time</li>
+                        <li><strong>Access Information:</strong> Request details about cookies used</li>
+                        <li><strong>Delete Cookies:</strong> Remove existing cookies from your browser</li>
+                        <li><strong>File Complaints:</strong> Contact data protection authorities if concerned</li>
+                    </ul>
+                    <p class="text-gray-700 dark:text-gray-300">
+                        To withdraw consent for non-essential cookies, use the cookie management tool above or adjust your browser settings.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Changes & Contact -->
+            <section class="mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-3">Policy Updates</h3>
+                        <p class="text-gray-700 dark:text-gray-300 mb-3">
+                            We may update this Cookie Policy periodically. Changes will be posted here with updated dates.
+                        </p>
+                        <p class="text-gray-700 dark:text-gray-300 text-sm">
+                            <i class="fas fa-history mr-1"></i> Next review scheduled: June 24, 2025
+                        </p>
+                    </div>
+                    
+                    <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-3">Contact & Questions</h3>
+                        <p class="text-gray-700 dark:text-gray-300 mb-4">
+                            For questions about our Cookie Policy or privacy practices:
+                        </p>
+                        <a href="{% url 'contact' %}" 
+                           class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium">
+                            <i class="fas fa-envelope mr-2"></i>
+                            Contact Our Privacy Team
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Related Documents -->
+            <section class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
+                <h2 class="text-2xl font-semibold text-gray-800 dark:text-white mb-6">Related Documents</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <a href="{% url 'privacy' %}" 
+                       class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-lg transition-shadow group">
+                        <div class="bg-blue-100 dark:bg-blue-900/30 w-12 h-12 rounded-lg flex items-center justify-center mb-4 group-hover:bg-blue-200 dark:group-hover:bg-blue-900/50 transition-colors">
+                            <i class="fas fa-user-shield text-blue-600 dark:text-blue-400"></i>
+                        </div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Privacy Policy</h4>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm">How we protect and handle your data</p>
+                    </a>
+                    
+                    <a href="{% url 'terms' %}" 
+                       class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-lg transition-shadow group">
+                        <div class="bg-green-100 dark:bg-green-900/30 w-12 h-12 rounded-lg flex items-center justify-center mb-4 group-hover:bg-green-200 dark:group-hover:bg-green-900/50 transition-colors">
+                            <i class="fas fa-file-contract text-green-600 dark:text-green-400"></i>
+                        </div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-2 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">Terms of Service</h4>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm">Rules for using our PDF conversion tools</p>
+                    </a>
+                    
+                    <a href="{% url 'faq' %}" 
+                       class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-lg transition-shadow group">
+                        <div class="bg-purple-100 dark:bg-purple-900/30 w-12 h-12 rounded-lg flex items-center justify-center mb-4 group-hover:bg-purple-200 dark:group-hover:bg-purple-900/50 transition-colors">
+                            <i class="fas fa-question-circle text-purple-600 dark:text-purple-400"></i>
+                        </div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">FAQ</h4>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm">Common questions about PDF conversion</p>
+                    </a>
+                </div>
             </section>
         </div>
     </div>
 </div>
+
+<!-- Schema.org Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Cookie Policy - PDF Converter Pro",
+  "description": "Cookie Policy explaining how PDF Converter Pro uses cookies for functionality, analytics, and preferences management",
+  "url": "https://pdfconverterpro.com{% url 'cookies' %}",
+  "datePublished": "2024-12-24",
+  "dateModified": "2024-12-24",
+  "author": {
+    "@type": "Organization",
+    "name": "PDF Converter Pro"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "PDF Converter Pro",
+    "url": "https://pdfconverterpro.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://pdfconverterpro.com/static/images/logo.png"
+    }
+  },
+  "mainEntity": {
+    "@type": "Article",
+    "headline": "Cookie Policy for PDF Converter Pro",
+    "description": "Detailed information about cookies used on PDF Converter Pro website for PDF conversion tools",
+    "articleBody": "This Cookie Policy explains how PDF Converter Pro uses cookies and similar technologies to recognize you when you visit our website for PDF conversion services..."
+  },
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://pdfconverterpro.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Privacy Policy",
+        "item": "https://pdfconverterpro.com{% url 'privacy' %}"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Cookie Policy",
+        "item": "https://pdfconverterpro.com{% url 'cookies' %}"
+      }
+    ]
+  }
+}
+</script>
+
+<!-- JavaScript for Cookie Management -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                // Add offset for fixed header
+                const headerOffset = 80;
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+                
+                // Update URL without page jump
+                history.pushState(null, null, targetId);
+            }
+        });
+    });
+    
+    // Cookie Management Button
+    const manageCookiesBtn = document.getElementById('manage-cookies-btn');
+    if (manageCookiesBtn) {
+        manageCookiesBtn.addEventListener('click', function() {
+            // Check if cookie consent tool exists
+            const cookieConsent = document.querySelector('.cookie-consent');
+            
+            if (cookieConsent) {
+                // Show cookie consent banner if it exists
+                cookieConsent.style.display = 'block';
+                cookieConsent.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                // Show browser instructions modal
+                showCookieInstructions();
+            }
+        });
+    }
+    
+    // Function to show cookie instructions
+    function showCookieInstructions() {
+        const modal = document.createElement('div');
+        modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
+        modal.innerHTML = `
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-md w-full max-h-[80vh] overflow-y-auto">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-white">Manage Cookies in Browser</h3>
+                        <button class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 text-2xl" onclick="this.parentElement.parentElement.parentElement.remove()">&times;</button>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold text-gray-800 dark:text-white mb-2">Quick Steps:</h4>
+                            <ol class="list-decimal pl-5 text-gray-700 dark:text-gray-300 space-y-2">
+                                <li>Open your browser settings</li>
+                                <li>Find "Privacy" or "Security" section</li>
+                                <li>Look for "Cookies" or "Site data"</li>
+                                <li>Adjust settings as needed</li>
+                                <li>Refresh this page after changes</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+                            <p class="text-sm text-gray-700 dark:text-gray-300">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                Essential cookies cannot be disabled as they are required for PDF conversion functionality.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 flex justify-end">
+                        <button onclick="this.parentElement.parentElement.parentElement.remove()" 
+                                class="bg-blue-600 dark:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+        // Close modal on ESC key
+        modal.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                modal.remove();
+            }
+        });
+        
+        // Close modal on background click
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.remove();
+            }
+        });
+        
+        // Focus on modal for accessibility
+        modal.querySelector('button').focus();
+    }
+    
+    // Add print button functionality
+    const printButton = document.createElement('button');
+    printButton.className = 'fixed bottom-6 right-6 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 z-40';
+    printButton.innerHTML = '<i class="fas fa-print"></i>';
+    printButton.title = 'Print Cookie Policy';
+    printButton.setAttribute('aria-label', 'Print Cookie Policy');
+    
+    printButton.addEventListener('click', function() {
+        window.print();
+    });
+    
+    document.body.appendChild(printButton);
+    
+    // Update active navigation
+    function updateActiveNav() {
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('a[href^="#"]');
+        
+        let currentSection = '';
+        
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            if (window.scrollY >= (sectionTop - 100)) {
+                currentSection = section.getAttribute('id');
+            }
+        });
+        
+        navLinks.forEach(link => {
+            link.classList.remove('text-blue-600', 'dark:text-blue-400', 'font-medium');
+            link.classList.add('text-gray-600', 'dark:text-gray-400');
+            
+            if (link.getAttribute('href') === '#' + currentSection) {
+                link.classList.remove('text-gray-600', 'dark:text-gray-400');
+                link.classList.add('text-blue-600', 'dark:text-blue-400', 'font-medium');
+            }
+        });
+    }
+    
+    // Call update on scroll
+    window.addEventListener('scroll', updateActiveNav);
+    updateActiveNav();
+});
+</script>
+
+<style>
+@media print {
+    .fixed {
+        display: none !important;
+    }
+    
+    nav, button, .bg-blue-50, .bg-green-50, .bg-red-50, .bg-yellow-50 {
+        break-inside: avoid;
+    }
+    
+    a {
+        color: black !important;
+        text-decoration: underline !important;
+    }
+    
+    .prose {
+        max-width: none !important;
+    }
+}
+
+.scroll-mt-8 {
+    scroll-margin-top: 2rem;
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+    .bg-red-50 { background-color: rgba(254, 226, 226, 0.1); }
+    .bg-blue-50 { background-color: rgba(239, 246, 255, 0.1); }
+    .bg-green-50 { background-color: rgba(240, 253, 244, 0.1); }
+    .bg-yellow-50 { background-color: rgba(254, 252, 232, 0.1); }
+}
+</style>
 {% endblock %}

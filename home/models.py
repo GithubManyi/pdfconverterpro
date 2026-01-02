@@ -18,3 +18,5 @@ class ContactMessage(models.Model):
         verbose_name = 'Contact Message'
         verbose_name_plural = 'Contact Messages'
 
+
+

@@ -1,115 +1,749 @@
 {% extends 'home/base.html' %}
 {% load static %}
 
-{% block title %}{{ title|default:"Terms of Service - PDF Converter Pro" }}{% endblock %}
+{% block title %}Terms of Service - PDF Converter Pro | Legal Agreement & Usage Terms{% endblock %}
+{% block meta_description %}Read PDF Converter Pro's Terms of Service. Legal agreement covering file conversion services, user responsibilities, privacy, and service limitations.{% endblock %}
+{% block robots %}index, follow{% endblock %}
+{% block canonical %}{{ request.build_absolute_uri }}{% endblock %}
 
 {% block content %}
 <div class="container mx-auto px-4 py-12">
     <div class="max-w-4xl mx-auto">
-        <h1 class="text-4xl font-bold text-gray-800 mb-6">Terms of Service</h1>
-        <p class="text-gray-600 mb-8">Last updated: December 24, 2024</p>
+        <!-- Breadcrumb Navigation -->
+        <nav class="mb-6" aria-label="Breadcrumb">
+            <ol class="flex items-center text-sm text-gray-600 dark:text-gray-400">
+                <li class="inline-flex items-center">
+                    <a href="/" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Home</a>
+                </li>
+                <li class="mx-2">/</li>
+                <li class="text-gray-800 dark:text-gray-300 font-medium" aria-current="page">Terms of Service</li>
+            </ol>
+        </nav>
 
-        <div class="prose prose-lg max-w-none">
-            <section class="mb-8">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">1. Acceptance of Terms</h2>
-                <p class="text-gray-700 mb-4">
-                    By accessing and using PDF Converter Pro ("the Service"), you accept and agree to be bound by the terms and provision of this agreement.
-                </p>
+        <!-- Header with Last Updated -->
+        <header class="text-center mb-12">
+            <!-- OPTIMIZED H1 -->
+            <h1 class="text-4xl font-bold text-gray-800 dark:text-white mb-4">Terms of Service for PDF Converter Pro</h1>
+            <div class="inline-flex items-center px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-lg">
+                <i class="fas fa-calendar-alt mr-2 text-gray-600 dark:text-gray-400"></i>
+                <span class="text-gray-700 dark:text-gray-300 font-medium">Last Updated: December 24, 2024</span>
+            </div>
+            <p class="text-lg text-gray-600 dark:text-gray-400 mt-4">
+                Please read these Terms of Service carefully before using our PDF conversion tools
+            </p>
+        </header>
+
+        <!-- Quick Navigation -->
+        <div class="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 mb-8">
+            <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Quick Navigation</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <a href="#acceptance" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline">Acceptance of Terms</a>
+                <a href="#service-description" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline">Service Description</a>
+                <a href="#user-responsibilities" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline">User Responsibilities</a>
+                <a href="#privacy-security" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline">Privacy & Security</a>
+                <a href="#service-limitations" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline">Service Limitations</a>
+                <a href="#disclaimer" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline">Disclaimer</a>
+                <a href="#liability" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline">Liability</a>
+                <a href="#changes" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline">Changes to Terms</a>
+                <a href="#contact" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline">Contact Information</a>
+            </div>
+        </div>
+
+        <!-- Terms Content -->
+        <div class="prose prose-lg max-w-none dark:prose-invert">
+            <!-- Section 1: Acceptance of Terms -->
+            <section id="acceptance" class="mb-10 scroll-mt-8">
+                <div class="flex items-center mb-6">
+                    <div class="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold mr-4">
+                        1
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Acceptance of Terms</h2>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-8 border border-gray-200 dark:border-gray-700">
+                    <p class="text-gray-700 dark:text-gray-300 mb-4">
+                        By accessing and using PDF Converter Pro ("the Service," "we," "us," or "our"), you ("User," "you," or "your") accept and agree to be bound by these Terms of Service ("Terms"). These Terms constitute a legally binding agreement between you and PDF Converter Pro.
+                    </p>
+                    
+                    <div class="bg-yellow-50 dark:bg-yellow-900/20 rounded-lg p-6 mt-6">
+                        <h3 class="font-semibold text-yellow-800 dark:text-yellow-300 mb-3">Important Notice:</h3>
+                        <ul class="list-disc pl-5 text-gray-700 dark:text-gray-300 space-y-2">
+                            <li>You must be at least 16 years old to use this Service</li>
+                            <li>By using the Service, you represent you have legal capacity to enter into this agreement</li>
+                            <li>If you disagree with any part of these Terms, you must not use our Service</li>
+                            <li>Your continued use of the Service constitutes ongoing acceptance of these Terms</li>
+                        </ul>
+                    </div>
+                </div>
             </section>
 
-            <section class="mb-8">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">2. Description of Service</h2>
-                <p class="text-gray-700 mb-4">
-                    PDF Converter Pro provides free online PDF conversion tools including but not limited to:
-                </p>
-                <ul class="list-disc pl-6 text-gray-700 mb-4">
-                    <li>PDF to Word conversion</li>
-                    <li>Word to PDF conversion</li>
-                    <li>PDF merging and splitting</li>
-                    <li>PDF compression</li>
-                    <li>Excel to PDF conversion</li>
-                    <li>Image to PDF conversion</li>
-                </ul>
+            <!-- Section 2: Description of Service -->
+            <section id="service-description" class="mb-10 scroll-mt-8">
+                <div class="flex items-center mb-6">
+                    <div class="bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold mr-4">
+                        2
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Description of Service</h2>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-8 border border-gray-200 dark:border-gray-700">
+                    <p class="text-gray-700 dark:text-gray-300 mb-6">
+                        PDF Converter Pro provides free online document conversion services through a web-based platform. Our services include but are not limited to:
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <h3 class="font-semibold text-gray-800 dark:text-white mb-3">Document Conversion</h3>
+                            <ul class="list-disc pl-5 text-gray-700 dark:text-gray-300 space-y-2">
+                                <li>PDF to Word (.doc, .docx)</li>
+                                <li>Word to PDF conversion</li>
+                                <li>PDF to Excel (.xls, .xlsx)</li>
+                                <li>Excel to PDF conversion</li>
+                                <li>PowerPoint to PDF</li>
+                                <li>Image to PDF (JPG, PNG, etc.)</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h3 class="font-semibold text-gray-800 dark:text-white mb-3">PDF Management</h3>
+                            <ul class="list-disc pl-5 text-gray-700 dark:text-gray-300 space-y-2">
+                                <li>Merge multiple PDFs</li>
+                                <li>Split PDF documents</li>
+                                <li>Compress PDF files</li>
+                                <li>Rotate PDF pages</li>
+                                <li>Extract PDF pages</li>
+                                <li>PDF optimization</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6">
+                        <h4 class="font-semibold text-blue-800 dark:text-blue-300 mb-2">Service Characteristics:</h4>
+                        <ul class="list-none text-gray-700 dark:text-gray-300 space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-3"></i>
+                                <span>Completely free with no hidden charges</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-3"></i>
+                                <span>No registration or account required</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-3"></i>
+                                <span>Web-based - no software installation needed</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-3"></i>
+                                <span>Mobile-friendly and responsive design</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </section>
 
-            <section class="mb-8">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">3. User Responsibilities</h2>
-                <p class="text-gray-700 mb-4">
-                    Users are responsible for:
-                </p>
-                <ul class="list-disc pl-6 text-gray-700 mb-4">
-                    <li>Ensuring they have the right to upload and convert any files</li>
-                    <li>Not uploading illegal, copyrighted, or malicious content</li>
-                    <li>Not abusing the service through automated scripts or excessive requests</li>
-                    <li>Downloading converted files promptly</li>
-                </ul>
+            <!-- Section 3: User Responsibilities -->
+            <section id="user-responsibilities" class="mb-10 scroll-mt-8">
+                <div class="flex items-center mb-6">
+                    <div class="bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold mr-4">
+                        3
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white">User Responsibilities & Acceptable Use</h2>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-8 border border-gray-200 dark:border-gray-700">
+                    <p class="text-gray-700 dark:text-gray-300 mb-6">
+                        As a user of PDF Converter Pro, you agree to the following responsibilities and acceptable use guidelines:
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div class="border-l-4 border-blue-500 pl-6 py-2">
+                            <h3 class="font-semibold text-gray-800 dark:text-white mb-2">Legal Compliance</h3>
+                            <p class="text-gray-700 dark:text-gray-300">
+                                You must ensure you have the legal right to upload, convert, and download any files through our Service. This includes compliance with copyright laws, intellectual property rights, and data protection regulations.
+                            </p>
+                        </div>
+                        
+                        <div class="border-l-4 border-green-500 pl-6 py-2">
+                            <h3 class="font-semibold text-gray-800 dark:text-white mb-2">Prohibited Content</h3>
+                            <p class="text-gray-700 dark:text-gray-300 mb-2">
+                                You agree not to upload, convert, or process any of the following:
+                            </p>
+                            <ul class="list-disc pl-5 text-gray-700 dark:text-gray-300 space-y-1">
+                                <li>Copyrighted material without permission</li>
+                                <li>Malicious software, viruses, or malware</li>
+                                <li>Illegal or prohibited content</li>
+                                <li>Sensitive personal information</li>
+                                <li>Content that violates any laws or regulations</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="border-l-4 border-yellow-500 pl-6 py-2">
+                            <h3 class="font-semibold text-gray-800 dark:text-white mb-2">Service Usage</h3>
+                            <p class="text-gray-700 dark:text-gray-300 mb-2">
+                                You agree not to:
+                            </p>
+                            <ul class="list-disc pl-5 text-gray-700 dark:text-gray-300 space-y-1">
+                                <li>Use automated scripts or bots to access the Service</li>
+                                <li>Attempt to overload or disrupt our servers</li>
+                                <li>Reverse engineer or decompile any part of the Service</li>
+                                <li>Use the Service for commercial resale purposes</li>
+                                <li>Attempt to circumvent any security measures</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="border-l-4 border-purple-500 pl-6 py-2">
+                            <h3 class="font-semibold text-gray-800 dark:text-white mb-2">Accountability</h3>
+                            <p class="text-gray-700 dark:text-gray-300">
+                                You are solely responsible for all activities conducted through your use of the Service and for ensuring that your use complies with all applicable laws and regulations.
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </section>
 
-            <section class="mb-8">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">4. File Handling and Privacy</h2>
-                <p class="text-gray-700 mb-4">
-                    We implement the following file handling practices:
-                </p>
-                <ul class="list-disc pl-6 text-gray-700 mb-4">
-                    <li>Files are automatically deleted after 24 hours</li>
-                    <li>No human reviews your files</li>
-                    <li>Files are processed on secure servers</li>
-                    <li>We do not share your files with third parties</li>
-                </ul>
+            <!-- Section 4: Privacy & Security -->
+            <section id="privacy-security" class="mb-10 scroll-mt-8">
+                <div class="flex items-center mb-6">
+                    <div class="bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold mr-4">
+                        4
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Privacy, Security & Data Handling</h2>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-8 border border-gray-200 dark:border-gray-700">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                        <div>
+                            <h3 class="font-semibold text-gray-800 dark:text-white mb-4">File Processing Protocol</h3>
+                            <ul class="list-disc pl-5 text-gray-700 dark:text-gray-300 space-y-3">
+                                <li><strong>Automatic Deletion:</strong> All uploaded files are automatically deleted from our servers within 24 hours of processing</li>
+                                <li><strong>No Human Review:</strong> Files are processed automatically without human intervention or review</li>
+                                <li><strong>Secure Processing:</strong> Files are processed on isolated, secure servers with limited access</li>
+                                <li><strong>No Third-Party Sharing:</strong> We do not share your files with any third parties</li>
+                                <li><strong>No Permanent Storage:</strong> We do not archive or retain copies of processed files</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h3 class="font-semibold text-gray-800 dark:text-white mb-4">Security Measures</h3>
+                            <ul class="list-disc pl-5 text-gray-700 dark:text-gray-300 space-y-3">
+                                <li><strong>SSL Encryption:</strong> All data transfers are encrypted using 256-bit SSL</li>
+                                <li><strong>Secure Infrastructure:</strong> Enterprise-grade hosting with regular security updates</li>
+                                <li><strong>Access Controls:</strong> Strict access controls and authentication mechanisms</li>
+                                <li><strong>Regular Audits:</strong> Security audits and vulnerability testing conducted regularly</li>
+                                <li><strong>Compliance:</strong> Designed to comply with data protection regulations</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6">
+                        <h4 class="font-semibold text-blue-800 dark:text-blue-300 mb-3">Privacy Policy Reference</h4>
+                        <p class="text-gray-700 dark:text-gray-300">
+                            Our comprehensive <a href="{% url 'privacy' %}" class="text-blue-600 dark:text-blue-400 hover:underline">Privacy Policy</a> provides detailed information about how we collect, use, and protect your information. By using our Service, you also agree to the terms of our Privacy Policy.
+                        </p>
+                    </div>
+                </div>
             </section>
 
-            <section class="mb-8">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">5. Service Limitations</h2>
-                <p class="text-gray-700 mb-4">
-                    The Service has the following limitations:
-                </p>
-                <ul class="list-disc pl-6 text-gray-700 mb-4">
-                    <li>Maximum file size: 50MB per file</li>
-                    <li>Maximum 10 files for merge operations</li>
-                    <li>Service availability is not guaranteed 100%</li>
-                    <li>Conversion quality may vary based on file complexity</li>
-                </ul>
+            <!-- Section 5: Service Limitations -->
+            <section id="service-limitations" class="mb-10 scroll-mt-8">
+                <div class="flex items-center mb-6">
+                    <div class="bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400 w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold mr-4">
+                        5
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Service Limitations & Technical Specifications</h2>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-8 border border-gray-200 dark:border-gray-700">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-gray-50 dark:bg-gray-900/50 rounded-lg">
+                            <thead class="bg-gray-100 dark:bg-gray-800">
+                                <tr>
+                                    <th class="py-4 px-6 text-left font-semibold text-gray-800 dark:text-white">Limitation Type</th>
+                                    <th class="py-4 px-6 text-left font-semibold text-gray-800 dark:text-white">Specification</th>
+                                    <th class="py-4 px-6 text-left font-semibold text-gray-800 dark:text-white">Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                                <tr>
+                                    <td class="py-4 px-6 text-gray-700 dark:text-gray-300">File Size Limit</td>
+                                    <td class="py-4 px-6 text-gray-700 dark:text-gray-300">50MB per file</td>
+                                    <td class="py-4 px-6 text-gray-700 dark:text-gray-300">Use compression tool for larger files</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-4 px-6 text-gray-700 dark:text-gray-300">Merge Operations</td>
+                                    <td class="py-4 px-6 text-gray-700 dark:text-gray-300">Up to 10 files</td>
+                                    <td class="py-4 px-6 text-gray-700 dark:text-gray-300">Combine multiple documents</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-4 px-6 text-gray-700 dark:text-gray-300">Supported Formats</td>
+                                    <td class="py-4 px-6 text-gray-700 dark:text-gray-300">PDF, DOC, DOCX, XLS, XLSX, PPT, JPG, PNG</td>
+                                    <td class="py-4 px-6 text-gray-700 dark:text-gray-300">Check each tool for specific formats</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-4 px-6 text-gray-700 dark:text-gray-300">Conversion Quality</td>
+                                    <td class="py-4 px-6 text-gray-700 dark:text-gray-300">Varies by file complexity</td>
+                                    <td class="py-4 px-6 text-gray-700 dark:text-gray-300">Complex layouts may require manual adjustment</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-4 px-6 text-gray-700 dark:text-gray-300">Service Availability</td>
+                                    <td class="py-4 px-6 text-gray-700 dark:text-gray-300">Best effort basis</td>
+                                    <td class="py-4 px-6 text-gray-700 dark:text-gray-300">Scheduled maintenance may cause downtime</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="mt-8 p-6 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
+                        <h3 class="font-semibold text-gray-800 dark:text-white mb-3">Important Notes:</h3>
+                        <ul class="list-disc pl-5 text-gray-700 dark:text-gray-300 space-y-2">
+                            <li>We reserve the right to modify these limitations at any time</li>
+                            <li>Conversion results may vary based on file quality and complexity</li>
+                            <li>Some advanced formatting features may not convert perfectly</li>
+                            <li>Service performance may vary based on network conditions</li>
+                        </ul>
+                    </div>
+                </div>
             </section>
 
-            <section class="mb-8">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">6. Disclaimer of Warranties</h2>
-                <p class="text-gray-700 mb-4">
-                    The Service is provided "as is" without any warranties, expressed or implied. We do not guarantee that:
-                </p>
-                <ul class="list-disc pl-6 text-gray-700 mb-4">
-                    <li>The Service will be uninterrupted or error-free</li>
-                    <li>All file conversions will be perfect</li>
-                    <li>The Service will meet all user requirements</li>
-                </ul>
+            <!-- Section 6: Disclaimer of Warranties -->
+            <section id="disclaimer" class="mb-10 scroll-mt-8">
+                <div class="flex items-center mb-6">
+                    <div class="bg-gray-100 dark:bg-gray-900/30 text-gray-600 dark:text-gray-400 w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold mr-4">
+                        6
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Disclaimer of Warranties</h2>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-8 border border-gray-200 dark:border-gray-700">
+                    <div class="bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 dark:border-red-600 p-6 rounded-lg mb-6">
+                        <h3 class="font-semibold text-red-800 dark:text-red-300 mb-3">No Warranties Provided</h3>
+                        <p class="text-gray-700 dark:text-gray-300">
+                            THE SERVICE IS PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS. PDF CONVERTER PRO MAKES NO REPRESENTATIONS OR WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, AS TO THE OPERATION OF THE SERVICE OR THE INFORMATION, CONTENT, OR MATERIALS INCLUDED THEREIN.
+                        </p>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <i class="fas fa-times text-red-500 mt-1 mr-3"></i>
+                            <div>
+                                <h4 class="font-medium text-gray-800 dark:text-white mb-1">No Guarantee of Service</h4>
+                                <p class="text-gray-700 dark:text-gray-300 text-sm">We do not guarantee that the Service will be uninterrupted, timely, secure, or error-free</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <i class="fas fa-times text-red-500 mt-1 mr-3"></i>
+                            <div>
+                                <h4 class="font-medium text-gray-800 dark:text-white mb-1">No Quality Warranty</h4>
+                                <p class="text-gray-700 dark:text-gray-300 text-sm">We do not warrant that file conversions will be perfect, complete, or meet your specific requirements</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <i class="fas fa-times text-red-500 mt-1 mr-3"></i>
+                            <div>
+                                <h4 class="font-medium text-gray-800 dark:text-white mb-1">No Fitness Warranty</h4>
+                                <p class="text-gray-700 dark:text-gray-300 text-sm">We make no warranty that the Service will meet your expectations or be suitable for any particular purpose</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <i class="fas fa-times text-red-500 mt-1 mr-3"></i>
+                            <div>
+                                <h4 class="font-medium text-gray-800 dark:text-white mb-1">No Virus Warranty</h4>
+                                <p class="text-gray-700 dark:text-gray-300 text-sm">We do not warrant that the Service will be free from viruses or other harmful components</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
 
-            <section class="mb-8">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">7. Limitation of Liability</h2>
-                <p class="text-gray-700 mb-4">
-                    PDF Converter Pro shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from:
-                </p>
-                <ul class="list-disc pl-6 text-gray-700 mb-4">
-                    <li>Use or inability to use the Service</li>
-                    <li>Loss of data or files</li>
-                    <li>Unauthorized access to files</li>
-                    <li>Service interruptions or errors</li>
-                </ul>
+            <!-- Section 7: Limitation of Liability -->
+            <section id="liability" class="mb-10 scroll-mt-8">
+                <div class="flex items-center mb-6">
+                    <div class="bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold mr-4">
+                        7
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Limitation of Liability</h2>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-8 border border-gray-200 dark:border-gray-700">
+                    <div class="bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-500 dark:border-yellow-600 p-6 rounded-lg mb-6">
+                        <h3 class="font-semibold text-yellow-800 dark:text-yellow-300 mb-3">Liability Limitation</h3>
+                        <p class="text-gray-700 dark:text-gray-300">
+                            TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, PDF CONVERTER PRO SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, OR ANY LOSS OF PROFITS OR REVENUES, WHETHER INCURRED DIRECTLY OR INDIRECTLY, OR ANY LOSS OF DATA, USE, GOODWILL, OR OTHER INTANGIBLE LOSSES.
+                        </p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 dark:text-white mb-2">Direct Damages</h4>
+                            <p class="text-gray-700 dark:text-gray-300 text-sm">
+                                In no event shall our total liability to you for all damages, losses, and causes of action exceed the amount paid by you, if any, for accessing the Service.
+                            </p>
+                        </div>
+                        
+                        <div class="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 dark:text-white mb-2">Service Issues</h4>
+                            <p class="text-gray-700 dark:text-gray-300 text-sm">
+                                We are not liable for any issues arising from Service interruptions, errors, modifications, or termination.
+                            </p>
+                        </div>
+                        
+                        <div class="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 dark:text-white mb-2">User Content</h4>
+                            <p class="text-gray-700 dark:text-gray-300 text-sm">
+                                We are not responsible for any content uploaded by users or the consequences of sharing such content.
+                            </p>
+                        </div>
+                        
+                        <div class="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 dark:text-white mb-2">Third-Party Issues</h4>
+                            <p class="text-gray-700 dark:text-gray-300 text-sm">
+                                We are not liable for any issues caused by third-party services, networks, or software.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 text-sm text-gray-600 dark:text-gray-400">
+                        <p>
+                            Some jurisdictions do not allow the exclusion or limitation of liability for consequential or incidental damages, so the above limitations may not apply to you.
+                        </p>
+                    </div>
+                </div>
             </section>
 
-            <section class="mb-8">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">8. Changes to Terms</h2>
-                <p class="text-gray-700 mb-4">
-                    We reserve the right to modify these terms at any time. Continued use of the Service after changes constitutes acceptance of the new terms.
-                </p>
+            <!-- Section 8: Changes to Terms -->
+            <section id="changes" class="mb-10 scroll-mt-8">
+                <div class="flex items-center mb-6">
+                    <div class="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold mr-4">
+                        8
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Changes to Terms of Service</h2>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-8 border border-gray-200 dark:border-gray-700">
+                    <p class="text-gray-700 dark:text-gray-300 mb-6">
+                        We reserve the right to modify or replace these Terms at any time at our sole discretion. When we make changes, we will update the "Last Updated" date at the top of this page.
+                    </p>
+                    
+                    <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6">
+                        <h3 class="font-semibold text-blue-800 dark:text-blue-300 mb-3">Modification Process</h3>
+                        <ul class="list-disc pl-5 text-gray-700 dark:text-gray-300 space-y-2">
+                            <li>We may provide notice of significant changes through our website or email if provided</li>
+                            <li>Your continued use of the Service after changes constitutes acceptance of the new Terms</li>
+                            <li>If you disagree with any changes, you must discontinue use of the Service</li>
+                            <li>Material changes will be effective 30 days after posting unless stated otherwise</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="mt-6">
+                        <h3 class="font-semibold text-gray-800 dark:text-white mb-3">Review Responsibility</h3>
+                        <p class="text-gray-700 dark:text-gray-300">
+                            It is your responsibility to periodically review these Terms for any changes. By continuing to access or use our Service after any revisions become effective, you agree to be bound by the revised Terms.
+                        </p>
+                    </div>
+                </div>
             </section>
 
-            <section class="mb-8">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">9. Contact Information</h2>
-                <p class="text-gray-700 mb-4">
-                    For questions about these Terms of Service, please contact us through our <a href="{% url 'contact' %}" class="text-blue-600 hover:underline">Contact Page</a>.
-                </p>
+            <!-- Section 9: Contact Information -->
+            <section id="contact" class="mb-10 scroll-mt-8">
+                <div class="flex items-center mb-6">
+                    <div class="bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold mr-4">
+                        9
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Contact Information & Governing Law</h2>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-8 border border-gray-200 dark:border-gray-700">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h3 class="font-semibold text-gray-800 dark:text-white mb-4">Contact Us</h3>
+                            <p class="text-gray-700 dark:text-gray-300 mb-4">
+                                For questions, concerns, or legal inquiries regarding these Terms of Service:
+                            </p>
+                            <div class="space-y-4">
+                                <div class="flex items-center">
+                                    <i class="fas fa-envelope text-blue-600 dark:text-blue-400 mr-3"></i>
+                                    <span class="text-gray-700 dark:text-gray-300">legal@pdfconverterpro.com</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-globe text-blue-600 dark:text-blue-400 mr-3"></i>
+                                    <span class="text-gray-700 dark:text-gray-300">https://pdfconverterpro.com</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-comment-alt text-blue-600 dark:text-blue-400 mr-3"></i>
+                                    <a href="{% url 'contact' %}" class="text-blue-600 dark:text-blue-400 hover:underline">Contact Form</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="font-semibold text-gray-800 dark:text-white mb-4">Legal Provisions</h3>
+                            <ul class="list-disc pl-5 text-gray-700 dark:text-gray-300 space-y-2">
+                                <li><strong>Governing Law:</strong> These Terms shall be governed by the laws of the Republic of Kenya</li>
+                                <li><strong>Dispute Resolution:</strong> Any disputes shall be resolved through binding arbitration</li>
+                                <li><strong>Severability:</strong> If any provision is found invalid, the remaining provisions remain in effect</li>
+                                <li><strong>Entire Agreement:</strong> These Terms constitute the entire agreement between you and us</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 bg-gray-50 dark:bg-gray-900/50 rounded-lg p-6">
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-3">Related Documents</h4>
+                        <div class="flex flex-wrap gap-4">
+                            <a href="{% url 'privacy' %}" class="text-blue-600 dark:text-blue-400 hover:underline">Privacy Policy</a>
+                            <a href="{% url 'cookies' %}" class="text-blue-600 dark:text-blue-400 hover:underline">Cookie Policy</a>
+                            <a href="{% url 'faq' %}" class="text-blue-600 dark:text-blue-400 hover:underline">FAQ</a>
+                            <a href="{% url 'contact' %}" class="text-blue-600 dark:text-blue-400 hover:underline">Contact Us</a>
+                        </div>
+                    </div>
+                </div>
             </section>
+        </div>
+        
+        <!-- Acceptance Confirmation -->
+        <div class="mt-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white text-center">
+            <h2 class="text-2xl font-bold mb-4">Acceptance of Terms</h2>
+            <p class="text-lg mb-6 opacity-90 max-w-2xl mx-auto">
+                By using PDF Converter Pro, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service.
+            </p>
+            <div class="flex items-center justify-center space-x-4">
+                <i class="fas fa-file-signature text-3xl"></i>
+                <span class="text-xl font-semibold">Last Updated: December 24, 2024</span>
+            </div>
         </div>
     </div>
 </div>
+
+<!-- Schema.org Terms of Service Markup -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Terms of Service - PDF Converter Pro",
+  "description": "Legal terms and conditions for using PDF Converter Pro file conversion services",
+  "url": "https://pdfconverterpro.com{% url 'terms' %}",
+  "datePublished": "2024-12-24",
+  "dateModified": "2024-12-24",
+  "author": {
+    "@type": "Organization",
+    "name": "PDF Converter Pro"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "PDF Converter Pro",
+    "url": "https://pdfconverterpro.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://pdfconverterpro.com/static/images/logo.png"
+    }
+  },
+  "mainEntity": {
+    "@type": "CreativeWork",
+    "name": "Terms of Service Agreement",
+    "text": "This Terms of Service agreement governs the use of PDF Converter Pro's free online file conversion services...",
+    "copyrightHolder": {
+      "@type": "Organization",
+      "name": "PDF Converter Pro"
+    },
+    "copyrightYear": "2024",
+    "license": "https://pdfconverterpro.com/terms"
+  },
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://pdfconverterpro.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Terms of Service",
+        "item": "https://pdfconverterpro.com{% url 'terms' %}"
+      }
+    ]
+  }
+}
+</script>
+
+<!-- JavaScript for enhanced functionality -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                const headerOffset = 100;
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+                
+                // Update URL without page jump
+                history.pushState(null, null, targetId);
+            }
+        });
+    });
+    
+    // Print terms button
+    const printButton = document.createElement('button');
+    printButton.className = 'fixed bottom-6 right-6 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 z-40';
+    printButton.innerHTML = '<i class="fas fa-print"></i>';
+    printButton.title = 'Print Terms of Service';
+    printButton.setAttribute('aria-label', 'Print Terms of Service');
+    
+    printButton.addEventListener('click', function() {
+        window.print();
+    });
+    
+    document.body.appendChild(printButton);
+    
+    // Copy terms link button
+    const copyLinkButton = document.createElement('button');
+    copyLinkButton.className = 'fixed bottom-6 right-20 bg-gray-600 text-white p-3 rounded-full shadow-lg hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 z-40';
+    copyLinkButton.innerHTML = '<i class="fas fa-link"></i>';
+    copyLinkButton.title = 'Copy terms link';
+    copyLinkButton.setAttribute('aria-label', 'Copy terms of service link');
+    
+    copyLinkButton.addEventListener('click', function() {
+        const url = window.location.href;
+        navigator.clipboard.writeText(url).then(() => {
+            // Show notification
+            const notification = document.createElement('div');
+            notification.textContent = 'Link copied to clipboard!';
+            notification.className = 'fixed bottom-20 right-6 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg z-50';
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 2000);
+        });
+    });
+    
+    document.body.appendChild(copyLinkButton);
+    
+    // Highlight current section in navigation
+    function highlightCurrentSection() {
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('a[href^="#"]');
+        
+        let currentSection = '';
+        
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            if (window.scrollY >= (sectionTop - 150)) {
+                currentSection = section.getAttribute('id');
+            }
+        });
+        
+        navLinks.forEach(link => {
+            link.classList.remove('font-medium', 'text-blue-700', 'dark:text-blue-300');
+            if (link.getAttribute('href') === '#' + currentSection) {
+                link.classList.add('font-medium', 'text-blue-700', 'dark:text-blue-300');
+            }
+        });
+    }
+    
+    // Call on scroll
+    window.addEventListener('scroll', highlightCurrentSection);
+    highlightCurrentSection();
+    
+    // Track terms page views
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'terms_view', {
+            'event_category': 'Legal',
+            'event_label': 'Terms of Service'
+        });
+    }
+});
+</script>
+
+<style>
+@media print {
+    .fixed,
+    nav,
+    button,
+    .bg-gradient-to-r,
+    .hover\\:shadow-lg,
+    .hover\\:shadow-xl {
+        display: none !important;
+    }
+    
+    section {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+    
+    a {
+        color: black !important;
+        text-decoration: underline !important;
+    }
+    
+    .bg-blue-50,
+    .bg-green-50,
+    .bg-red-50,
+    .bg-yellow-50,
+    .bg-purple-50,
+    .bg-gray-50 {
+        background-color: #f9fafb !important;
+    }
+    
+    .text-blue-600,
+    .text-green-600,
+    .text-red-600,
+    .text-yellow-600,
+    .text-purple-600 {
+        color: #374151 !important;
+    }
+}
+
+.scroll-mt-8 {
+    scroll-margin-top: 2rem;
+}
+
+/* Animation for section entry */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+section {
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* Stagger animations */
+section:nth-child(1) { animation-delay: 0.1s; }
+section:nth-child(2) { animation-delay: 0.2s; }
+section:nth-child(3) { animation-delay: 0.3s; }
+section:nth-child(4) { animation-delay: 0.4s; }
+section:nth-child(5) { animation-delay: 0.5s; }
+section:nth-child(6) { animation-delay: 0.6s; }
+section:nth-child(7) { animation-delay: 0.7s; }
+section:nth-child(8) { animation-delay: 0.8s; }
+section:nth-child(9) { animation-delay: 0.9s; }
+
+/* Legal text emphasis */
+.bg-red-50 p {
+    font-weight: 500;
+}
+</style>
 {% endblock %}

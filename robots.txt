@@ -1,4 +1,23 @@
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /admin/
+Disallow: /upload/   # Add this
+Disallow: /result/   # Add this
+Disallow: /private/
+Disallow: /static/admin/
+Disallow: /static/debug/
 
+# Search engine crawlers
+User-agent: Googlebot
+Allow: /
+Disallow: /admin/
+Crawl-delay: 2
+
+User-agent: Bingbot
+Allow: /
+Disallow: /admin/
+Crawl-delay: 2
+
+# Sitemap location
 Sitemap: https://pdfconverterpro.onrender.com/sitemap.xml
+Sitemap: https://pdfconverterpro.onrender.com/sitemap-tools.xml

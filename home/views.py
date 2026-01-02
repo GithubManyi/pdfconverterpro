@@ -8,6 +8,8 @@ from django.http import HttpResponse
 from django.views.decorators.http import require_GET
 # Add this import at the top of views.py
 from django.utils.safestring import mark_safe
+from django.urls import reverse
+from datetime import datetime
 
 # Sample blog data - later you can create a Blog model
 BLOG_POSTS = [
@@ -1017,3 +1019,41 @@ def handler_500(request):
         'description': 'An internal server error has occurred.',
     }
     return render(request, 'errors/500.html', context, status=500)
+
+def sitemap_view(request):
+    """Generate dynamic sitemap"""
+    urls = [
+        {'loc': reverse('home'), 'priority': '1.0', 'changefreq': 'daily'},
+        {'loc': reverse('tools'), 'priority': '0.9', 'changefreq': 'daily'},
+        {'loc': reverse('pdf_to_word'), 'priority': '0.8', 'changefreq': 'weekly'},
+        {'loc': reverse('word_to_pdf'), 'priority': '0.8', 'changefreq': 'weekly'},
+        {'loc': reverse('merge_pdf'), 'priority': '0.8', 'changefreq': 'weekly'},
+        {'loc': reverse('split_pdf'), 'priority': '0.8', 'changefreq': 'weekly'},
+        {'loc': reverse('compress_pdf'), 'priority': '0.8', 'changefreq': 'weekly'},
+        {'loc': reverse('excel_to_pdf'), 'priority': '0.8', 'changefreq': 'weekly'},
+        {'loc': reverse('image_to_pdf'), 'priority': '0.8', 'changefreq': 'weekly'},
+        {'loc': reverse('faq'), 'priority': '0.6', 'changefreq': 'monthly'},
+        {'loc': reverse('about'), 'priority': '0.5', 'changefreq': 'monthly'},
+        {'loc': reverse('contact'), 'priority': '0.4', 'changefreq': 'monthly'},
+        {'loc': reverse('terms'), 'priority': '0.3', 'changefreq': 'yearly'},
+        {'loc': reverse('privacy'), 'priority': '0.3', 'changefreq': 'yearly'},
+    ]
+    
+    xml_content = '<?xml version="1.0" encoding="UTF-8"?>\n'
+    xml_content += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    
+    today = datetime.now().strftime('%Y-%m-%d')
+    
+    for url in urls:
+        full_url = f"https://pdfconverterpro.onrender.com{url['loc']}"
+        xml_content += f'    <url>\n'
+        xml_content += f'        <loc>{full_url}</loc>\n'
+        xml_content += f'        <lastmod>{today}</lastmod>\n'
+        xml_content += f"        <changefreq>{url['changefreq']}</changefreq>\n"
+        xml_content += f"        <priority>{url['priority']}</priority>\n"
+        xml_content += '    </url>\n'
+    
+    xml_content += '</urlset>'
+    
+    return HttpResponse(xml_content, content_type='application/xml')
+

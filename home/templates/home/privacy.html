@@ -1,184 +1,699 @@
 {% extends 'home/base.html' %}
 
-{% block title %}Privacy Policy - {{ site_name }}{% endblock %}
+{% block title %}Privacy Policy - PDF Converter Pro | Data Protection & Security{% endblock %}
+{% block meta_description %}Read PDF Converter Pro's Privacy Policy. Learn how we protect your files, handle data, and ensure security for PDF conversion services. GDPR, CCPA compliant.{% endblock %}
+{% block robots %}index, follow{% endblock %}
+{% block canonical %}{{ request.build_absolute_uri }}{% endblock %}
 
 {% block content %}
-<div class="max-w-4xl mx-auto">
-    <!-- Header -->
-    <div class="text-center mb-12">
-        <h1 class="text-4xl font-bold text-gray-800 mb-4">Privacy Policy</h1>
-        <p class="text-xl text-gray-600">Last Updated: {{ current_year }}</p>
+<div class="max-w-4xl mx-auto px-4 py-12">
+    <!-- Breadcrumb Navigation -->
+    <nav class="mb-6" aria-label="Breadcrumb">
+        <ol class="flex items-center text-sm text-gray-600 dark:text-gray-400">
+            <li class="inline-flex items-center">
+                <a href="/" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Home</a>
+            </li>
+            <li class="mx-2">/</li>
+            <li class="text-gray-800 dark:text-gray-300 font-medium" aria-current="page">Privacy Policy</li>
+        </ol>
+    </nav>
+
+    <!-- Header with Last Updated -->
+    <header class="text-center mb-12">
+        <!-- OPTIMIZED H1 -->
+        <h1 class="text-4xl font-bold text-gray-800 dark:text-white mb-4">Privacy Policy for PDF Converter Pro</h1>
+        <div class="inline-flex items-center px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-lg">
+            <i class="fas fa-calendar-alt mr-2 text-gray-600 dark:text-gray-400"></i>
+            <span class="text-gray-700 dark:text-gray-300 font-medium">Last Updated: {{ current_year }}</span>
+        </div>
+        <p class="text-lg text-gray-600 dark:text-gray-400 mt-4">
+            Your privacy is our priority. This policy explains how we handle your information.
+        </p>
+    </header>
+
+    <!-- Quick Navigation -->
+    <div class="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 mb-8">
+        <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Quick Navigation</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <a href="#introduction" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline">Introduction</a>
+            <a href="#information-collection" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline">Information We Collect</a>
+            <a href="#data-usage" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline">How We Use Data</a>
+            <a href="#data-security" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline">Data Security</a>
+            <a href="#third-party" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline">Third-Party Services</a>
+            <a href="#your-rights" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline">Your Rights</a>
+            <a href="#contact" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline">Contact Information</a>
+            <a href="#cookies" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline">Cookie Policy</a>
+        </div>
     </div>
 
     <!-- Introduction -->
-    <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
-        <h2 class="text-2xl font-bold mb-6">Introduction</h2>
-        <p class="text-gray-700 mb-4">
-            Welcome to {{ site_name }}. We are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy explains how we collect, use, and protect information when you use our file conversion services.
+    <section id="introduction" class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-8 scroll-mt-8">
+        <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">1. Introduction & Scope</h2>
+        <p class="text-gray-700 dark:text-gray-300 mb-4">
+            Welcome to PDF Converter Pro ("we," "our," or "us"). We are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our file conversion services.
         </p>
-        <p class="text-gray-700">
-            By using our services, you agree to the terms outlined in this Privacy Policy. Please read this policy carefully to understand our practices regarding your information.
+        <p class="text-gray-700 dark:text-gray-300 mb-4">
+            This policy applies to information we collect:
         </p>
-    </div>
+        <ul class="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
+            <li>On our website (pdfconverterpro.com)</li>
+            <li>In email, text, and other electronic messages between you and PDF Converter Pro</li>
+            <li>When you interact with our advertising and applications on third-party websites</li>
+        </ul>
+        <p class="text-gray-700 dark:text-gray-300">
+            By using our services, you agree to the collection and use of information in accordance with this Privacy Policy. This policy complies with data protection regulations including GDPR and CCPA.
+        </p>
+    </section>
 
     <!-- Information Collection -->
-    <div class="mb-8">
-        <h2 class="text-2xl font-bold mb-6">Information We Collect</h2>
+    <section id="information-collection" class="mb-8 scroll-mt-8">
+        <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">2. Information We Collect</h2>
         
         <div class="space-y-6">
-            <div class="bg-gray-50 rounded-lg p-6">
-                <h3 class="text-xl font-semibold mb-4 text-gray-800">1. Uploaded Files</h3>
-                <p class="text-gray-700">
-                    When you upload files to our service for conversion, we temporarily store these files on our secure servers. These files are <strong>automatically deleted within 1 hour</strong> after processing. We do not store your files permanently, and we do not share them with third parties.
+            <!-- Uploaded Files -->
+            <div class="bg-gray-50 dark:bg-gray-900/50 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
+                <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-white">2.1 Uploaded Files</h3>
+                <p class="text-gray-700 dark:text-gray-300 mb-3">
+                    When you use our file conversion services, you may upload documents for processing. We handle these files with the utmost care:
+                </p>
+                <ul class="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-3">
+                    <li><strong>Temporary Storage:</strong> Files are temporarily stored on our secure servers during processing</li>
+                    <li><strong>Automatic Deletion:</strong> All uploaded files are automatically deleted within <strong>1 hour</strong> of processing completion</li>
+                    <li><strong>No Permanent Storage:</strong> We do not archive, back up, or permanently store your files</li>
+                    <li><strong>No Human Access:</strong> Files are processed automatically without human review</li>
+                    <li><strong>No Third-Party Sharing:</strong> We do not share uploaded files with any third parties</li>
+                </ul>
+                <p class="text-gray-700 dark:text-gray-300 text-sm italic">
+                    Note: We cannot access the content of your files after you download the converted version.
                 </p>
             </div>
             
-            <div class="bg-gray-50 rounded-lg p-6">
-                <h3 class="text-xl font-semibold mb-4 text-gray-800">2. Technical Information</h3>
-                <p class="text-gray-700">
-                    We may collect technical information such as:
+            <!-- Technical Information -->
+            <div class="bg-gray-50 dark:bg-gray-900/50 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
+                <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-white">2.2 Technical & Usage Information</h3>
+                <p class="text-gray-700 dark:text-gray-300 mb-3">
+                    We collect anonymous technical data to improve our services:
                 </p>
-                <ul class="list-disc pl-6 mt-3 text-gray-700 space-y-2">
-                    <li>IP address</li>
-                    <li>Browser type and version</li>
-                    <li>Operating system</li>
-                    <li>Device information</li>
-                    <li>Pages visited and conversion types used</li>
-                </ul>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+                    <div>
+                        <h4 class="font-medium text-gray-800 dark:text-white mb-2">Technical Data</h4>
+                        <ul class="list-disc pl-5 text-gray-700 dark:text-gray-300 text-sm space-y-1">
+                            <li>IP address (anonymized)</li>
+                            <li>Browser type and version</li>
+                            <li>Operating system</li>
+                            <li>Device information</li>
+                            <li>Screen resolution</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-medium text-gray-800 dark:text-white mb-2">Usage Data</h4>
+                        <ul class="list-disc pl-5 text-gray-700 dark:text-gray-300 text-sm space-y-1">
+                            <li>Pages visited</li>
+                            <li>Conversion types used</li>
+                            <li>Session duration</li>
+                            <li>Errors encountered</li>
+                            <li>Conversion success rates</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="text-gray-700 dark:text-gray-300 text-sm">
+                    All technical data is aggregated and anonymized. We cannot identify individual users from this data.
+                </p>
             </div>
             
-            <div class="bg-gray-50 rounded-lg p-6">
-                <h3 class="text-xl font-semibold mb-4 text-gray-800">3. Cookies</h3>
-                <p class="text-gray-700">
-                    We use cookies to improve your experience on our website. Cookies help us:
+            <!-- Cookies -->
+            <div class="bg-gray-50 dark:bg-gray-900/50 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
+                <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-white">2.3 Cookies & Tracking Technologies</h3>
+                <p class="text-gray-700 dark:text-gray-300 mb-3">
+                    We use cookies and similar tracking technologies to enhance your experience:
                 </p>
-                <ul class="list-disc pl-6 mt-3 text-gray-700 space-y-2">
-                    <li>Remember your preferences</li>
-                    <li>Analyze website traffic</li>
-                    <li>Improve our services</li>
-                </ul>
-                <p class="mt-3 text-gray-700">
-                    You can disable cookies in your browser settings, but this may affect your ability to use some features of our service.
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white dark:bg-gray-800 rounded-lg">
+                        <thead class="bg-gray-100 dark:bg-gray-700">
+                            <tr>
+                                <th class="py-3 px-4 text-left font-medium text-gray-800 dark:text-white">Cookie Type</th>
+                                <th class="py-3 px-4 text-left font-medium text-gray-800 dark:text-white">Purpose</th>
+                                <th class="py-3 px-4 text-left font-medium text-gray-800 dark:text-white">Duration</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                            <tr>
+                                <td class="py-3 px-4 text-gray-700 dark:text-gray-300">Essential Cookies</td>
+                                <td class="py-3 px-4 text-gray-700 dark:text-gray-300">Site functionality and security</td>
+                                <td class="py-3 px-4 text-gray-700 dark:text-gray-300">Session</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 text-gray-700 dark:text-gray-300">Analytics Cookies</td>
+                                <td class="py-3 px-4 text-gray-700 dark:text-gray-300">Usage analysis and improvement</td>
+                                <td class="py-3 px-4 text-gray-700 dark:text-gray-300">Up to 2 years</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 text-gray-700 dark:text-gray-300">Preference Cookies</td>
+                                <td class="py-3 px-4 text-gray-700 dark:text-gray-300">Remember settings and choices</td>
+                                <td class="py-3 px-4 text-gray-700 dark:text-gray-300">Up to 1 year</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-gray-700 dark:text-gray-300 mt-3">
+                    You can manage cookie preferences through your browser settings or our <a href="{% url 'cookies' %}" class="text-blue-600 dark:text-blue-400 hover:underline">Cookie Policy</a>.
                 </p>
             </div>
         </div>
-    </div>
+    </section>
 
     <!-- How We Use Information -->
-    <div class="mb-8">
-        <h2 class="text-2xl font-bold mb-6">How We Use Your Information</h2>
+    <section id="data-usage" class="mb-8 scroll-mt-8">
+        <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">3. How We Use Your Information</h2>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-blue-50 p-6 rounded-lg">
-                <h3 class="font-semibold text-lg mb-3 text-blue-800">Service Provision</h3>
-                <p class="text-gray-700">To provide and maintain our file conversion services</p>
+            <div class="bg-blue-50 dark:bg-blue-900/20 p-6 rounded-lg border-l-4 border-blue-500">
+                <h3 class="font-semibold text-lg mb-3 text-blue-800 dark:text-blue-300">Service Provision</h3>
+                <ul class="text-gray-700 dark:text-gray-300 space-y-2">
+                    <li>• Process file conversions</li>
+                    <li>• Maintain service functionality</li>
+                    <li>• Handle support requests</li>
+                    <li>• Prevent service abuse</li>
+                </ul>
             </div>
-            <div class="bg-green-50 p-6 rounded-lg">
-                <h3 class="font-semibold text-lg mb-3 text-green-800">Improvement</h3>
-                <p class="text-gray-700">To analyze usage patterns and improve our services</p>
+            
+            <div class="bg-green-50 dark:bg-green-900/20 p-6 rounded-lg border-l-4 border-green-500">
+                <h3 class="font-semibold text-lg mb-3 text-green-800 dark:text-green-300">Service Improvement</h3>
+                <ul class="text-gray-700 dark:text-gray-300 space-y-2">
+                    <li>• Analyze usage patterns</li>
+                    <li>• Optimize conversion algorithms</li>
+                    <li>• Fix technical issues</li>
+                    <li>• Develop new features</li>
+                </ul>
             </div>
-            <div class="bg-yellow-50 p-6 rounded-lg">
-                <h3 class="font-semibold text-lg mb-3 text-yellow-800">Security</h3>
-                <p class="text-gray-700">To detect and prevent fraud and security issues</p>
+            
+            <div class="bg-yellow-50 dark:bg-yellow-900/20 p-6 rounded-lg border-l-4 border-yellow-500">
+                <h3 class="font-semibold text-lg mb-3 text-yellow-800 dark:text-yellow-300">Security & Compliance</h3>
+                <ul class="text-gray-700 dark:text-gray-300 space-y-2">
+                    <li>• Detect and prevent fraud</li>
+                    <li>• Monitor for security threats</li>
+                    <li>• Comply with legal obligations</li>
+                    <li>• Enforce terms of service</li>
+                </ul>
             </div>
-            <div class="bg-purple-50 p-6 rounded-lg">
-                <h3 class="font-semibold text-lg mb-3 text-purple-800">Communication</h3>
-                <p class="text-gray-700">To respond to your inquiries and provide support</p>
+            
+            <div class="bg-purple-50 dark:bg-purple-900/20 p-6 rounded-lg border-l-4 border-purple-500">
+                <h3 class="font-semibold text-lg mb-3 text-purple-800 dark:text-purple-300">Communication</h3>
+                <ul class="text-gray-700 dark:text-gray-300 space-y-2">
+                    <li>• Respond to inquiries</li>
+                    <li>• Provide technical support</li>
+                    <li>• Send service updates</li>
+                    <li>• Gather feedback</li>
+                </ul>
             </div>
         </div>
-    </div>
+    </section>
 
     <!-- Data Security -->
-    <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
-        <h2 class="text-2xl font-bold mb-6">Data Security</h2>
-        <p class="text-gray-700 mb-4">
-            We take the security of your information seriously and implement appropriate technical and organizational measures to protect it:
+    <section id="data-security" class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-8 scroll-mt-8">
+        <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">4. Data Security Measures</h2>
+        <p class="text-gray-700 dark:text-gray-300 mb-6">
+            We implement comprehensive security measures to protect your information:
         </p>
-        <ul class="list-disc pl-6 text-gray-700 space-y-3">
-            <li>All file transfers are encrypted using SSL/TLS</li>
-            <li>Files are stored on secure servers with limited access</li>
-            <li>Automatic deletion of files after 1 hour</li>
-            <li>Regular security audits and updates</li>
-            <li>No permanent storage of uploaded files</li>
-        </ul>
-    </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-4">
+                <div class="flex items-start">
+                    <div class="bg-green-100 dark:bg-green-900/30 p-3 rounded-full mr-4">
+                        <i class="fas fa-lock text-green-600 dark:text-green-400"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-1">Encryption</h4>
+                        <p class="text-gray-700 dark:text-gray-300 text-sm">All data transfers use SSL/TLS encryption</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start">
+                    <div class="bg-blue-100 dark:bg-blue-900/30 p-3 rounded-full mr-4">
+                        <i class="fas fa-server text-blue-600 dark:text-blue-400"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-1">Secure Storage</h4>
+                        <p class="text-gray-700 dark:text-gray-300 text-sm">Files stored on isolated, secure servers</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="flex items-start">
+                    <div class="bg-red-100 dark:bg-red-900/30 p-3 rounded-full mr-4">
+                        <i class="fas fa-trash-alt text-red-600 dark:text-red-400"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-1">Automatic Deletion</h4>
+                        <p class="text-gray-700 dark:text-gray-300 text-sm">Files deleted within 1 hour automatically</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start">
+                    <div class="bg-purple-100 dark:bg-purple-900/30 p-3 rounded-full mr-4">
+                        <i class="fas fa-shield-alt text-purple-600 dark:text-purple-400"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-1">Regular Audits</h4>
+                        <p class="text-gray-700 dark:text-gray-300 text-sm">Security audits and vulnerability testing</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-8 p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
+            <h4 class="font-semibold text-gray-800 dark:text-white mb-2">Data Retention Policy</h4>
+            <p class="text-gray-700 dark:text-gray-300 text-sm">
+                • Uploaded files: Deleted within 1 hour<br>
+                • Technical logs: Retained for 30 days (anonymized)<br>
+                • Analytics data: Aggregated and anonymized, retained indefinitely<br>
+                • Support communications: Retained for 2 years
+            </p>
+        </div>
+    </section>
 
     <!-- Third-Party Services -->
-    <div class="mb-8">
-        <h2 class="text-2xl font-bold mb-6">Third-Party Services</h2>
-        <div class="bg-gray-50 rounded-lg p-6">
-            <h3 class="text-xl font-semibold mb-4 text-gray-800">Google AdSense</h3>
-            <p class="text-gray-700 mb-4">
-                We use Google AdSense to display advertisements on our website. Google AdSense may use cookies to serve ads based on your prior visits to our website or other websites.
+    <section id="third-party" class="mb-8 scroll-mt-8">
+        <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">5. Third-Party Services & Advertising</h2>
+        
+        <!-- Google AdSense Section -->
+        <div class="bg-yellow-50 dark:bg-yellow-900/20 rounded-lg p-6 mb-6 border border-yellow-200 dark:border-yellow-800">
+            <h3 class="text-xl font-semibold mb-4 text-yellow-800 dark:text-yellow-300">5.1 Google AdSense Advertising</h3>
+            <p class="text-gray-700 dark:text-gray-300 mb-4">
+                We use Google AdSense to display advertisements on our website. Google AdSense is a third-party advertising service that uses cookies to serve ads based on your prior visits to our website or other websites.
             </p>
-            <p class="text-gray-700">
-                You can opt out of personalized advertising by visiting <a href="https://www.google.com/settings/ads" class="text-blue-600 hover:underline" target="_blank">Google Ads Settings</a>. For more information about how Google uses data, please visit <a href="https://policies.google.com/technologies/ads" class="text-blue-600 hover:underline" target="_blank">Google's Privacy & Terms</a>.
-            </p>
+            
+            <div class="space-y-4">
+                <div>
+                    <h4 class="font-semibold text-gray-800 dark:text-white mb-2">How Google AdSense Works:</h4>
+                    <ul class="list-disc pl-5 text-gray-700 dark:text-gray-300 space-y-1">
+                        <li>Google uses cookies to serve relevant ads to users</li>
+                        <li>Cookies track users' interactions with ads</li>
+                        <li>Google may use aggregated data to improve advertising</li>
+                        <li>Ad personalization is based on browsing history</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold text-gray-800 dark:text-white mb-2">Your Advertising Choices:</h4>
+                    <p class="text-gray-700 dark:text-gray-300 mb-2">
+                        You can control personalized advertising through these options:
+                    </p>
+                    <ul class="list-disc pl-5 text-gray-700 dark:text-gray-300 space-y-1">
+                        <li><a href="https://www.google.com/settings/ads" class="text-blue-600 dark:text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">Google Ads Settings</a> - Manage your Google ad preferences</li>
+                        <li><a href="https://optout.aboutads.info/" class="text-blue-600 dark:text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">Digital Advertising Alliance</a> - Opt out of interest-based ads</li>
+                        <li><a href="https://www.youronlinechoices.com/" class="text-blue-600 dark:text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">Your Online Choices</a> - European Interactive Digital Advertising Alliance</li>
+                    </ul>
+                </div>
+                
+                <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded">
+                    <p class="text-gray-700 dark:text-gray-300 text-sm">
+                        <strong>Note:</strong> Opting out of personalized advertising does not mean you will not see ads. You will continue to see generic, non-personalized ads.
+                    </p>
+                </div>
+            </div>
         </div>
-    </div>
+        
+        <!-- Other Third-Party Services -->
+        <div class="bg-gray-50 dark:bg-gray-900/50 rounded-lg p-6">
+            <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-white">5.2 Other Third-Party Services</h3>
+            <p class="text-gray-700 dark:text-gray-300 mb-4">
+                We may use other third-party services for analytics, hosting, and functionality:
+            </p>
+            
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white dark:bg-gray-800 rounded-lg">
+                    <thead class="bg-gray-100 dark:bg-gray-700">
+                        <tr>
+                            <th class="py-3 px-4 text-left font-medium text-gray-800 dark:text-white">Service</th>
+                            <th class="py-3 px-4 text-left font-medium text-gray-800 dark:text-white">Purpose</th>
+                            <th class="py-3 px-4 text-left font-medium text-gray-800 dark:text-white">Privacy Policy</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                        <tr>
+                            <td class="py-3 px-4 text-gray-700 dark:text-gray-300">Google Analytics</td>
+                            <td class="py-3 px-4 text-gray-700 dark:text-gray-300">Website analytics and usage tracking</td>
+                            <td class="py-3 px-4"><a href="https://policies.google.com/privacy" class="text-blue-600 dark:text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">View Policy</a></td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 text-gray-700 dark:text-gray-300">Cloudflare</td>
+                            <td class="py-3 px-4 text-gray-700 dark:text-gray-300">CDN and security services</td>
+                            <td class="py-3 px-4"><a href="https://www.cloudflare.com/privacypolicy/" class="text-blue-600 dark:text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">View Policy</a></td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 text-gray-700 dark:text-gray-300">Hosting Provider</td>
+                            <td class="py-3 px-4 text-gray-700 dark:text-gray-300">Server infrastructure and hosting</td>
+                            <td class="py-3 px-4 text-gray-700 dark:text-gray-300">Available on request</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
 
     <!-- Your Rights -->
-    <div class="mb-8">
-        <h2 class="text-2xl font-bold mb-6">Your Rights</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-white border border-gray-200 rounded-lg p-6">
-                <h3 class="font-semibold text-lg mb-3">Right to Access</h3>
-                <p class="text-gray-600">You can request information about the data we have about you.</p>
+    <section id="your-rights" class="mb-8 scroll-mt-8">
+        <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">6. Your Data Protection Rights</h2>
+        <p class="text-gray-700 dark:text-gray-300 mb-6">
+            Depending on your location, you may have certain rights regarding your personal information:
+        </p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                <div class="bg-blue-100 dark:bg-blue-900/30 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-eye text-blue-600 dark:text-blue-400"></i>
+                </div>
+                <h3 class="font-semibold text-lg mb-3 text-gray-800 dark:text-white">Right to Access</h3>
+                <p class="text-gray-600 dark:text-gray-400 text-sm">Request a copy of your personal information</p>
             </div>
-            <div class="bg-white border border-gray-200 rounded-lg p-6">
-                <h3 class="font-semibold text-lg mb-3">Right to Deletion</h3>
-                <p class="text-gray-600">You can request deletion of your data from our systems.</p>
+            
+            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                <div class="bg-green-100 dark:bg-green-900/30 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-edit text-green-600 dark:text-green-400"></i>
+                </div>
+                <h3 class="font-semibold text-lg mb-3 text-gray-800 dark:text-white">Right to Rectification</h3>
+                <p class="text-gray-600 dark:text-gray-400 text-sm">Correct inaccurate or incomplete data</p>
             </div>
-            <div class="bg-white border border-gray-200 rounded-lg p-6">
-                <h3 class="font-semibold text-lg mb-3">Opt-Out</h3>
-                <p class="text-gray-600">You can opt out of data collection through your browser settings.</p>
+            
+            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                <div class="bg-red-100 dark:bg-red-900/30 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-trash-alt text-red-600 dark:text-red-400"></i>
+                </div>
+                <h3 class="font-semibold text-lg mb-3 text-gray-800 dark:text-white">Right to Erasure</h3>
+                <p class="text-gray-600 dark:text-gray-400 text-sm">Request deletion of your personal data</p>
             </div>
-            <div class="bg-white border border-gray-200 rounded-lg p-6">
-                <h3 class="font-semibold text-lg mb-3">Data Portability</h3>
-                <p class="text-gray-600">You can request your data in a portable format.</p>
+            
+            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                <div class="bg-purple-100 dark:bg-purple-900/30 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-download text-purple-600 dark:text-purple-400"></i>
+                </div>
+                <h3 class="font-semibold text-lg mb-3 text-gray-800 dark:text-white">Right to Portability</h3>
+                <p class="text-gray-600 dark:text-gray-400 text-sm">Receive your data in a portable format</p>
             </div>
         </div>
-    </div>
+        
+        <div class="mt-8 bg-gray-50 dark:bg-gray-900/50 rounded-lg p-6">
+            <h3 class="font-semibold text-lg mb-3 text-gray-800 dark:text-white">Exercising Your Rights</h3>
+            <p class="text-gray-700 dark:text-gray-300 mb-3">
+                To exercise any of these rights, please contact us using the information in Section 8. We will respond to your request within 30 days.
+            </p>
+            <p class="text-gray-700 dark:text-gray-300 text-sm">
+                Note: Some rights may be limited based on legal requirements or our legitimate business interests.
+            </p>
+        </div>
+    </section>
 
     <!-- Children's Privacy -->
-    <div class="bg-yellow-50 rounded-lg p-6 mb-8">
-        <h2 class="text-xl font-semibold mb-4 text-yellow-800">Children's Privacy</h2>
-        <p class="text-gray-700">
-            Our services are not directed to individuals under the age of 13. We do not knowingly collect personal information from children under 13. If you are a parent or guardian and believe your child has provided us with personal information, please contact us immediately.
-        </p>
-    </div>
-
-    <!-- Contact Information -->
-    <div class="bg-blue-50 rounded-xl p-8">
-        <h2 class="text-2xl font-bold mb-6 text-blue-800">Contact Us</h2>
-        <p class="text-gray-700 mb-4">
-            If you have any questions or concerns about this Privacy Policy or our data practices, please contact us:
-        </p>
-        <div class="space-y-4">
-            <p class="text-gray-700">
-                <strong>Email:</strong> privacy@pdfconverterpro.com
-            </p>
-            <p class="text-gray-700">
-                <strong>Last Updated:</strong> {{ current_year }}
-            </p>
-            <p class="text-gray-700">
-                We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last Updated" date.
+    <section class="mb-8">
+        <div class="bg-yellow-50 dark:bg-yellow-900/20 rounded-lg p-6 border-l-4 border-yellow-500">
+            <h2 class="text-xl font-semibold mb-4 text-yellow-800 dark:text-yellow-300">7. Children's Privacy</h2>
+            <p class="text-gray-700 dark:text-gray-300">
+                Our services are not directed to individuals under the age of 16 ("Children"). We do not knowingly collect personal information from children under 16. If you are a parent or guardian and believe your child has provided us with personal information, please contact us immediately. If we become aware that we have collected personal information from children without verification of parental consent, we will take steps to remove that information from our servers.
             </p>
         </div>
-    </div>
+    </section>
+
+    <!-- Cookie Policy Link -->
+    <section id="cookies" class="mb-8">
+        <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6">
+            <h2 class="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-300">Cookie Policy</h2>
+            <p class="text-gray-700 dark:text-gray-300 mb-4">
+                For detailed information about how we use cookies and tracking technologies, please see our comprehensive Cookie Policy:
+            </p>
+            <a href="{% url 'cookies' %}" 
+               class="inline-flex items-center px-6 py-3 bg-blue-600 dark:bg-blue-700 text-white font-semibold rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition">
+                <i class="fas fa-cookie-bite mr-2"></i>
+                View Cookie Policy
+            </a>
+        </div>
+    </section>
+
+    <!-- Contact Information -->
+    <section id="contact" class="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-8 scroll-mt-8">
+        <h2 class="text-2xl font-bold mb-6 text-blue-800 dark:text-blue-300">8. Contact Information & Policy Updates</h2>
+        
+        <div class="space-y-6">
+            <div>
+                <h3 class="font-semibold text-lg mb-2 text-gray-800 dark:text-white">Contact Our Privacy Team</h3>
+                <p class="text-gray-700 dark:text-gray-300">
+                    If you have questions, concerns, or requests regarding this Privacy Policy or our data practices:
+                </p>
+                <div class="mt-4 space-y-3">
+                    <div class="flex items-center">
+                        <i class="fas fa-envelope text-blue-600 dark:text-blue-400 mr-3"></i>
+                        <span class="text-gray-700 dark:text-gray-300">privacy@pdfconverterpro.com</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-globe text-blue-600 dark:text-blue-400 mr-3"></i>
+                        <span class="text-gray-700 dark:text-gray-300">https://pdfconverterpro.com</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <h3 class="font-semibold text-lg mb-2 text-gray-800 dark:text-white">Policy Updates</h3>
+                <p class="text-gray-700 dark:text-gray-300 mb-3">
+                    We may update this Privacy Policy periodically to reflect changes in our practices or legal requirements. We will notify you of significant changes by:
+                </p>
+                <ul class="list-disc pl-5 text-gray-700 dark:text-gray-300 space-y-2">
+                    <li>Posting the updated policy on this page</li>
+                    <li>Updating the "Last Updated" date</li>
+                    <li>Providing notification through our website if changes are material</li>
+                </ul>
+                <p class="text-gray-700 dark:text-gray-300 mt-3">
+                    We encourage you to review this Privacy Policy periodically for any changes.
+                </p>
+            </div>
+            
+            <div class="bg-white dark:bg-gray-800 p-4 rounded-lg">
+                <div class="flex items-center">
+                    <i class="fas fa-history text-gray-600 dark:text-gray-400 mr-3"></i>
+                    <div>
+                        <p class="font-medium text-gray-800 dark:text-white">Last Updated</p>
+                        <p class="text-gray-700 dark:text-gray-300">{{ current_year }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Documents -->
+    <section class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
+        <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">Related Documents</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <a href="{% url 'terms' %}" 
+               class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-lg transition-shadow group">
+                <div class="bg-green-100 dark:bg-green-900/30 w-12 h-12 rounded-lg flex items-center justify-center mb-4 group-hover:bg-green-200 dark:group-hover:bg-green-900/50 transition-colors">
+                    <i class="fas fa-file-contract text-green-600 dark:text-green-400"></i>
+                </div>
+                <h4 class="font-semibold text-gray-800 dark:text-white mb-2 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">Terms of Service</h4>
+                <p class="text-gray-600 dark:text-gray-400 text-sm">Rules and guidelines for using our services</p>
+            </a>
+            
+            <a href="{% url 'cookies' %}" 
+               class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-lg transition-shadow group">
+                <div class="bg-yellow-100 dark:bg-yellow-900/30 w-12 h-12 rounded-lg flex items-center justify-center mb-4 group-hover:bg-yellow-200 dark:group-hover:bg-yellow-900/50 transition-colors">
+                    <i class="fas fa-cookie-bite text-yellow-600 dark:text-yellow-400"></i>
+                </div>
+                <h4 class="font-semibold text-gray-800 dark:text-white mb-2 group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors">Cookie Policy</h4>
+                <p class="text-gray-600 dark:text-gray-400 text-sm">How we use cookies and tracking technologies</p>
+            </a>
+            
+            <a href="{% url 'contact' %}" 
+               class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-lg transition-shadow group">
+                <div class="bg-blue-100 dark:bg-blue-900/30 w-12 h-12 rounded-lg flex items-center justify-center mb-4 group-hover:bg-blue-200 dark:group-hover:bg-blue-900/50 transition-colors">
+                    <i class="fas fa-envelope text-blue-600 dark:text-blue-400"></i>
+                </div>
+                <h4 class="font-semibold text-gray-800 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Contact Us</h4>
+                <p class="text-gray-600 dark:text-gray-400 text-sm">Get in touch with questions or concerns</p>
+            </a>
+        </div>
+    </section>
 </div>
 
-<!-- Add this section in your privacy policy template -->
+<!-- Schema.org Privacy Policy Markup -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "PrivacyPolicy",
+  "name": "Privacy Policy - PDF Converter Pro",
+  "datePublished": "{{ current_year }}-01-01",
+  "dateModified": "{{ current_year }}-12-31",
+  "publisher": {
+    "@type": "Organization",
+    "name": "PDF Converter Pro",
+    "url": "https://pdfconverterpro.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://pdfconverterpro.com/static/images/logo.png"
+    }
+  },
+  "about": {
+    "@type": "WebApplication",
+    "name": "PDF Converter Pro",
+    "applicationCategory": "UtilityApplication",
+    "description": "Free online PDF conversion tools"
+  },
+  "acquireLicensePage": "https://pdfconverterpro.com/terms",
+  "copyrightNotice": "Copyright © {{ current_year }} PDF Converter Pro. All rights reserved.",
+  "license": "https://pdfconverterpro.com/terms",
+  "privacyPolicy": "https://pdfconverterpro.com/privacy"
+}
+</script>
 
-<h2 class="text-2xl font-bold mt-8 mb-4">Advertising</h2>
-<p class="mb-4">We use Google AdSense to display advertisements on our website.</p>
+<!-- JavaScript for enhanced functionality -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Smooth scrolling for anchor links with offset
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                const headerOffset = 100;
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+                
+                // Update URL hash without page jump
+                history.pushState(null, null, targetId);
+            }
+        });
+    });
+    
+    // Print policy button
+    const printButton = document.createElement('button');
+    printButton.className = 'fixed bottom-6 right-6 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 z-40';
+    printButton.innerHTML = '<i class="fas fa-print"></i>';
+    printButton.title = 'Print Privacy Policy';
+    printButton.setAttribute('aria-label', 'Print Privacy Policy');
+    
+    printButton.addEventListener('click', function() {
+        window.print();
+    });
+    
+    document.body.appendChild(printButton);
+    
+    // Highlight current section in navigation
+    function highlightCurrentSection() {
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('a[href^="#"]');
+        
+        let currentSection = '';
+        
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            if (window.scrollY >= (sectionTop - 150)) {
+                currentSection = section.getAttribute('id');
+            }
+        });
+        
+        navLinks.forEach(link => {
+            link.classList.remove('font-medium', 'text-blue-700', 'dark:text-blue-300');
+            if (link.getAttribute('href') === '#' + currentSection) {
+                link.classList.add('font-medium', 'text-blue-700', 'dark:text-blue-300');
+            }
+        });
+    }
+    
+    // Call on scroll
+    window.addEventListener('scroll', highlightCurrentSection);
+    highlightCurrentSection();
+    
+    // Copy policy link
+    const copyLinkButton = document.createElement('button');
+    copyLinkButton.className = 'fixed bottom-6 right-20 bg-gray-600 text-white p-3 rounded-full shadow-lg hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 z-40';
+    copyLinkButton.innerHTML = '<i class="fas fa-link"></i>';
+    copyLinkButton.title = 'Copy policy link';
+    copyLinkButton.setAttribute('aria-label', 'Copy privacy policy link');
+    
+    copyLinkButton.addEventListener('click', function() {
+        const url = window.location.href;
+        navigator.clipboard.writeText(url).then(() => {
+            // Show notification
+            const notification = document.createElement('div');
+            notification.textContent = 'Link copied to clipboard!';
+            notification.className = 'fixed bottom-20 right-6 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg z-50';
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 2000);
+        });
+    });
+    
+    document.body.appendChild(copyLinkButton);
+});
+</script>
 
-<h3 class="text-xl font-bold mt-6 mb-3">Third-Party Vendors</h3>
-<p class="mb-4">Third-party vendors, including Google, use cookies to serve ads based on a user's prior visits to our website or other websites.</p>
+<style>
+@media print {
+    .fixed,
+    nav,
+    button,
+    .bg-gradient-to-r,
+    .hover\\:shadow-lg,
+    .hover\\:shadow-xl {
+        display: none !important;
+    }
+    
+    section {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+    
+    a {
+        color: black !important;
+        text-decoration: underline !important;
+    }
+    
+    .bg-blue-50,
+    .bg-green-50,
+    .bg-yellow-50,
+    .bg-purple-50,
+    .bg-gray-50 {
+        background-color: #f9fafb !important;
+    }
+}
 
-<h3 class="text-xl font-bold mt-6 mb-3">Google's Use of Advertising Cookies</h3>
-<p class="mb-4">Google's use of advertising cookies enables it and its partners to serve ads to our users based on their visit to our sites and/or other sites on the Internet.</p>
+.scroll-mt-8 {
+    scroll-margin-top: 2rem;
+}
 
-<h3 class="text-xl font-bold mt-6 mb-3">Opting Out</h3>
-<p class="mb-4">Users may opt out of personalized advertising by visiting <a href="https://www.google.com/settings/ads" class="text-blue-600">Google's Ads Settings</a> or by visiting <a href="https://www.aboutads.info/" class="text-blue-600">www.aboutads.info</a>.</p>
+/* Animation for section entry */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+section {
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* Stagger animations */
+section:nth-child(1) { animation-delay: 0.1s; }
+section:nth-child(2) { animation-delay: 0.2s; }
+section:nth-child(3) { animation-delay: 0.3s; }
+section:nth-child(4) { animation-delay: 0.4s; }
+section:nth-child(5) { animation-delay: 0.5s; }
+section:nth-child(6) { animation-delay: 0.6s; }
+section:nth-child(7) { animation-delay: 0.7s; }
+section:nth-child(8) { animation-delay: 0.8s; }
+</style>
 {% endblock %}

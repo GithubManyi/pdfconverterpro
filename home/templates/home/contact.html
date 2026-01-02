@@ -1,176 +1,470 @@
 {% extends 'home/base.html' %}
 
-{% block title %}Contact Us - PDF Converter Pro{% endblock %}
+{% block title %}Contact PDF Converter Pro - Support & Customer Service{% endblock %}
+{% block meta_description %}Get help with PDF conversion, technical support, feature requests, or report issues. Contact our team for assistance with file conversion tools.{% endblock %}
 
 {% block content %}
 <div class="max-w-4xl mx-auto">
-    <!-- Header -->
-    <div class="text-center mb-12">
-        <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">Contact Us</h1>
-        <p class="text-xl text-gray-700 dark:text-gray-300">We're here to help with your file conversion needs</p>
-    </div>
+    <!-- Header - SEO OPTIMIZED -->
+    <header class="text-center mb-12">
+        <!-- OPTIMIZED H1 -->
+        <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">Contact PDF Converter Pro Support</h1>
+        <p class="text-xl text-gray-700 dark:text-gray-300">Get help with file conversion, technical support, or share feedback about our tools</p>
+    </header>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- Contact Info -->
+        <!-- Contact Info - STRUCTURED DATA READY -->
         <div class="lg:col-span-1">
             <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-6 border border-gray-200 dark:border-gray-700">
-                <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">Get in Touch</h2>
+                <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">Contact Information</h2>
                 
                 <div class="space-y-6">
-                    <div class="flex items-start">
+                    <div class="flex items-start" itemscope itemtype="https://schema.org/ContactPoint">
                         <div class="bg-blue-100 dark:bg-blue-900/50 p-3 rounded-full mr-4">
-                            <i class="fas fa-envelope text-blue-600 dark:text-blue-400"></i>
+                            <i class="fas fa-envelope text-blue-600 dark:text-blue-400" aria-hidden="true"></i>
                         </div>
                         <div>
                             <h3 class="font-semibold text-gray-900 dark:text-white">Email Support</h3>
-                            <p class="text-gray-700 dark:text-gray-300">support@pdfconverterpro.com</p>
-                            <p class="text-sm text-gray-600 dark:text-gray-400">Typically respond within 24 hours</p>
+                            <a href="mailto:support@pdfconverterpro.com" 
+                               class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                               itemprop="email">
+                                support@pdfconverterpro.com
+                            </a>
+                            <p class="text-sm text-gray-600 dark:text-gray-400" itemprop="hoursAvailable">
+                                Typically respond within 24 hours
+                            </p>
                         </div>
                     </div>
                     
                     <div class="flex items-start">
                         <div class="bg-green-100 dark:bg-green-900/50 p-3 rounded-full mr-4">
-                            <i class="fas fa-question-circle text-green-600 dark:text-green-400"></i>
+                            <i class="fas fa-question-circle text-green-600 dark:text-green-400" aria-hidden="true"></i>
                         </div>
                         <div>
                             <h3 class="font-semibold text-gray-900 dark:text-white">Help Center</h3>
-                            <p class="text-gray-700 dark:text-gray-300">Check our FAQ section first</p>
-                            <a href="{% url 'faq' %}" class="text-blue-600 dark:text-blue-400 hover:underline text-sm">View FAQs →</a>
+                            <p class="text-gray-700 dark:text-gray-300">Check our FAQ section first for quick answers</p>
+                            <a href="{% url 'faq' %}" 
+                               class="text-blue-600 dark:text-blue-400 hover:underline text-sm inline-flex items-center"
+                               aria-label="View frequently asked questions">
+                                View FAQs 
+                                <i class="fas fa-arrow-right ml-1 text-xs" aria-hidden="true"></i>
+                            </a>
                         </div>
                     </div>
                     
                     <div class="flex items-start">
                         <div class="bg-gray-100 dark:bg-purple-900/50 p-3 rounded-full mr-4">
-                            <i class="fas fa-bug text-purple-600 dark:text-purple-400"></i>
+                            <i class="fas fa-bug text-purple-600 dark:text-purple-400" aria-hidden="true"></i>
                         </div>
                         <div>
                             <h3 class="font-semibold text-gray-900 dark:text-white">Report Issues</h3>
-                            <p class="text-gray-700 dark:text-gray-300">Found a bug or issue?</p>
-                            <p class="text-sm text-gray-600 dark:text-gray-400">We appreciate your feedback</p>
+                            <p class="text-gray-700 dark:text-gray-300">Found a bug or technical issue?</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">We appreciate your feedback to improve our service</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Tips - FIXED -->
+            <!-- Tips Section -->
             <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg border-2 border-gray-200 dark:border-gray-700">
                 <h3 class="font-semibold text-lg mb-4 text-blue-800 dark:text-blue-300">
-                    <i class="fas fa-lightbulb mr-2"></i>Before Contacting Us
+                    <i class="fas fa-lightbulb mr-2" aria-hidden="true"></i>Quick Tips Before Contacting
                 </h3>
-                <ul class="space-y-3 text-gray-700 dark:text-gray-300">
+                <ul class="space-y-3 text-gray-700 dark:text-gray-300" role="list">
                     <li class="flex items-start">
-                        <i class="fas fa-check text-green-500 dark:text-green-400 mt-1 mr-2"></i>
-                        <span>Check if your file type is supported</span>
+                        <i class="fas fa-check text-green-500 dark:text-green-400 mt-1 mr-2" aria-hidden="true"></i>
+                        <span>Check if your file type is supported (PDF, Word, Excel, PowerPoint, Images)</span>
                     </li>
                     <li class="flex items-start">
-                        <i class="fas fa-check text-green-500 dark:text-green-400 mt-1 mr-2"></i>
-                        <span>Ensure file size is under 50MB</span>
+                        <i class="fas fa-check text-green-500 dark:text-green-400 mt-1 mr-2" aria-hidden="true"></i>
+                        <span>Ensure file size is under 50MB for optimal conversion</span>
                     </li>
                     <li class="flex items-start">
-                        <i class="fas fa-check text-green-500 dark:text-green-400 mt-1 mr-2"></i>
-                        <span>Try refreshing the page if conversion fails</span>
+                        <i class="fas fa-check text-green-500 dark:text-green-400 mt-1 mr-2" aria-hidden="true"></i>
+                        <span>Try refreshing the page or clearing cache if conversion fails</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check text-green-500 dark:text-green-400 mt-1 mr-2" aria-hidden="true"></i>
+                        <span>Include error messages or screenshots when reporting issues</span>
                     </li>
                 </ul>
             </div>
         </div>
 
-        <!-- Contact Form -->
+        <!-- Contact Form - MAIN ACTION -->
         <div class="lg:col-span-2">
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700">
+            <section class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700"
+                     aria-label="Contact form">
                 <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Send Us a Message</h2>
                 
                 {% if messages %}
-                <div class="mb-6">
+                <div class="mb-6" role="alert">
                     {% for message in messages %}
                     <div class="bg-green-100 dark:bg-green-900/30 border border-green-400 dark:border-green-700 text-green-700 dark:text-green-300 px-4 py-3 rounded">
+                        <i class="fas fa-check-circle mr-2" aria-hidden="true"></i>
                         {{ message }}
                     </div>
                     {% endfor %}
                 </div>
                 {% endif %}
                 
-                <form method="post" class="space-y-6">
+                <form method="post" class="space-y-6" id="contact-form">
                     {% csrf_token %}
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-gray-900 dark:text-white font-medium mb-2" for="name">
-                                Your Name *
+                                Your Name <span class="text-red-500">*</span>
                             </label>
                             <input type="text" id="name" name="name" required
                                    class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                   placeholder="John Doe">
+                                   placeholder="John Doe"
+                                   aria-required="true"
+                                   minlength="2"
+                                   maxlength="100">
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Please enter your full name</p>
                         </div>
                         
                         <div>
                             <label class="block text-gray-900 dark:text-white font-medium mb-2" for="email">
-                                Email Address *
+                                Email Address <span class="text-red-500">*</span>
                             </label>
                             <input type="email" id="email" name="email" required
                                    class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                   placeholder="john@example.com">
+                                   placeholder="john@example.com"
+                                   aria-required="true"
+                                   pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
+                                   title="Please enter a valid email address">
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">We'll respond to this email</p>
                         </div>
                     </div>
                     
                     <div>
                         <label class="block text-gray-900 dark:text-white font-medium mb-2" for="subject">
-                            Subject
+                            Inquiry Type
                         </label>
                         <select id="subject" name="subject"
-                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                aria-label="Select inquiry type">
                             <option value="general">General Inquiry</option>
                             <option value="support">Technical Support</option>
                             <option value="feature">Feature Request</option>
                             <option value="bug">Report a Bug</option>
                             <option value="business">Business Inquiry</option>
+                            <option value="partnership">Partnership Opportunity</option>
                         </select>
                     </div>
                     
                     <div>
                         <label class="block text-gray-900 dark:text-white font-medium mb-2" for="message">
-                            Message *
+                            Message <span class="text-red-500">*</span>
                         </label>
                         <textarea id="message" name="message" rows="6" required
                                   class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                  placeholder="Please describe your issue or question in detail..."></textarea>
+                                  placeholder="Please describe your issue or question in detail. Include specific information like file types, error messages, or conversion problems you're experiencing."
+                                  aria-required="true"
+                                  minlength="10"
+                                  maxlength="2000"></textarea>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                            Minimum 10 characters. Please provide as much detail as possible for faster resolution.
+                        </p>
                     </div>
                     
-                    <div class="flex items-center">
-                        <input type="checkbox" id="consent" name="consent" required class="mr-3">
+                    <div class="flex items-start">
+                        <input type="checkbox" id="consent" name="consent" required 
+                               class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded focus:ring-blue-500"
+                               aria-required="true">
                         <label for="consent" class="text-gray-900 dark:text-gray-300">
-                            I agree to the <a href="{% url 'privacy' %}" class="text-blue-600 dark:text-blue-400 hover:underline">Privacy Policy</a> and understand that my data will be used only for responding to my inquiry.
+                            I agree to the <a href="{% url 'privacy' %}" class="text-blue-600 dark:text-blue-400 hover:underline" target="_blank">Privacy Policy</a> 
+                            and understand that my data will be used only for responding to my inquiry. I acknowledge that PDF Converter Pro processes data in accordance with data protection regulations.
                         </label>
                     </div>
                     
                     <button type="submit"
-                            class="w-full bg-blue-600 dark:bg-blue-700 text-white py-4 rounded-lg font-semibold text-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition shadow-lg">
-                        Send Message <i class="fas fa-paper-plane ml-2"></i>
+                            class="w-full bg-blue-600 dark:bg-blue-700 text-white py-4 rounded-lg font-semibold text-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                            id="submit-button"
+                            aria-label="Send contact message">
+                        <i class="fas fa-paper-plane mr-2" aria-hidden="true"></i>
+                        Send Message
                     </button>
                 </form>
                 
                 <div class="border-t border-gray-300 dark:border-gray-700 mt-8 pt-6">
                     <p class="text-sm text-gray-600 dark:text-gray-400">
-                        <i class="fas fa-info-circle mr-2"></i>
+                        <i class="fas fa-info-circle mr-2" aria-hidden="true"></i>
                         We typically respond within 24-48 hours during business days. For urgent issues, please mention "URGENT" in your subject line.
                     </p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                        <i class="fas fa-shield-alt mr-2" aria-hidden="true"></i>
+                        Your information is secure and will only be used to respond to your inquiry. We do not share your data with third parties.
+                    </p>
                 </div>
-            </div>
+            </section>
         </div>
     </div>
 
-    <!-- FAQ Preview -->
-    <div class="mt-12">
-        <h2 class="text-2xl font-bold text-center text-gray-900 dark:text-white mb-8">Common Questions</h2>
+    <!-- FAQ Preview - SEO CONTENT -->
+    <section class="mt-12" aria-label="Frequently asked questions">
+        <h2 class="text-2xl font-bold text-center text-gray-900 dark:text-white mb-8">Common PDF Conversion Questions</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
+                <h3 class="font-semibold text-lg mb-3 text-gray-900 dark:text-white">What file types do you support?</h3>
+                <p class="text-gray-700 dark:text-gray-300">We support PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX, JPG, PNG, and more. Check our tools page for the complete list of supported formats for conversion.</p>
+            </div>
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
                 <h3 class="font-semibold text-lg mb-3 text-gray-900 dark:text-white">Is there a file size limit?</h3>
-                <p class="text-gray-700 dark:text-gray-300">Yes, the maximum file size is 50MB per file. This ensures fast processing for all users.</p>
+                <p class="text-gray-700 dark:text-gray-300">Yes, the maximum file size is 50MB per file. This ensures fast processing and optimal performance for all users. For larger files, consider compressing first.</p>
             </div>
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
                 <h3 class="font-semibold text-lg mb-3 text-gray-900 dark:text-white">Are my files secure?</h3>
-                <p class="text-gray-700 dark:text-gray-300">All files are automatically deleted within 24 hours. We never store or share your files.</p>
+                <p class="text-gray-700 dark:text-gray-300">All uploaded files are automatically deleted within 24 hours of processing. We use SSL encryption and never store or share your files with third parties.</p>
+            </div>
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
+                <h3 class="font-semibold text-lg mb-3 text-gray-900 dark:text-white">Is PDF Converter Pro really free?</h3>
+                <p class="text-gray-700 dark:text-gray-300">Yes! All our PDF conversion tools are completely free with no hidden fees, watermarks, or registration required. We believe file conversion should be accessible to everyone.</p>
             </div>
         </div>
-    </div>
+        
+        <div class="text-center mt-8">
+            <a href="{% url 'faq' %}" 
+               class="inline-flex items-center text-blue-600 dark:text-blue-400 font-medium hover:text-blue-800 dark:hover:text-blue-300">
+                <i class="fas fa-question-circle mr-2" aria-hidden="true"></i>
+                View All Frequently Asked Questions
+                <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
+            </a>
+        </div>
+    </section>
+    
+    <!-- SEO Content Section -->
+    <section class="mt-12 prose prose-lg max-w-none dark:prose-invert">
+        <h2>Contact PDF Converter Pro Support Team</h2>
+        <p>Need assistance with our PDF conversion tools? Our support team is here to help you with any questions, issues, or feedback regarding PDF Converter Pro. Whether you're experiencing technical difficulties, have suggestions for new features, or need help with file conversion, we're ready to assist.</p>
+        
+        <h3>How to Get the Best Support</h3>
+        <p>To ensure we can help you quickly and effectively, please include the following information when contacting us:</p>
+        <ul>
+            <li><strong>Detailed Description:</strong> Clearly explain the issue or question</li>
+            <li><strong>File Information:</strong> Mention file types and sizes if applicable</li>
+            <li><strong>Error Messages:</strong> Copy any error messages you receive</li>
+            <li><strong>Steps to Reproduce:</strong> List the exact steps that led to the issue</li>
+            <li><strong>Browser/Device:</strong> Include browser version and device type</li>
+        </ul>
+        
+        <h3>Types of Inquiries We Handle</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
+            <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+                <h4 class="font-bold text-gray-800 dark:text-white mb-2">Technical Support</h4>
+                <ul class="text-sm">
+                    <li>PDF conversion errors or failures</li>
+                    <li>File upload problems</li>
+                    <li>Formatting issues after conversion</li>
+                    <li>Browser compatibility problems</li>
+                    <li>Mobile app assistance</li>
+                </ul>
+            </div>
+            <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+                <h4 class="font-bold text-gray-800 dark:text-white mb-2">General Inquiries</h4>
+                <ul class="text-sm">
+                    <li>Feature requests and suggestions</li>
+                    <li>Business partnership opportunities</li>
+                    <li>Media and press inquiries</li>
+                    <li>API access and integration</li>
+                    <li>Documentation and tutorials</li>
+                </ul>
+            </div>
+        </div>
+        
+        <h3>Our Commitment to Users</h3>
+        <p>At PDF Converter Pro, we're committed to providing excellent support to all our users. We believe that reliable, accessible file conversion tools should come with responsive customer service. Our team monitors all inquiries and works diligently to resolve issues promptly.</p>
+        
+        <div class="bg-blue-50 dark:bg-blue-900/20 p-6 rounded-lg mt-8">
+            <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-3">Alternative Support Options</h3>
+            <p class="text-gray-700 dark:text-gray-300 mb-4">If you prefer not to use the contact form, you can also:</p>
+            <ul class="text-gray-700 dark:text-gray-300">
+                <li><strong>Check our FAQ:</strong> Many common questions are already answered in our comprehensive FAQ section</li>
+                <li><strong>Browse our blog:</strong> Detailed tutorials and guides for common PDF tasks</li>
+                <li><strong>Community help:</strong> Often other users have experienced similar issues</li>
+            </ul>
+        </div>
+        
+        <h3>Response Time & Service Hours</h3>
+        <p>We strive to respond to all inquiries within 24-48 hours during business days (Monday-Friday). Urgent technical issues marked as "URGENT" receive priority attention. While we don't offer 24/7 phone support, our email support ensures detailed, written assistance that you can reference later.</p>
+    </section>
 </div>
+
+<!-- Schema.org Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "name": "Contact PDF Converter Pro Support",
+  "description": "Contact form and support information for PDF Converter Pro file conversion tools",
+  "url": "https://pdfconverterpro.com{% url 'contact' %}",
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://pdfconverterpro.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Contact Us",
+        "item": "https://pdfconverterpro.com{% url 'contact' %}"
+      }
+    ]
+  },
+  "mainEntity": {
+    "@type": "WebPageElement",
+    "isAccessibleForFree": true,
+    "cssSelector": "#contact-form"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "customer service",
+    "email": "support@pdfconverterpro.com",
+    "availableLanguage": ["English"],
+    "hoursAvailable": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "09:00",
+      "closes": "17:00"
+    }
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "PDF Converter Pro",
+    "url": "https://pdfconverterpro.com",
+    "logo": "https://pdfconverterpro.com/static/images/logo.png",
+    "description": "Free online PDF conversion tools for all your document needs"
+  }
+}
+</script>
+
+<!-- JavaScript for form validation and enhancement -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const contactForm = document.getElementById('contact-form');
+    const submitButton = document.getElementById('submit-button');
+    
+    if (contactForm) {
+        // Form validation enhancement
+        contactForm.addEventListener('submit', function(e) {
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const message = document.getElementById('message').value.trim();
+            const consent = document.getElementById('consent').checked;
+            
+            let isValid = true;
+            let errorMessage = '';
+            
+            // Name validation
+            if (name.length < 2) {
+                isValid = false;
+                errorMessage += '• Please enter a valid name (minimum 2 characters)\n';
+            }
+            
+            // Email validation
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                isValid = false;
+                errorMessage += '• Please enter a valid email address\n';
+            }
+            
+            // Message validation
+            if (message.length < 10) {
+                isValid = false;
+                errorMessage += '• Please provide a more detailed message (minimum 10 characters)\n';
+            }
+            
+            // Consent validation
+            if (!consent) {
+                isValid = false;
+                errorMessage += '• Please agree to the Privacy Policy\n';
+            }
+            
+            if (!isValid) {
+                e.preventDefault();
+                alert('Please fix the following errors:\n\n' + errorMessage);
+                return false;
+            }
+            
+            // Disable button to prevent double submission
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Sending...';
+            
+            // Optional: Add slight delay for better UX
+            setTimeout(() => {
+                submitButton.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Message Sent!';
+            }, 1000);
+            
+            return true;
+        });
+        
+        // Character counter for message
+        const messageField = document.getElementById('message');
+        if (messageField) {
+            const charCount = document.createElement('div');
+            charCount.className = 'text-sm text-gray-600 dark:text-gray-400 mt-1 text-right';
+            charCount.id = 'char-count';
+            charCount.textContent = '0/2000 characters';
+            messageField.parentNode.appendChild(charCount);
+            
+            messageField.addEventListener('input', function() {
+                const length = this.value.length;
+                charCount.textContent = length + '/2000 characters';
+                
+                if (length > 1900) {
+                    charCount.classList.add('text-red-500', 'dark:text-red-400');
+                    charCount.classList.remove('text-gray-600', 'dark:text-gray-400');
+                } else {
+                    charCount.classList.remove('text-red-500', 'dark:text-red-400');
+                    charCount.classList.add('text-gray-600', 'dark:text-gray-400');
+                }
+            });
+        }
+        
+        // Auto-select subject based on URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const inquiryType = urlParams.get('inquiry');
+        if (inquiryType) {
+            const subjectSelect = document.getElementById('subject');
+            if (subjectSelect) {
+                for (let i = 0; i < subjectSelect.options.length; i++) {
+                    if (subjectSelect.options[i].value === inquiryType) {
+                        subjectSelect.selectedIndex = i;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+    
+    // Focus management for accessibility
+    const firstInput = contactForm ? contactForm.querySelector('input, textarea, select') : null;
+    if (firstInput) {
+        firstInput.focus();
+    }
+});
+</script>
 {% endblock %}

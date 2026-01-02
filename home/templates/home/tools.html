@@ -1,23 +1,198 @@
-<!-- home/templates/home/tools.html -->
 {% extends 'home/base.html' %}
 {% load static %}
 
-{% block title %}PDF Tools - {{ site_name|default:"PDF Converter Pro" }}{% endblock %}
+{% block title %}Free PDF Tools Online | Convert, Merge, Compress PDF Files - {{ site_name|default:"PDF Converter Pro" }}{% endblock %}
+{% block meta_description %}Free online PDF tools for all your document needs. Convert PDF to Word, merge PDFs, compress files, split documents, and more. No registration required. 100% secure and free.{% endblock %}
+{% block keywords %}PDF tools, PDF converter, merge PDF, compress PDF, split PDF, Word to PDF, Excel to PDF, image to PDF, free PDF tools{% endblock %}
+{% block robots %}index, follow{% endblock %}
+{% block canonical %}{{ request.build_absolute_uri }}{% endblock %}
+{% block og_title %}Free PDF Tools Online | Convert, Merge, Compress PDF Files{% endblock %}
+{% block og_description %}All-in-one free PDF tools for converting, merging, compressing, and splitting PDF documents. No registration required.{% endblock %}
+{% block og_image %}{% static 'images/tools-preview.jpg' %}{% endblock %}
 
 {% block content %}
+
+<!-- 🔴 ADD THIS STRUCTURED DATA AT THE VERY TOP -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Free Online PDF Tools",
+  "description": "Collection of free PDF tools including PDF to Word converter, Word to PDF converter, PDF merger, PDF splitter, PDF compressor, Excel to PDF, and Image to PDF converters.",
+  "url": "https://pdfconverterpro.onrender.com/tools/",
+  "numberOfItems": 7,
+  "itemListOrder": "https://schema.org/ItemListOrderDescending",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "item": {
+        "@type": "WebApplication",
+        "name": "PDF to Word Converter",
+        "url": "https://pdfconverterpro.onrender.com/pdf-to-word/",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "item": {
+        "@type": "WebApplication",
+        "name": "Word to PDF Converter",
+        "url": "https://pdfconverterpro.onrender.com/word-to-pdf/",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Any",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "item": {
+        "@type": "WebApplication",
+        "name": "PDF Merger",
+        "url": "https://pdfconverterpro.onrender.com/merge-pdf/",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Any",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "item": {
+        "@type": "WebApplication",
+        "name": "PDF Splitter",
+        "url": "https://pdfconverterpro.onrender.com/split-pdf/",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Any",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 5,
+      "item": {
+        "@type": "WebApplication",
+        "name": "PDF Compressor",
+        "url": "https://pdfconverterpro.onrender.com/compress-pdf/",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Any",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 6,
+      "item": {
+        "@type": "WebApplication",
+        "name": "Excel to PDF Converter",
+        "url": "https://pdfconverterpro.onrender.com/excel-to-pdf/",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Any",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 7,
+      "item": {
+        "@type": "WebApplication",
+        "name": "Image to PDF Converter",
+        "url": "https://pdfconverterpro.onrender.com/image-to-pdf/",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Any",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}
+      }
+    }
+  ]
+}
+</script>
+
+<!-- 🔴 ADD THIS BREADCRUMB STRUCTURED DATA TOO -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://pdfconverterpro.onrender.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "PDF Tools",
+      "item": "https://pdfconverterpro.onrender.com/tools/"
+    }
+  ]
+}
+</script>
+
 <div class="container mx-auto px-4 py-8">
-    <!-- Hero Section -->
+    <!-- ... rest of your tools.html content ... -->
+<div class="container mx-auto px-4 py-8">
+    <!-- Hero Section with SEO-rich content -->
     <div class="text-center mb-12">
-        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">All PDF Tools</h1>
-        <p class="text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto">
-            Free online PDF tools for all your document needs. No registration required.
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+            Free Online PDF Tools for All Your Document Needs
+        </h1>
+        <p class="text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto mb-6">
+            Convert, merge, compress, split, and manage PDF files with our free online tools. 
+            No registration required - start using instantly!
         </p>
+        
+        <!-- Statistics -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto mb-8">
+            <div class="bg-blue-50 dark:bg-blue-900/30 rounded-lg p-4 text-center">
+                <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">24/7</div>
+                <div class="text-gray-700 dark:text-gray-300 text-sm">Available</div>
+            </div>
+            <div class="bg-green-50 dark:bg-green-900/30 rounded-lg p-4 text-center">
+                <div class="text-2xl font-bold text-green-600 dark:text-green-400">100%</div>
+                <div class="text-gray-700 dark:text-gray-300 text-sm">Free</div>
+            </div>
+            <div class="bg-purple-50 dark:bg-purple-900/30 rounded-lg p-4 text-center">
+                <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">Secure</div>
+                <div class="text-gray-700 dark:text-gray-300 text-sm">Processing</div>
+            </div>
+            <div class="bg-yellow-50 dark:bg-yellow-900/30 rounded-lg p-4 text-center">
+                <div class="text-2xl font-bold text-yellow-600 dark:text-yellow-400">No Limit</div>
+                <div class="text-gray-700 dark:text-gray-300 text-sm">Usage</div>
+            </div>
+        </div>
     </div>
 
-    <!-- Tools Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+    <!-- Tools Category Navigation -->
+    <div class="mb-12">
+        <div class="flex flex-wrap justify-center gap-4 mb-8">
+            <button class="px-4 py-2 rounded-full bg-blue-600 text-white font-semibold hover:bg-blue-700 transition" data-filter="all">
+                All Tools
+            </button>
+            <button class="px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-semibold hover:bg-gray-200 dark:hover:bg-gray-700 transition" data-filter="converter">
+                Converters
+            </button>
+            <button class="px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-semibold hover:bg-gray-200 dark:hover:bg-gray-700 transition" data-filter="editor">
+                PDF Editors
+            </button>
+            <button class="px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-semibold hover:bg-gray-200 dark:hover:bg-gray-700 transition" data-filter="utility">
+                Utilities
+            </button>
+        </div>
+    </div>
+
+    <!-- Tools Grid with Schema.org Structure -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12" id="tools-grid">
         <!-- PDF to Word -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-200 dark:border-gray-700">
+        <div class="tool-card bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700 transform hover:-translate-y-1" data-category="converter">
             <div class="p-6">
                 <div class="flex items-center mb-4">
                     <div class="bg-blue-100 dark:bg-blue-900/50 p-3 rounded-lg mr-4">
@@ -25,17 +200,47 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">PDF to Word</h3>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">PDF to Word</h3>
+                        <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">Converter Tool</div>
+                    </div>
                 </div>
-                <p class="text-gray-700 dark:text-gray-300 mb-6">Convert PDF files to editable Word documents (.docx) with formatting preserved.</p>
-                <a href="{% url 'pdf_to_word' %}" class="block w-full bg-blue-600 dark:bg-blue-700 text-white text-center py-3 rounded-lg font-semibold hover:bg-blue-700 dark:hover:bg-blue-600 transition">
-                    Convert Now
+                <p class="text-gray-700 dark:text-gray-300 mb-6">
+                    Convert PDF files to editable Microsoft Word documents (.docx) with original formatting preserved.
+                    Perfect for editing PDF content.
+                </p>
+                <div class="mb-4">
+                    <div class="text-sm text-gray-600 dark:text-gray-400 mb-2">Supports:</div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-full">.pdf to .docx</span>
+                        <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-full">Preserves Formatting</span>
+                        <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-full">OCR Support</span>
+                    </div>
+                </div>
+                <a href="{% url 'pdf_to_word' %}" class="block w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white text-center py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-300 shadow-md hover:shadow-lg" aria-label="Convert PDF to Word - Free Online Tool">
+                    Convert PDF to Word
                 </a>
+            </div>
+            <div class="bg-gray-50 dark:bg-gray-900/50 px-6 py-3 border-t border-gray-200 dark:border-gray-700">
+                <div class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400">
+                    <span class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <30s
+                    </span>
+                    <span class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                        Secure
+                    </span>
+                </div>
             </div>
         </div>
 
         <!-- Word to PDF -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-200 dark:border-gray-700">
+        <div class="tool-card bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700 transform hover:-translate-y-1" data-category="converter">
             <div class="p-6">
                 <div class="flex items-center mb-4">
                     <div class="bg-red-100 dark:bg-red-900/50 p-3 rounded-lg mr-4">
@@ -43,35 +248,95 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Word to PDF</h3>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Word to PDF</h3>
+                        <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">Converter Tool</div>
+                    </div>
                 </div>
-                <p class="text-gray-700 dark:text-gray-300 mb-6">Convert Word documents (.doc, .docx) to PDF format for better compatibility.</p>
-                <a href="{% url 'word_to_pdf' %}" class="block w-full bg-red-600 dark:bg-red-700 text-white text-center py-3 rounded-lg font-semibold hover:bg-red-700 dark:hover:bg-red-600 transition">
-                    Convert Now
+                <p class="text-gray-700 dark:text-gray-300 mb-6">
+                    Convert Microsoft Word documents (.doc, .docx) to PDF format for universal compatibility, 
+                    professional sharing, and printing.
+                </p>
+                <div class="mb-4">
+                    <div class="text-sm text-gray-600 dark:text-gray-400 mb-2">Supports:</div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-full">.doc to PDF</span>
+                        <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-full">.docx to PDF</span>
+                        <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-full">All Versions</span>
+                    </div>
+                </div>
+                <a href="{% url 'word_to_pdf' %}" class="block w-full bg-gradient-to-r from-red-600 to-red-700 text-white text-center py-3 rounded-lg font-semibold hover:from-red-700 hover:to-red-800 transition-all duration-300 shadow-md hover:shadow-lg" aria-label="Convert Word to PDF - Free Online Tool">
+                    Convert Word to PDF
                 </a>
+            </div>
+            <div class="bg-gray-50 dark:bg-gray-900/50 px-6 py-3 border-t border-gray-200 dark:border-gray-700">
+                <div class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400">
+                    <span class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <20s
+                    </span>
+                    <span class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                        Secure
+                    </span>
+                </div>
             </div>
         </div>
 
         <!-- Merge PDF -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-200 dark:border-gray-700">
+        <div class="tool-card bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700 transform hover:-translate-y-1" data-category="editor">
             <div class="p-6">
                 <div class="flex items-center mb-4">
-                    <div class="bg-gray-100 dark:bg-purple-900/50 p-3 rounded-lg mr-4">
+                    <div class="bg-purple-100 dark:bg-purple-900/50 p-3 rounded-lg mr-4">
                         <svg class="w-8 h-8 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Merge PDF</h3>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Merge PDF</h3>
+                        <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">PDF Editor</div>
+                    </div>
                 </div>
-                <p class="text-gray-700 dark:text-gray-300 mb-6">Combine multiple PDF files into a single document. Reorder pages as needed.</p>
-                <a href="{% url 'merge_pdf' %}" class="block w-full bg-purple-600 dark:bg-purple-700 text-white text-center py-3 rounded-lg font-semibold hover:bg-purple-700 dark:hover:bg-purple-600 transition">
-                    Merge Now
+                <p class="text-gray-700 dark:text-gray-300 mb-6">
+                    Combine multiple PDF files into a single document. Reorder pages as needed and 
+                    create organized, professional documents.
+                </p>
+                <div class="mb-4">
+                    <div class="text-sm text-gray-600 dark:text-gray-400 mb-2">Features:</div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-full">Multiple Files</span>
+                        <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-full">Reorder Pages</span>
+                        <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-full">Drag & Drop</span>
+                    </div>
+                </div>
+                <a href="{% url 'merge_pdf' %}" class="block w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white text-center py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-purple-800 transition-all duration-300 shadow-md hover:shadow-lg" aria-label="Merge PDF Files - Free Online Tool">
+                    Merge PDF Files
                 </a>
+            </div>
+            <div class="bg-gray-50 dark:bg-gray-900/50 px-6 py-3 border-t border-gray-200 dark:border-gray-700">
+                <div class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400">
+                    <span class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <15s
+                    </span>
+                    <span class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                        Secure
+                    </span>
+                </div>
             </div>
         </div>
 
         <!-- Split PDF -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-200 dark:border-gray-700">
+        <div class="tool-card bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700 transform hover:-translate-y-1" data-category="editor">
             <div class="p-6">
                 <div class="flex items-center mb-4">
                     <div class="bg-green-100 dark:bg-green-900/50 p-3 rounded-lg mr-4">
@@ -79,17 +344,47 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Split PDF</h3>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Split PDF</h3>
+                        <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">PDF Editor</div>
+                    </div>
                 </div>
-                <p class="text-gray-700 dark:text-gray-300 mb-6">Split PDF files by pages or extract specific pages into new documents.</p>
-                <a href="{% url 'split_pdf' %}" class="block w-full bg-green-600 dark:bg-green-700 text-white text-center py-3 rounded-lg font-semibold hover:bg-green-700 dark:hover:bg-green-600 transition">
-                    Split Now
+                <p class="text-gray-700 dark:text-gray-300 mb-6">
+                    Split PDF files by pages or extract specific pages into new documents. 
+                    Perfect for dividing large documents or extracting sections.
+                </p>
+                <div class="mb-4">
+                    <div class="text-sm text-gray-600 dark:text-gray-400 mb-2">Options:</div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-full">Split by Page</span>
+                        <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-full">Extract Pages</span>
+                        <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-full">Custom Range</span>
+                    </div>
+                </div>
+                <a href="{% url 'split_pdf' %}" class="block w-full bg-gradient-to-r from-green-600 to-green-700 text-white text-center py-3 rounded-lg font-semibold hover:from-green-700 hover:to-green-800 transition-all duration-300 shadow-md hover:shadow-lg" aria-label="Split PDF Documents - Free Online Tool">
+                    Split PDF Documents
                 </a>
+            </div>
+            <div class="bg-gray-50 dark:bg-gray-900/50 px-6 py-3 border-t border-gray-200 dark:border-gray-700">
+                <div class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400">
+                    <span class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <20s
+                    </span>
+                    <span class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                        Secure
+                    </span>
+                </div>
             </div>
         </div>
 
         <!-- Compress PDF -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-200 dark:border-gray-700">
+        <div class="tool-card bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700 transform hover:-translate-y-1" data-category="utility">
             <div class="p-6">
                 <div class="flex items-center mb-4">
                     <div class="bg-yellow-100 dark:bg-yellow-900/50 p-3 rounded-lg mr-4">
@@ -97,111 +392,663 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Compress PDF</h3>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Compress PDF</h3>
+                        <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">PDF Utility</div>
+                    </div>
                 </div>
-                <p class="text-gray-700 dark:text-gray-300 mb-6">Reduce PDF file size without significant quality loss. Perfect for sharing.</p>
-                <a href="{% url 'compress_pdf' %}" class="block w-full bg-yellow-600 dark:bg-yellow-700 text-white text-center py-3 rounded-lg font-semibold hover:bg-yellow-700 dark:hover:bg-yellow-600 transition">
-                    Compress Now
+                <p class="text-gray-700 dark:text-gray-300 mb-6">
+                    Reduce PDF file size without significant quality loss. Perfect for email sharing, 
+                    uploading to websites, and saving storage space.
+                </p>
+                <div class="mb-4">
+                    <div class="text-sm text-gray-600 dark:text-gray-400 mb-2">Compression Levels:</div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-full">High Quality</span>
+                        <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-full">Balanced</span>
+                        <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-full">Maximum</span>
+                    </div>
+                </div>
+                <a href="{% url 'compress_pdf' %}" class="block w-full bg-gradient-to-r from-yellow-600 to-yellow-700 text-white text-center py-3 rounded-lg font-semibold hover:from-yellow-700 hover:to-yellow-800 transition-all duration-300 shadow-md hover:shadow-lg" aria-label="Compress PDF Files - Free Online Tool">
+                    Compress PDF Files
                 </a>
+            </div>
+            <div class="bg-gray-50 dark:bg-gray-900/50 px-6 py-3 border-t border-gray-200 dark:border-gray-700">
+                <div class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400">
+                    <span class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <25s
+                    </span>
+                    <span class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                        Secure
+                    </span>
+                </div>
             </div>
         </div>
 
         <!-- Excel to PDF -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-200 dark:border-gray-700">
+        <div class="tool-card bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700 transform hover:-translate-y-1" data-category="converter">
             <div class="p-6">
                 <div class="flex items-center mb-4">
-                    <div class="bg-blue-100 dark:bg-teal-900/50 p-3 rounded-lg mr-4">
+                    <div class="bg-teal-100 dark:bg-teal-900/50 p-3 rounded-lg mr-4">
                         <svg class="w-8 h-8 text-teal-600 dark:text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Excel to PDF</h3>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Excel to PDF</h3>
+                        <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">Converter Tool</div>
+                    </div>
                 </div>
-                <p class="text-gray-700 dark:text-gray-300 mb-6">Convert Excel spreadsheets (.xls, .xlsx) to PDF for better presentation.</p>
-                <a href="{% url 'excel_to_pdf' %}" class="block w-full bg-teal-600 dark:bg-teal-700 text-white text-center py-3 rounded-lg font-semibold hover:bg-teal-700 dark:hover:bg-teal-600 transition">
-                    Convert Now
+                <p class="text-gray-700 dark:text-gray-300 mb-6">
+                    Convert Microsoft Excel spreadsheets (.xls, .xlsx) to PDF format for better presentation, 
+                    sharing, and printing. Preserves formulas and formatting.
+                </p>
+                <div class="mb-4">
+                    <div class="text-sm text-gray-600 dark:text-gray-400 mb-2">Supports:</div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-full">.xls to PDF</span>
+                        <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-full">.xlsx to PDF</span>
+                        <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-full">Sheets</span>
+                    </div>
+                </div>
+                <a href="{% url 'excel_to_pdf' %}" class="block w-full bg-gradient-to-r from-teal-600 to-teal-700 text-white text-center py-3 rounded-lg font-semibold hover:from-teal-700 hover:to-teal-800 transition-all duration-300 shadow-md hover:shadow-lg" aria-label="Convert Excel to PDF - Free Online Tool">
+                    Convert Excel to PDF
                 </a>
+            </div>
+            <div class="bg-gray-50 dark:bg-gray-900/50 px-6 py-3 border-t border-gray-200 dark:border-gray-700">
+                <div class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400">
+                    <span class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <30s
+                    </span>
+                    <span class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                        Secure
+                    </span>
+                </div>
             </div>
         </div>
 
         <!-- Image to PDF -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-200 dark:border-gray-700">
+        <div class="tool-card bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700 transform hover:-translate-y-1" data-category="converter">
             <div class="p-6">
                 <div class="flex items-center mb-4">
-                    <div class="bg-yellow-100 dark:bg-pink-900/50 p-3 rounded-lg mr-4">
+                    <div class="bg-pink-100 dark:bg-pink-900/50 p-3 rounded-lg mr-4">
                         <svg class="w-8 h-8 text-pink-600 dark:text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Image to PDF</h3>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Image to PDF</h3>
+                        <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">Converter Tool</div>
+                    </div>
                 </div>
-                <p class="text-gray-700 dark:text-gray-300 mb-6">Convert multiple images to PDF. Arrange images and set page options.</p>
-                <a href="{% url 'image_to_pdf' %}" class="block w-full bg-pink-600 dark:bg-pink-700 text-white text-center py-3 rounded-lg font-semibold hover:bg-pink-700 dark:hover:bg-pink-600 transition">
-                    Convert Now
+                <p class="text-gray-700 dark:text-gray-300 mb-6">
+                    Convert multiple images (JPG, PNG, etc.) to a single PDF document. 
+                    Arrange images and set page options. Perfect for creating photo albums.
+                </p>
+                <div class="mb-4">
+                    <div class="text-sm text-gray-600 dark:text-gray-400 mb-2">Supports:</div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-full">JPG to PDF</span>
+                        <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-full">PNG to PDF</span>
+                        <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-full">Multiple Images</span>
+                    </div>
+                </div>
+                <a href="{% url 'image_to_pdf' %}" class="block w-full bg-gradient-to-r from-pink-600 to-pink-700 text-white text-center py-3 rounded-lg font-semibold hover:from-pink-700 hover:to-pink-800 transition-all duration-300 shadow-md hover:shadow-lg" aria-label="Convert Images to PDF - Free Online Tool">
+                    Convert Images to PDF
                 </a>
             </div>
+            <div class="bg-gray-50 dark:bg-gray-900/50 px-6 py-3 border-t border-gray-200 dark:border-gray-700">
+                <div class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400">
+                    <span class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <25s
+                    </span>
+                    <span class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                        Secure
+                    </span>
+                </div>
+            </div>
         </div>
+
+        <!-- Additional tools can be added here following the same pattern -->
     </div>
 
-    <!-- Features Section - FIXED -->
-    <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 mb-12 shadow-lg border-2 border-gray-200 dark:border-gray-700">
-        <div class="text-center mb-8">
-            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">Why Choose Our PDF Tools?</h2>
-            <p class="text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">We provide the best free PDF conversion experience online.</p>
+    <!-- Features Section - Enhanced -->
+    <div class="bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 rounded-2xl p-8 mb-12 shadow-xl border border-gray-200 dark:border-gray-700">
+        <div class="text-center mb-10">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                Why Choose Our PDF Tools?
+            </h2>
+            <p class="text-gray-700 dark:text-gray-300 max-w-2xl mx-auto text-lg">
+                We provide the best free PDF conversion experience online with enterprise-grade security 
+                and unparalleled convenience.
+            </p>
         </div>
         
-        <div class="grid md:grid-cols-3 gap-8">
-            <div class="text-center">
-                <div class="bg-gray-100 dark:bg-gray-900 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
-                    <svg class="w-8 h-8 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="text-center p-6 bg-white dark:bg-gray-800/50 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
+                <div class="bg-gradient-to-r from-blue-500 to-blue-600 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                    <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
                     </svg>
                 </div>
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">100% Secure</h3>
-                <p class="text-gray-700 dark:text-gray-300">Files automatically deleted after 24 hours. No registration required.</p>
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">100% Secure Processing</h3>
+                <p class="text-gray-700 dark:text-gray-300">
+                    All files are encrypted during transfer and automatically deleted after 24 hours. 
+                    No registration or personal information required.
+                </p>
             </div>
             
-            <div class="text-center">
-                <div class="bg-gray-100 dark:bg-gray-900 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
-                    <svg class="w-8 h-8 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="text-center p-6 bg-white dark:bg-gray-800/50 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
+                <div class="bg-gradient-to-r from-green-500 to-green-600 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                    <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                     </svg>
                 </div>
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Fast Processing</h3>
-                <p class="text-gray-700 dark:text-gray-300">Most conversions complete in under 30 seconds. No wait times.</p>
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">Lightning Fast</h3>
+                <p class="text-gray-700 dark:text-gray-300">
+                    Most conversions complete in under 30 seconds. Our optimized servers ensure 
+                    fast processing regardless of file size or complexity.
+                </p>
             </div>
             
-            <div class="text-center">
-                <div class="bg-gray-100 dark:bg-gray-900 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
-                    <svg class="w-8 h-8 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="text-center p-6 bg-white dark:bg-gray-800/50 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
+                <div class="bg-gradient-to-r from-purple-500 to-purple-600 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                    <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                     </svg>
                 </div>
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">High Quality</h3>
-                <p class="text-gray-700 dark:text-gray-300">Preserves formatting, images, and text quality in all conversions.</p>
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">Highest Quality</h3>
+                <p class="text-gray-700 dark:text-gray-300">
+                    Preserves formatting, images, and text quality in all conversions. 
+                    Professional-grade results for business, academic, and personal use.
+                </p>
             </div>
         </div>
     </div>
 
-    <!-- FAQ Section -->
-    <div class="max-w-3xl mx-auto">
-        <h2 class="text-3xl font-bold text-center text-gray-900 dark:text-white mb-8">Common Questions</h2>
+    <!-- FAQ Section - SEO Enhanced -->
+    <div class="max-w-4xl mx-auto mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-900 dark:text-white mb-10">
+            Frequently Asked Questions About PDF Tools
+        </h2>
         <div class="space-y-6">
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-3">Are these tools really free?</h3>
-                <p class="text-gray-700 dark:text-gray-300">Yes! All our PDF tools are completely free with no hidden charges, watermarks, or usage limits.</p>
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-shadow duration-300">
+                <h3 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                    Are these PDF tools really free?
+                </h3>
+                <p class="text-gray-700 dark:text-gray-300">
+                    Yes! All our PDF tools are completely free with no hidden charges, watermarks, or usage limits. 
+                    We provide enterprise-grade PDF conversion and editing tools at absolutely no cost.
+                </p>
             </div>
             
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-3">Do I need to create an account?</h3>
-                <p class="text-gray-700 dark:text-gray-300">No account required. You can use all tools immediately without any registration.</p>
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-shadow duration-300">
+                <h3 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                    Do I need to create an account or register?
+                </h3>
+                <p class="text-gray-700 dark:text-gray-300">
+                    No account required. You can use all PDF tools immediately without any registration. 
+                    Simply upload your file and start converting. No personal information is collected.
+                </p>
             </div>
             
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-3">How long are my files stored?</h3>
-                <p class="text-gray-700 dark:text-gray-300">Files are automatically and permanently deleted after 24 hours. We don't store your documents.</p>
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-shadow duration-300">
+                <h3 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                    How long are my files stored?
+                </h3>
+                <p class="text-gray-700 dark:text-gray-300">
+                    Files are automatically and permanently deleted after 24 hours. We don't store your documents 
+                    or keep copies. All processing is done securely and files are removed from our servers.
+                </p>
+            </div>
+
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-shadow duration-300">
+                <h3 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                    What file formats are supported?
+                </h3>
+                <p class="text-gray-700 dark:text-gray-300">
+                    We support all major file formats including PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX, 
+                    JPG, PNG, GIF, BMP, and TIFF. Each tool specifies its supported formats.
+                </p>
             </div>
         </div>
     </div>
+
+    <!-- CTA Section -->
+    <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-10 text-center text-white shadow-2xl mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">
+            Ready to Convert Your Files?
+        </h2>
+        <p class="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
+            Start using our free PDF tools now. No registration, no limits, just instant results.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+            <a href="{% url 'pdf_to_word' %}" class="bg-white text-blue-600 px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition duration-300 shadow-lg">
+                Start Converting
+            </a>
+            <a href="{% url 'merge_pdf' %}" class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-lg font-bold hover:bg-white/10 transition duration-300">
+                Learn More
+            </a>
+        </div>
+    </div>
 </div>
+
+<!-- Schema.org Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Free Online PDF Tools Collection",
+  "description": "Collection of free online PDF tools including converters, editors, and utilities for document management",
+  "url": "https://pdfconverterpro.com{% url 'tools' %}",
+  "numberOfItems": 7,
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "item": {
+        "@type": "WebApplication",
+        "name": "PDF to Word Converter",
+        "description": "Convert PDF files to editable Microsoft Word documents",
+        "url": "https://pdfconverterpro.com{% url 'pdf_to_word' %}",
+        "applicationCategory": "ConverterApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "featureList": [
+          "Preserves formatting",
+          "Supports OCR",
+          "Secure processing",
+          "No registration required"
+        ]
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "item": {
+        "@type": "WebApplication",
+        "name": "Word to PDF Converter",
+        "description": "Convert Microsoft Word documents to PDF format",
+        "url": "https://pdfconverterpro.com{% url 'word_to_pdf' %}",
+        "applicationCategory": "ConverterApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "item": {
+        "@type": "WebApplication",
+        "name": "PDF Merger Tool",
+        "description": "Combine multiple PDF files into a single document",
+        "url": "https://pdfconverterpro.com{% url 'merge_pdf' %}",
+        "applicationCategory": "EditorApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "item": {
+        "@type": "WebApplication",
+        "name": "PDF Splitter Tool",
+        "description": "Split PDF files by pages or extract specific pages",
+        "url": "https://pdfconverterpro.com{% url 'split_pdf' %}",
+        "applicationCategory": "EditorApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 5,
+      "item": {
+        "@type": "WebApplication",
+        "name": "PDF Compressor Tool",
+        "description": "Reduce PDF file size without significant quality loss",
+        "url": "https://pdfconverterpro.com{% url 'compress_pdf' %}",
+        "applicationCategory": "UtilityApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 6,
+      "item": {
+        "@type": "WebApplication",
+        "name": "Excel to PDF Converter",
+        "description": "Convert Excel spreadsheets to PDF format",
+        "url": "https://pdfconverterpro.com{% url 'excel_to_pdf' %}",
+        "applicationCategory": "ConverterApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 7,
+      "item": {
+        "@type": "WebApplication",
+        "name": "Image to PDF Converter",
+        "description": "Convert multiple images to PDF documents",
+        "url": "https://pdfconverterpro.com{% url 'image_to_pdf' %}",
+        "applicationCategory": "ConverterApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    }
+  ],
+  "publisher": {
+    "@type": "Organization",
+    "name": "PDF Converter Pro",
+    "url": "https://pdfconverterpro.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://pdfconverterpro.com/static/images/logo.png"
+    }
+  }
+}
+</script>
+
+<!-- FAQ Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Are these PDF tools really free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes! All our PDF tools are completely free with no hidden charges, watermarks, or usage limits. We provide enterprise-grade PDF conversion and editing tools at absolutely no cost."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need to create an account or register?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No account required. You can use all PDF tools immediately without any registration. Simply upload your file and start converting. No personal information is collected."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long are my files stored?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Files are automatically and permanently deleted after 24 hours. We don't store your documents or keep copies. All processing is done securely and files are removed from our servers."
+      }
+    }
+  ]
+}
+</script>
+
+<!-- JavaScript for enhanced functionality -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Tool filtering functionality
+    const filterButtons = document.querySelectorAll('[data-filter]');
+    const toolCards = document.querySelectorAll('.tool-card');
+    
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const filter = this.getAttribute('data-filter');
+            
+            // Update active button
+            filterButtons.forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white');
+                btn.classList.add('bg-gray-100', 'dark:bg-gray-800', 'text-gray-700', 'dark:text-gray-300');
+            });
+            this.classList.remove('bg-gray-100', 'dark:bg-gray-800', 'text-gray-700', 'dark:text-gray-300');
+            this.classList.add('bg-blue-600', 'text-white');
+            
+            // Filter cards
+            toolCards.forEach(card => {
+                if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                    card.style.display = 'block';
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 10);
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        card.style.display = 'none';
+                    }, 300);
+                }
+            });
+        });
+    });
+    
+    // Tool card hover animations
+    toolCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-8px) scale(1.02)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(-1px) scale(1)';
+        });
+    });
+    
+    // Scroll animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-fade-in-up');
+            }
+        });
+    }, observerOptions);
+    
+    // Observe tool cards and sections
+    document.querySelectorAll('.tool-card, .faq-item, .feature-item').forEach(el => {
+        observer.observe(el);
+    });
+    
+    // Google Analytics event tracking
+    function trackToolClick(toolName) {
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'tool_click', {
+                'event_category': 'Tools Page',
+                'event_label': toolName,
+                'value': 1
+            });
+        }
+    }
+    
+    // Add click tracking to tool buttons
+    document.querySelectorAll('.tool-card a').forEach(link => {
+        link.addEventListener('click', function() {
+            const toolName = this.closest('.tool-card').querySelector('h3').textContent;
+            trackToolClick(toolName);
+        });
+    });
+    
+    // Share functionality
+    const shareButton = document.createElement('button');
+    shareButton.className = 'fixed bottom-6 right-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 z-40';
+    shareButton.innerHTML = '<i class="fas fa-share-alt text-xl"></i>';
+    shareButton.title = 'Share Tools Page';
+    shareButton.setAttribute('aria-label', 'Share this tools page');
+    
+    shareButton.addEventListener('click', function() {
+        if (navigator.share) {
+            navigator.share({
+                title: 'Free PDF Tools Online - PDF Converter Pro',
+                text: 'Check out these amazing free PDF tools for converting, merging, and editing documents!',
+                url: window.location.href
+            });
+        } else {
+            // Fallback: Copy to clipboard
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                const notification = document.createElement('div');
+                notification.textContent = 'Link copied to clipboard!';
+                notification.className = 'fixed bottom-20 right-6 bg-green-600 text-white px-4 py-3 rounded-lg shadow-lg z-50 font-medium';
+                document.body.appendChild(notification);
+                
+                setTimeout(() => notification.remove(), 3000);
+            });
+        }
+    });
+    
+    document.body.appendChild(shareButton);
+});
+</script>
+
+<style>
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.tool-card {
+    transition: all 0.3s ease;
+    opacity: 1;
+}
+
+.tool-card:hover {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    border-color: rgba(59, 130, 246, 0.5);
+}
+
+.dark .tool-card:hover {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    border-color: rgba(99, 102, 241, 0.5);
+}
+
+/* Stagger animations for tool cards */
+.tool-card:nth-child(1) { animation-delay: 0.1s; }
+.tool-card:nth-child(2) { animation-delay: 0.2s; }
+.tool-card:nth-child(3) { animation-delay: 0.3s; }
+.tool-card:nth-child(4) { animation-delay: 0.4s; }
+.tool-card:nth-child(5) { animation-delay: 0.5s; }
+.tool-card:nth-child(6) { animation-delay: 0.6s; }
+.tool-card:nth-child(7) { animation-delay: 0.7s; }
+
+/* Gradient text for highlights */
+.gradient-text {
+    background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* Print styles */
+@media print {
+    .fixed,
+    button,
+    .bg-gradient-to-r,
+    .hover\\:shadow-lg {
+        display: none !important;
+    }
+    
+    a {
+        color: black !important;
+        text-decoration: none !important;
+    }
+}
+</style>
+    <!-- ... your existing tools.html content ... -->
+
+    <!-- 🔴 ADD THIS HIDDEN SEO SECTION AT THE VERY BOTTOM -->
+    <div class="hidden" aria-hidden="true">
+        <!-- Hidden content for search engines only -->
+        <h1>Free Online PDF Tools - PDF Converter Pro</h1>
+        <h2>Complete Collection of Free PDF Conversion Tools</h2>
+        
+        <p><strong>PDF Converter Pro</strong> offers the most comprehensive collection of <strong>free online PDF tools</strong> available. All tools are 100% free, require no registration, and process files securely with automatic deletion after 24 hours.</p>
+        
+        <h3>Available PDF Tools:</h3>
+        <ul>
+            <li><strong>PDF to Word Converter</strong> - Convert PDF files to editable Microsoft Word documents (.docx) while preserving original formatting. Perfect for editing PDF content, extracting text, or repurposing documents.</li>
+            <li><strong>Word to PDF Converter</strong> - Convert Microsoft Word documents (.doc, .docx) to PDF format for universal compatibility, professional sharing, and printing.</li>
+            <li><strong>PDF Merger Tool</strong> - Combine multiple PDF files into a single document. Reorder pages as needed to create organized, professional documents.</li>
+            <li><strong>PDF Splitter Tool</strong> - Split PDF files by pages or extract specific pages into new documents. Perfect for dividing large documents or extracting sections.</li>
+            <li><strong>PDF Compressor</strong> - Reduce PDF file size without significant quality loss. Ideal for email attachments, website uploads, and saving storage space.</li>
+            <li><strong>Excel to PDF Converter</strong> - Convert Microsoft Excel spreadsheets (.xls, .xlsx) to PDF format for better presentation, sharing, and printing.</li>
+            <li><strong>Image to PDF Converter</strong> - Convert multiple images (JPG, PNG, BMP, GIF, TIFF) to PDF documents. Create photo albums, document scans, or presentations.</li>
+        </ul>
+        
+        <h3>Why Choose Our PDF Tools?</h3>
+        <ul>
+            <li>✅ <strong>Completely Free</strong> - No charges, watermarks, or hidden fees</li>
+            <li>✅ <strong>No Registration Required</strong> - Use instantly without creating an account</li>
+            <li>✅ <strong>100% Secure</strong> - Files encrypted and automatically deleted after 24 hours</li>
+            <li>✅ <strong>High Quality Conversions</strong> - Preserve formatting, images, and text quality</li>
+            <li>✅ <strong>Fast Processing</strong> - Most conversions complete in under 30 seconds</li>
+            <li>✅ <strong>No Limits</strong> - Unlimited usage, no file size restrictions within reasonable limits</li>
+            <li>✅ <strong>Works on All Devices</strong> - Mobile-friendly and responsive design</li>
+        </ul>
+        
+        <p><strong>Popular Search Terms:</strong> free pdf converter, online pdf tools, merge pdf online, compress pdf, split pdf, convert pdf to word, word to pdf converter, excel to pdf, image to pdf, pdf editor online, pdf tools free, document converter.</p>
+        
+        <p><strong>Related Services:</strong> PDF editing, document conversion, file compression, format conversion, online document tools, free file converter, business document tools, academic pdf tools.</p>
+    </div>
+
 {% endblock %}

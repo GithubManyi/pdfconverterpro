@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
     <title>{% block title %}{{ title|default:"PDF Converter Pro" }}{% endblock %}</title>
+    {% block meta_description %}{% endblock %}
     
     <!-- Regular Tailwind (NO DARK MODE CONFIG NEEDED) -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -18,6 +20,9 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9353540350976398"
         crossorigin="anonymous"></script>
     
+    
+    <meta name="google-site-verification" content="5imDnHMaJOKC2qdc6qaZO3EJjhtpmRql2ZUcdpBeUjc" />
+    <meta name="msvalidate.01" content="AD05934DFAD8FCA952D0AB574D7F32BC" />
     <!-- ONE CSS FILE TO RULE THEM ALL -->
     <style>
         :root {
@@ -180,39 +185,85 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-8 mt-12">
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
         <div class="container mx-auto px-4">
+            <!-- Main Footer Grid -->
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Company Info -->
                 <div>
                     <h3 class="text-xl font-bold mb-4">PDF Converter Pro</h3>
-                    <p class="text-gray-300">Free online file conversion tools. Fast, secure, and easy to use.</p>
+                    <p class="text-gray-300 mb-4">Free online file conversion tools. Fast, secure, and easy to use.</p>
+                    <p class="text-sm text-gray-400">Files are automatically deleted after 24 hours for security.</p>
                 </div>
                 
+                <!-- Quick Tools -->
                 <div>
                     <h4 class="font-semibold mb-4">Quick Tools</h4>
                     <ul class="space-y-2">
-                        <li><a href="{% url 'pdf_to_word' %}" class="text-gray-300 hover:text-white">PDF to Word</a></li>
-                        <li><a href="{% url 'word_to_pdf' %}" class="text-gray-300 hover:text-white">Word to PDF</a></li>
-                        <li><a href="{% url 'merge_pdf' %}" class="text-gray-300 hover:text-white">Merge PDF</a></li>
-                        <li><a href="{% url 'split_pdf' %}" class="text-gray-300 hover:text-white">Split PDF</a></li>
-                        <li><a href="{% url 'compress_pdf' %}" class="text-gray-300 hover:text-white">Compress PDF</a></li>
+                        <li><a href="{% url 'pdf_to_word' %}" class="text-gray-300 hover:text-white hover:underline">PDF to Word</a></li>
+                        <li><a href="{% url 'word_to_pdf' %}" class="text-gray-300 hover:text-white hover:underline">Word to PDF</a></li>
+                        <li><a href="{% url 'merge_pdf' %}" class="text-gray-300 hover:text-white hover:underline">Merge PDF</a></li>
+                        <li><a href="{% url 'split_pdf' %}" class="text-gray-300 hover:text-white hover:underline">Split PDF</a></li>
+                        <li><a href="{% url 'compress_pdf' %}" class="text-gray-300 hover:text-white hover:underline">Compress PDF</a></li>
                     </ul>
                 </div>
                 
+                <!-- Additional Tools -->
                 <div>
-                    <h4 class="font-semibold mb-4">Company</h4>
+                    <h4 class="font-semibold mb-4">More Tools</h4>
                     <ul class="space-y-2">
-                        <li><a href="{% url 'about' %}" class="text-gray-300 hover:text-white">About Us</a></li>
-                        <li><a href="{% url 'contact' %}" class="text-gray-300 hover:text-white">Contact</a></li>
-                        <li><a href="{% url 'privacy' %}" class="text-gray-300 hover:text-white">Privacy Policy</a></li>
-                        <li><a href="{% url 'terms' %}" class="text-gray-300 hover:text-white">Terms of Service</a></li>
+                        <li><a href="{% url 'excel_to_pdf' %}" class="text-gray-300 hover:text-white hover:underline">Excel to PDF</a></li>
+                        <li><a href="{% url 'image_to_pdf' %}" class="text-gray-300 hover:text-white hover:underline">Image to PDF</a></li>
+                        <li><a href="{% url 'tools' %}" class="text-gray-300 hover:text-white hover:underline">All Tools</a></li>
+                        <li><a href="{% url 'faq' %}" class="text-gray-300 hover:text-white hover:underline">FAQ</a></li>
                     </ul>
                 </div>
                 
+                <!-- Legal & Contact -->
                 <div>
-                    <h4 class="font-semibold mb-4">Legal</h4>
-                    <p class="text-gray-300 text-sm">© 2025 PDF Converter Pro. All rights reserved.</p>
-                    <p class="text-gray-300 text-sm mt-2">Files are automatically deleted after 24 hours for security.</p>
+                    <h4 class="font-semibold mb-4">Company & Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="{% url 'about' %}" class="text-gray-300 hover:text-white hover:underline">About Us</a></li>
+                        <li><a href="{% url 'blog_list' %}" class="text-gray-300 hover:text-white hover:underline">Blog & Guides</a></li>
+                        <li><a href="{% url 'contact' %}" class="text-gray-300 hover:text-white hover:underline">Contact Us</a></li>
+                        <li><a href="{% url 'privacy' %}" class="text-gray-300 hover:text-white hover:underline">Privacy Policy</a></li>
+                        <li><a href="{% url 'terms' %}" class="text-gray-300 hover:text-white hover:underline">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Copyright & Bottom Bar -->
+            <div class="mt-12 pt-8 border-t border-gray-700">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <div class="text-gray-400 text-sm mb-4 md:mb-0">
+                        © 2024 PDF Converter Pro. All rights reserved.
+                    </div>
+                    <div class="flex space-x-6">
+                        <a href="{% url 'cookies' %}" class="text-gray-400 hover:text-white text-sm hover:underline">
+                            Cookie Policy
+                        </a>
+                        <a href="{% url 'privacy' %}#data" class="text-gray-400 hover:text-white text-sm hover:underline">
+                            Data Protection
+                        </a>
+                        <a href="{% url 'terms' %}#contact" class="text-gray-400 hover:text-white text-sm hover:underline">
+                            Legal
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- SEO Hidden Content -->
+                <div class="hidden" aria-hidden="true">
+                    <p>Free PDF tools including PDF to Word converter, Word to PDF converter, PDF merger, PDF splitter, PDF compressor, Excel to PDF converter, and Image to PDF converter. All tools are 100% free with no registration required.</p>
+                    <ul>
+                        <li>Convert PDF to Word online free</li>
+                        <li>Merge PDF files online free</li>
+                        <li>Compress PDF file size online</li>
+                        <li>Split PDF documents online</li>
+                        <li>Convert Word to PDF online free</li>
+                        <li>Convert Excel to PDF online</li>
+                        <li>Convert images to PDF online</li>
+                    </ul>
                 </div>
             </div>
         </div>

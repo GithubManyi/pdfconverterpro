@@ -1,14 +1,110 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+    <!-- Homepage -->
     <url>
         <loc>https://pdfconverterpro.onrender.com/</loc>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
+    </url>
+
+    <!-- PDF Converter Pages -->
+    <url>
+        <loc>https://pdfconverterpro.onrender.com/compress-pdf/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://pdfconverterpro.onrender.com/excel-to-pdf/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://pdfconverterpro.onrender.com/image-to-pdf/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://pdfconverterpro.onrender.com/merge-pdf/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
     </url>
     <url>
         <loc>https://pdfconverterpro.onrender.com/pdf-to-word/</loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
-    <!-- Add all other pages here -->
+    <url>
+        <loc>https://pdfconverterpro.onrender.com/split-pdf/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://pdfconverterpro.onrender.com/word-to-pdf/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://pdfconverterpro.onrender.com/upload/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://pdfconverterpro.onrender.com/result/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.5</priority>
+    </url>
+
+    <!-- Home app pages -->
+    <url>
+        <loc>https://pdfconverterpro.onrender.com/about/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://pdfconverterpro.onrender.com/contact/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://pdfconverterpro.onrender.com/blog-list/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://pdfconverterpro.onrender.com/blog-detail/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://pdfconverterpro.onrender.com/faq/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://pdfconverterpro.onrender.com/terms/</loc>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    <url>
+        <loc>https://pdfconverterpro.onrender.com/privacy/</loc>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    <url>
+        <loc>https://pdfconverterpro.onrender.com/cookies/</loc>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    <url>
+        <loc>https://pdfconverterpro.onrender.com/quick-start/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://pdfconverterpro.onrender.com/tools/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+
 </urlset>

@@ -1,6 +1,6 @@
 """
 Django settings for pdfconverterpro project.
-Simple version for Render free tier.
+Fixed version for Render free tier.
 """
 
 import os
@@ -11,7 +11,7 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # ============ BASIC SETTINGS ============
-# For Render free tier, detect production by checking for DATABASE_URL
+# For Render free tier
 IS_RENDER = os.getenv('RENDER') is not None
 IS_PRODUCTION = IS_RENDER  # On Render = production
 
@@ -24,15 +24,15 @@ if not SECRET_KEY:
         # Local development fallback
         SECRET_KEY = 'django-insecure-dev-key-change-in-production'
 
-# DEBUG mode - Always False on Render for security
+# DEBUG mode - False on Render, True locally
 if IS_PRODUCTION:
-    DEBUG = False
+    DEBUG = os.getenv('DEBUG', 'False').lower() in ['true', '1', 'yes']
 else:
-    # For local development, allow DEBUG=True
     DEBUG = os.getenv('DEBUG', 'True').lower() in ['true', '1', 'yes']
 
 # ============ ALLOWED HOSTS ============
-ALLOWED_HOSTS = []
+# FIXED: Add your Render domain explicitly
+ALLOWED_HOSTS = ['pdfconverterpro.onrender.com']
 
 # Render provides this automatically
 RENDER_EXTERNAL_HOSTNAME = os.getenv('RENDER_EXTERNAL_HOSTNAME')
@@ -44,7 +44,9 @@ if DEBUG:
     ALLOWED_HOSTS.extend(['localhost', '127.0.0.1', '[::1]'])
 
 # ============ CSRF TRUSTED ORIGINS ============
-CSRF_TRUSTED_ORIGINS = []
+# FIXED: Add your Render domain with https
+CSRF_TRUSTED_ORIGINS = ['https://pdfconverterpro.onrender.com']
+
 if RENDER_EXTERNAL_HOSTNAME:
     CSRF_TRUSTED_ORIGINS.append(f'https://{RENDER_EXTERNAL_HOSTNAME}')
 
@@ -52,6 +54,8 @@ if DEBUG:
     CSRF_TRUSTED_ORIGINS.extend([
         'http://localhost:8000',
         'http://127.0.0.1:8000',
+        'http://localhost:10000',  # For Render local testing
+        'http://127.0.0.1:10000',  # For Render local testing
     ])
 
 # ============ APPLICATIONS ============
@@ -113,9 +117,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'core.wsgi.application'
 
 # ============ DATABASE ============
-# Default SQLite for local development
-# SIMPLE DATABASE SETTINGS THAT WORK
-# ============ DATABASE ============
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -131,6 +132,7 @@ if DATABASE_URL and DATABASE_URL.startswith('postgresql://'):
         conn_max_age=600,
         conn_health_checks=True,
     )
+
 # ============ PASSWORD VALIDATION ============
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -160,14 +162,24 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 
+# WhiteNoise configuration for static files
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # ============ MEDIA FILES ============
+# FIXED: Increased file upload limits
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # Create directories
 os.makedirs(MEDIA_ROOT, exist_ok=True)
 os.makedirs(STATIC_ROOT, exist_ok=True)
+
+# ============ FILE UPLOAD SETTINGS ============
+# FIXED: Add these settings to handle file uploads properly
+DATA_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024  # 50MB
+FILE_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024  # 50MB
+FILE_UPLOAD_PERMISSIONS = 0o644
+FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0o755
 
 # ============ SECURITY ============
 if IS_PRODUCTION:
@@ -178,20 +190,89 @@ if IS_PRODUCTION:
     SECURE_HSTS_SECONDS = 31536000  # 1 year
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
+    # FIXED: Add these for better security
+    SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_BROWSER_XSS_FILTER = True
+    X_FRAME_OPTIONS = 'DENY'
 else:
     SECURE_SSL_REDIRECT = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
 
-SECURE_BROWSER_XSS_FILTER = True
-SECURE_CONTENT_TYPE_NOSNIFF = True
-X_FRAME_OPTIONS = 'DENY'
+# ============ CORS SETTINGS ============
+# FIXED: Allow CORS for your domain
+CORS_ALLOWED_ORIGINS = [
+    "https://pdfconverterpro.onrender.com",
+]
+
+if RENDER_EXTERNAL_HOSTNAME:
+    CORS_ALLOWED_ORIGINS.append(f"https://{RENDER_EXTERNAL_HOSTNAME}")
+
+if DEBUG:
+    CORS_ALLOWED_ORIGINS.extend([
+        "http://localhost:8000",
+        "http://127.0.0.1:8000",
+        "http://localhost:10000",
+    ])
+
+CORS_ALLOW_CREDENTIALS = True
 
 # ============ DEFAULT PRIMARY KEY ============
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # ============ CUSTOM SETTINGS ============
 SITE_NAME = 'PDF Converter Pro'
-SITE_URL = os.getenv('SITE_URL', 'http://localhost:8000' if DEBUG else f'https://{RENDER_EXTERNAL_HOSTNAME}')
+SITE_URL = os.getenv('SITE_URL', 'http://localhost:8000' if DEBUG else 'https://pdfconverterpro.onrender.com')
 SUPPORT_EMAIL = os.getenv('SUPPORT_EMAIL', 'support@pdfconverterpro.com')
+
+# ============ LOGGING ============
+# FIXED: Add logging to debug conversion issues
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': BASE_DIR / 'logs' / 'django.log',
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+            'propagate': True,
+        },
+        'converter': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'home': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
+}
+
+# Create logs directory
+os.makedirs(BASE_DIR / 'logs', exist_ok=True)
 
 # ============ STARTUP MESSAGE ============
 print("=" * 50)
@@ -199,4 +280,6 @@ print(f"Starting {SITE_NAME}")
 print(f"Production: {IS_PRODUCTION}")
 print(f"Debug Mode: {DEBUG}")
 print(f"Allowed Hosts: {ALLOWED_HOSTS}")
+print(f"CSRF Trusted Origins: {CSRF_TRUSTED_ORIGINS}")
+print(f"Site URL: {SITE_URL}")
 print("=" * 50)

@@ -1,4 +1,4 @@
-{% load static %}
+<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://pdfconverterpro.com/</loc>
@@ -10,5 +10,5 @@
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
-    <!-- Add all other pages -->
+    <!-- Add all other pages here -->
 </urlset>

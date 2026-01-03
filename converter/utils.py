@@ -234,12 +234,23 @@ def convert_word_to_pdf(word_path):
             raise Exception(f"Word to PDF conversion failed: {str(fallback_error)}")
 
 def merge_pdfs(pdf_paths):
-    """Merge multiple PDFs into one."""
+    """Merge multiple PDFs into one - Render compatible."""
     try:
+        import io
+        import PyPDF2
+        
         merger = PyPDF2.PdfMerger()
         
         for pdf_path in pdf_paths:
-            merger.append(pdf_path)
+            # Check if file exists
+            if not os.path.exists(pdf_path):
+                raise FileNotFoundError(f"PDF file not found: {pdf_path}")
+            
+            # Read file content first to avoid path issues
+            with open(pdf_path, 'rb') as file:
+                pdf_data = io.BytesIO(file.read())
+                pdf_data.seek(0)
+                merger.append(pdf_data)
         
         output_stream = io.BytesIO()
         merger.write(output_stream)

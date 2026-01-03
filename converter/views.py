@@ -272,11 +272,20 @@ def merge_pdf(request):
                 uploaded_files.append(uploaded)
             
             try:
-                # Get file paths
-                file_paths = [uf.file.path for uf in uploaded_files]
+                # Get file paths - ensure they exist
+                file_paths = []
+                for uf in uploaded_files:
+                    file_path = uf.file.path
+                    if not os.path.exists(file_path):
+                        raise FileNotFoundError(f"Uploaded file missing: {file_path}")
+                    file_paths.append(file_path)
+                
+                # Debug logging
+                logger.info(f"Merging {len(file_paths)} PDFs: {[os.path.basename(p) for p in file_paths]}")
                 
                 # Merge PDFs
                 result = merge_pdfs(file_paths)
+                
                 output_filename = f"merged_{uuid.uuid4().hex[:8]}.pdf"
                 
                 # Create task
@@ -300,7 +309,7 @@ def merge_pdf(request):
                 task.completed_at = timezone.now()
                 task.save()
                 
-                logger.info(f"PDF merge completed: {len(files)} files merged")
+                logger.info(f"PDF merge completed: {len(files)} files merged, size: {task.output_file.size} bytes")
                 
                 return render(request, 'converter/result.html', {
                     'task': task,

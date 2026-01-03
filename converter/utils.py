@@ -111,64 +111,127 @@ def convert_pdf_to_word(pdf_path, output_format='docx', preserve_layout=True,
             raise Exception(f"Conversion error: {str(e)}")
 
 def convert_word_to_pdf(word_path):
-    """Convert Word document to PDF."""
+    """Convert Word document to PDF - Linux compatible version."""
     try:
-        # Try to use docx2pdf if available
+        # Try using python-docx and reportlab for Linux compatibility
+        from docx import Document
+        from reportlab.lib.pagesizes import letter
+        from reportlab.pdfgen import canvas
+        from reportlab.lib.styles import getSampleStyleSheet
+        from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer
+        
+        # Read Word document
+        doc = Document(word_path)
+        
+        # Create PDF buffer
+        pdf_buffer = io.BytesIO()
+        
+        # Create PDF document
+        pdf_doc = SimpleDocTemplate(
+            pdf_buffer,
+            pagesize=letter,
+            rightMargin=72,
+            leftMargin=72,
+            topMargin=72,
+            bottomMargin=72
+        )
+        
+        # Extract content from Word
+        story = []
+        styles = getSampleStyleSheet()
+        
+        # Process each paragraph
+        for paragraph in doc.paragraphs:
+            if paragraph.text.strip():  # Skip empty paragraphs
+                # Preserve some formatting
+                text = paragraph.text
+                
+                # Check for heading styles
+                if paragraph.style.name.startswith('Heading'):
+                    style = styles['Heading1'] if 'Heading1' in paragraph.style.name else styles['Heading2']
+                else:
+                    style = styles['Normal']
+                
+                story.append(Paragraph(text, style))
+                story.append(Spacer(1, 12))
+        
+        # Process tables
+        for table in doc.tables:
+            table_data = []
+            for row in table.rows:
+                row_data = []
+                for cell in row.cells:
+                    row_data.append(cell.text)
+                table_data.append(row_data)
+            
+            if table_data:
+                from reportlab.platypus import Table, TableStyle
+                from reportlab.lib import colors
+                
+                pdf_table = Table(table_data)
+                pdf_table.setStyle(TableStyle([
+                    ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+                    ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                    ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                    ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                    ('FONTSIZE', (0, 0), (-1, 0), 14),
+                    ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                    ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+                    ('GRID', (0, 0), (-1, -1), 1, colors.black)
+                ]))
+                story.append(pdf_table)
+                story.append(Spacer(1, 20))
+        
+        # Build PDF
+        if story:
+            pdf_doc.build(story)
+        else:
+            # Fallback: create simple PDF with text
+            c = canvas.Canvas(pdf_buffer, pagesize=letter)
+            y = 750
+            
+            for paragraph in doc.paragraphs:
+                if paragraph.text.strip():
+                    if y < 50:
+                        c.showPage()
+                        y = 750
+                    
+                    c.drawString(50, y, paragraph.text[:100])
+                    y -= 20
+            
+            c.save()
+        
+        pdf_buffer.seek(0)
+        return pdf_buffer
+        
+    except Exception as e:
+        # Fallback: create a very basic PDF
         try:
-            from docx2pdf import convert
+            pdf_buffer = io.BytesIO()
+            c = canvas.Canvas(pdf_buffer, pagesize=letter)
             
-            # Create temp file for PDF
-            with tempfile.NamedTemporaryFile(suffix='.pdf', delete=False) as tmp:
-                pdf_path = tmp.name
-            
-            # Convert using docx2pdf
-            convert(word_path, pdf_path)
-            
-            # Read the PDF file
-            with open(pdf_path, 'rb') as f:
-                pdf_content = f.read()
-            
-            # Clean up temp file
-            os.unlink(pdf_path)
-            
-            return io.BytesIO(pdf_content)
-            
-        except ImportError:
-            # Fallback: Create a simple PDF with text extraction
-            try:
-                from docx import Document
+            with open(word_path, 'rb') as f:
+                # Read as binary and extract text if possible
+                import docx2txt
+                text = docx2txt.process(word_path)
                 
-                # Read Word document
-                doc = Document(word_path)
-                text = ""
-                for paragraph in doc.paragraphs:
-                    text += paragraph.text + "\n"
-                
-                # Create simple PDF
-                pdf_buffer = io.BytesIO()
-                c = canvas.Canvas(pdf_buffer, pagesize=letter)
-                
-                # Split text into lines
+                y = 750
                 lines = text.split('\n')
-                y_position = 750
                 
                 for line in lines:
-                    if y_position < 50:
+                    if y < 50:
                         c.showPage()
-                        y_position = 750
+                        y = 750
                     
-                    c.drawString(50, y_position, line[:100])  # Limit line length
-                    y_position -= 20
-                
-                c.save()
-                pdf_buffer.seek(0)
-                return pdf_buffer
-                
-            except Exception as doc_error:
-                raise Exception(f"Cannot read Word document: {str(doc_error)}")
-                
-    except Exception as e:
-        raise Exception(f"Word to PDF conversion failed: {str(e)}")
+                    c.drawString(50, y, line[:100])
+                    y -= 20
+            
+            c.save()
+            pdf_buffer.seek(0)
+            return pdf_buffer
+            
+        except Exception as fallback_error:
+            raise Exception(f"Word to PDF conversion failed: {str(fallback_error)}")
 
 def merge_pdfs(pdf_paths):
     """Merge multiple PDFs into one."""

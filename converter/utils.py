@@ -2,6 +2,7 @@
 import os
 import io
 import tempfile
+import zipfile  # <-- ADD THIS IMPORT
 import PyPDF2
 from pdf2docx import Converter
 from docx import Document
@@ -236,9 +237,6 @@ def convert_word_to_pdf(word_path):
 def merge_pdfs(pdf_paths):
     """Merge multiple PDFs into one - Render compatible."""
     try:
-        import io
-        import PyPDF2
-        
         merger = PyPDF2.PdfMerger()
         
         for pdf_path in pdf_paths:
@@ -302,16 +300,9 @@ def split_pdf(pdf_path, pages):
         
     except Exception as e:
         raise Exception(f"PDF split failed: {str(e)}")
-    
-# Add these functions to your converter/utils.py
 
 def split_pdf_by_range(pdf_path, pages):
     """Split PDF by specific page ranges."""
-    import PyPDF2
-    import io
-    import zipfile
-    import tempfile
-    
     # Parse page ranges
     pages_to_extract = parse_page_ranges(pages)
     
@@ -337,7 +328,6 @@ def split_pdf_by_range(pdf_path, pages):
             pdf_writer.write(pdf_buffer)
             pdf_buffer.seek(0)
             
-            # Add to zip
             filename = f"part_{i+1}_pages_{page_range['start']}-{page_range['end']}.pdf"
             zip_file.writestr(filename, pdf_buffer.read())
     
@@ -346,10 +336,6 @@ def split_pdf_by_range(pdf_path, pages):
 
 def split_pdf_every_page(pdf_path, split_every=1):
     """Split PDF into files with specified number of pages each."""
-    import PyPDF2
-    import io
-    import zipfile
-    
     pdf_reader = PyPDF2.PdfReader(pdf_path)
     total_pages = len(pdf_reader.pages)
     
@@ -380,10 +366,6 @@ def split_pdf_by_count(pdf_path, pages_per_file=10):
 
 def split_pdf_custom(pdf_path, split_points):
     """Split PDF at custom split points."""
-    import PyPDF2
-    import io
-    import zipfile
-    
     # Parse split points
     points = [int(p.strip()) for p in split_points.split(',') if p.strip().isdigit()]
     points = sorted(set(points))
@@ -451,8 +433,6 @@ def split_pdf(pdf_path, pages):
     """Legacy function - splits PDF by page ranges."""
     return split_pdf_by_range(pdf_path, pages)
 
-# In converter/utils.py, replace the existing compress_pdf function with this improved version:
-
 def compress_pdf(input_path, compression_level='medium', optimize_images=True, 
                  optimize_fonts=False, remove_metadata=False):
     """
@@ -492,7 +472,6 @@ def compress_pdf(input_path, compression_level='medium', optimize_images=True,
     except Exception as e:
         raise Exception(f"Error compressing PDF: {str(e)}")
 
-# Alternative implementation using PyPDF2 (install with: pip install PyPDF2)
 def compress_pdf_with_pypdf2(input_path, compression_level='medium', 
                            optimize_images=True, optimize_fonts=False, 
                            remove_metadata=False):
@@ -537,7 +516,6 @@ def compress_pdf_with_pypdf2(input_path, compression_level='medium',
     except Exception as e:
         raise Exception(f"Error with PyPDF2 compression: {str(e)}")
 
-# Better implementation using pikepdf (install with: pip install pikepdf)
 def compress_pdf_with_pikepdf(input_path, compression_level='medium',
                             optimize_images=True, optimize_fonts=False,
                             remove_metadata=False):
@@ -584,8 +562,7 @@ def compress_pdf_with_pikepdf(input_path, compression_level='medium',
                                       remove_metadata)
     except Exception as e:
         raise Exception(f"Error with pikepdf compression: {str(e)}")
-    
-# Add this function to your converter/utils.py
+
 def compress_pdf_advanced(pdf_path, compression_level='medium', 
                          optimize_images=True, remove_metadata=False, 
                          downsample_images=True):

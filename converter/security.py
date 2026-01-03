@@ -31,6 +31,8 @@ class SecureFileValidator:
         'image/tiff': ['.tiff', '.tif'],
         'image/bmp': ['.bmp'],
         'image/webp': ['.webp'],
+        'application/zip': ['.xlsx', '.docx'],  # Office files are ZIP archives
+        'application/x-zip-compressed': ['.xlsx', '.docx'],  # Alternative MIME type
     }
     
     # Maximum file sizes (in bytes)

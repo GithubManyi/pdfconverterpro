@@ -654,18 +654,18 @@ def compress_pdf_advanced(pdf_path, compression_level='medium',
 def convert_excel_to_pdf(excel_path, include_gridlines=True, fit_to_page=True, include_headers=True):
     """Convert Excel to PDF with options."""
     try:
+        # Import reportlab components at the top of the function
+        from reportlab.lib.pagesizes import letter, landscape
+        from reportlab.lib.units import inch
+        
         # Read Excel file
         df = pd.read_excel(excel_path)
         
-        # Create PDF
+        # Create PDF buffer
         pdf_buffer = io.BytesIO()
         
         # Configure page size based on fit_to_page option
         if fit_to_page:
-            # Create a custom page size that fits the content
-            from reportlab.lib.pagesizes import letter, landscape
-            from reportlab.lib.units import inch
-            
             # Calculate required width and height
             num_cols = len(df.columns)
             num_rows = len(df) + 1  # +1 for header row
@@ -685,6 +685,7 @@ def convert_excel_to_pdf(excel_path, include_gridlines=True, fit_to_page=True, i
         else:
             pagesize = letter
         
+        # Create SimpleDocTemplate with the pagesize
         doc = SimpleDocTemplate(pdf_buffer, pagesize=pagesize)
         
         # Convert DataFrame to list of lists for ReportLab

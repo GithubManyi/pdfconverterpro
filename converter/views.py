@@ -237,7 +237,7 @@ def word_to_pdf(request):
 
 def merge_pdf(request):
     """
-    Secure PDF merging
+    Secure PDF merging - FIXED for Render
     """
     if request.method == 'POST':
         # Rate limiting check
@@ -288,7 +288,7 @@ def merge_pdf(request):
                 
                 output_filename = f"merged_{uuid.uuid4().hex[:8]}.pdf"
                 
-                # Create task
+                # Create task - FIXED: Convert UUIDs to strings
                 task = ConversionTask.objects.create(
                     input_file=uploaded_files[0],
                     conversion_type='merge_pdf',
@@ -299,7 +299,8 @@ def merge_pdf(request):
                         'optimize_size': request.POST.get('optimize_size') == 'on',
                         'quality': request.POST.get('quality', 'medium'),
                         'client_ip': get_client_ip(request)[0],
-                        'merged_files': [uf.id for uf in uploaded_files[1:]],
+                        # Convert UUIDs to strings for JSON serialization
+                        'merged_files': [str(uf.id) for uf in uploaded_files[1:]],
                     }
                 )
                 
@@ -339,7 +340,7 @@ def merge_pdf(request):
 
 def split_pdf(request):
     """
-    Secure PDF splitting
+    Secure PDF splitting - FIXED for Render
     """
     if request.method == 'POST':
         # Rate limiting check
@@ -576,7 +577,7 @@ def compress_pdf_view(request):
 
 def excel_to_pdf(request):
     """
-    Secure Excel to PDF conversion
+    Secure Excel to PDF conversion - FIXED for Linux
     """
     if request.method == 'POST':
         # Rate limiting check
@@ -612,7 +613,13 @@ def excel_to_pdf(request):
                 )
                 
                 # Convert Excel to PDF
-                result = convert_excel_to_pdf(uploaded.file.path, include_gridlines)
+                result = convert_excel_to_pdf(
+                    uploaded.file.path, 
+                    include_gridlines=include_gridlines,
+                    fit_to_page=fit_to_page,
+                    include_headers=include_headers
+                )
+                
                 output_filename = f"{os.path.splitext(uploaded.original_filename)[0]}_converted.pdf"
                 
                 task.output_file.save(output_filename, ContentFile(result.read()))
